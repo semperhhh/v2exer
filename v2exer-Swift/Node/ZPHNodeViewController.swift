@@ -7,15 +7,82 @@
 //
 
 import UIKit
+import Alamofire
+import Ji
 
 class ZPHNodeViewController: UIViewController {
+    
+    var tableview:UITableView = {
+        var tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
+        return tableview
+    }()
+    
+    //数组
+    var nodeArray = [ZPHNodeModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = "节点"
+        
+        tableview.dataSource = self
+        tableview.delegate = self
+        view.addSubview(tableview)
+        tableview.snp.makeConstraints { (mark) in
+            mark.top.equalTo(kTopBarHeight)
+            mark.left.right.bottom.equalTo(self.view)
+        }
+        tableview.register(ZPHNodeTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
+        
+        getRequest()
     }
     
+    func getRequest() {
+        
+        let url = "\(V2EXURL)/?tab=members"
+        Alamofire.request(url, method: .get).responseString { (response) in
+            
+            if let responseStr = response.result.value {
+                
+                print("responseStr =\(responseStr)")
+                
+                let jiDoc = Ji(htmlString: responseStr)
+                if let nodes:[JiNode] = jiDoc?.xPath("//*[@class='box']/div/table/tr") {
+                    print("nodes = \(nodes)")
+                    
+                    for node in nodes {
+
+                        if let nodeFade = node.xPath("./td/span[@class='fade']").first {
+                            
+                            var types = [String]()
+                            
+                            if let nodeType:[JiNode] = node.xPath("./td/a") {
+                                
+                                for type in nodeType {
+                                    types.append(type.content!)
+                                }
+                            }
+                            
+                            let dic:[String:Any] = ["nodeFade":nodeFade.content!,
+                                                       "types":types]
+                            
+                            print("nodeDic = \(dic)")
+                            let model:ZPHNodeModel = ZPHNodeModel(dic: dic)
+                            self.nodeArray.append(model)
+                            self.tableview.reloadData()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    deinit {
+        
+        print("ZPHNodeViewController --- deinit")
+    }
 
     /*
     // MARK: - Navigation
@@ -26,5 +93,73 @@ class ZPHNodeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+}
+
+extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.nodeArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let model = self.nodeArray[indexPath.section]
+        
+        //复用问题
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ZPHNodeTableViewCell
+        let cell = ZPHNodeTableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+        cell.model = model
+        cell.collectionCellBack = { (type) in
+            
+            print("点击的类型 -- \(type)")
+            self.typeRequest(type: type)
+        }
+        return cell
+    }
+    
+    //类型请求跳转
+    func typeRequest(type:String) {
+        
+        let detail = ZPHNodeDetailViewController()
+        detail.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detail
+            , animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let model = self.nodeArray[section]
+        
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
+        
+        let lab = UILabel(frame: CGRect.init(x: 0, y: 0, width: 200, height: 34))
+        lab.text = model.nodeFade
+        lab.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.black)
+        view.addSubview(lab)
+        
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return 34
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let model = self.nodeArray[indexPath.section]
+        var rowNum:Int = model.types!.count / 4
+        if model.types!.count % 4 != 0 {
+            rowNum += 1
+        }
+        
+        return CGFloat(44 * rowNum + 20 + (rowNum - 1) * 10)
+    }
 
 }

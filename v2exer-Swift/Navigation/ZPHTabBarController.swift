@@ -14,17 +14,41 @@ class ZPHTabBarController: UITabBarController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        let home = ZPHHomeViewController()
+        self.addChildWith(controller: home, imgName: "IconHome", itemName: "最新")
+        
+        let setting = ZPHSettingViewController()
+        self.addChildWith(controller: setting, imgName: "IconHome", itemName: "最热")
+
+        let node = ZPHNodeViewController()
+        self.addChildWith(controller: node, imgName: "IconNode", itemName: "节点")
+
+        let setting1 = ZPHSettingViewController()
+        self.addChildWith(controller: setting1, imgName: "IconSetting", itemName: "设置")
+        
+        //kvc动态替换tabbar
+//        let tabbar = ZPHTabBar()
+//        setValue(tabbar, forKey: "tabBar")
+//
+//        tabbar.homeButton.addTarget(self, action: #selector(homeButtonAciton), for: UIControl.Event.touchUpInside)
+        self.tabBar.isTranslucent = false
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func homeButtonAciton() {
+        
+        print("home --")
+        self.selectedIndex = 2
     }
-    */
-
+    
+    //添加子控制器
+    func addChildWith(controller: UIViewController, imgName: String?, itemName: String?) {
+        
+        let navi = ZPHNavigationController.init(rootViewController: controller)
+        navi.title = itemName
+        navi.tabBarItem.image = UIImage(named: imgName ?? "")
+        //使用原始颜色
+        navi.tabBarItem.selectedImage = UIImage(named: imgName ?? "")?.withRenderingMode(.alwaysOriginal)
+        self.addChild(navi)
+    }
 }

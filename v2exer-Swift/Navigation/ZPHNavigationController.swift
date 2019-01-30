@@ -14,8 +14,11 @@ class ZPHNavigationController: UINavigationController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        self.navigationBar.barTintColor = UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0)
+        self.navigationBar.tintColor = UIColor.black
+        self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
     }
-    
 
     /*
     // MARK: - Navigation
