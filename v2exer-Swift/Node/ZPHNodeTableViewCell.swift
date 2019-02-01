@@ -18,9 +18,9 @@ class ZPHNodeTableViewCell: UITableViewCell {
     }
     
     //点击回调
-    var collectionCellBack:((String)->())?
+    var collectionCellBack:((_ name: String, _ uri: String)->())?
     
-    var array = [String]()
+    var array = [ZPHNodeTypeModel]()
     
     var collectionView:UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -37,6 +37,7 @@ class ZPHNodeTableViewCell: UITableViewCell {
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.isScrollEnabled = false
         self.contentView.addSubview(collectionView)
         collectionView.snp.makeConstraints { (mark) in
             mark.edges.equalTo(self.contentView)
@@ -69,12 +70,14 @@ extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let model = array[indexPath.row]
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath)
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = NSTextAlignment.center
-        label.text = array[indexPath.row]
+        label.text = model.name
         cell.contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.centerX.centerY.equalTo(cell.contentView)
@@ -86,13 +89,13 @@ extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let type = self.array[indexPath.row]
+        let model = self.array[indexPath.row]
         
         collectionView.deselectItem(at: indexPath, animated: true)
         
         //回调
         if self.collectionCellBack != nil {
-            self.collectionCellBack!(type)
+            self.collectionCellBack!(model.name!,model.uri!)
         }
     }
     

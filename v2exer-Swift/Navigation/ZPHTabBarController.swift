@@ -18,8 +18,8 @@ class ZPHTabBarController: UITabBarController {
         let home = ZPHHomeViewController()
         self.addChildWith(controller: home, imgName: "IconHome", itemName: "最新")
         
-        let setting = ZPHSettingViewController()
-        self.addChildWith(controller: setting, imgName: "IconHome", itemName: "最热")
+        let setting = ZPHHotViewController()
+        self.addChildWith(controller: setting, imgName: "IconNew", itemName: "最热")
 
         let node = ZPHNodeViewController()
         self.addChildWith(controller: node, imgName: "IconNode", itemName: "节点")

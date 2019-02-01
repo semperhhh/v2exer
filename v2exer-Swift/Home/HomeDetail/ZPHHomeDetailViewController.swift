@@ -24,6 +24,7 @@ class ZPHHomeDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = "内容"
 
         let URLReq = URLRequest(url: URL(string:detailURL ?? "")!)
         webView.load(URLReq)

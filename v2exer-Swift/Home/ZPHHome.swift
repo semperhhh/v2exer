@@ -20,6 +20,7 @@ class ZPHHome: NSObject {
     var url : String?//网址
 //    @objc var Id : String = ""
     var last_touch:String?//最后回复时间
+    var avatar:String?//头像
     
     init(dic:[String:Any]) {
         

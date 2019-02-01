@@ -10,6 +10,8 @@
 		05D4D3E8E6BA1AFB6496A5B5 /* Pods_v2exer_SwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C040BE01D98CB9D25CB7102 /* Pods_v2exer_SwiftTests.framework */; };
 		7F3241FD16ACAA349874942C /* Pods_v2exer_SwiftUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8509A4D4C80905A6BDF255F4 /* Pods_v2exer_SwiftUITests.framework */; };
 		800FAA6BD92398DC9C08C6AB /* Pods_v2exer_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75901DBFB7FEE4EB21EE9371 /* Pods_v2exer_Swift.framework */; };
+		DA2D7A672202E234001C6AC8 /* ZPHHotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D7A662202E234001C6AC8 /* ZPHHotViewController.swift */; };
+		DA2D7A692203480B001C6AC8 /* ZPHContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */; };
 		DA5BE9F9220159C20094E463 /* ZPHNodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9F8220159C20094E463 /* ZPHNodeModel.swift */; };
 		DA5BE9FB22015B5B0094E463 /* ZPHNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9FA22015B5B0094E463 /* ZPHNodeTableViewCell.swift */; };
 		DA5BE9FE2201D4A90094E463 /* ZPHNodeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9FD2201D4A90094E463 /* ZPHNodeDetailViewController.swift */; };
@@ -59,6 +61,8 @@
 		76A0F2B1BC352EDFB826FBB0 /* Pods-v2exer-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		8509A4D4C80905A6BDF255F4 /* Pods_v2exer_SwiftUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_v2exer_SwiftUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8801C0B88BB16B3EBABA3BD3 /* Pods-v2exer-SwiftUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-SwiftUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-SwiftUITests/Pods-v2exer-SwiftUITests.release.xcconfig"; sourceTree = "<group>"; };
+		DA2D7A662202E234001C6AC8 /* ZPHHotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHotViewController.swift; sourceTree = "<group>"; };
+		DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentDetailViewController.swift; sourceTree = "<group>"; };
 		DA5BE9F8220159C20094E463 /* ZPHNodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeModel.swift; sourceTree = "<group>"; };
 		DA5BE9FA22015B5B0094E463 /* ZPHNodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeTableViewCell.swift; sourceTree = "<group>"; };
 		DA5BE9FD2201D4A90094E463 /* ZPHNodeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeDetailViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +146,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DA2D7A632202DD75001C6AC8 /* Hot */ = {
+			isa = PBXGroup;
+			children = (
+				DA2D7A662202E234001C6AC8 /* ZPHHotViewController.swift */,
+			);
+			path = Hot;
+			sourceTree = "<group>";
+		};
 		DA5BE9FC2201D47E0094E463 /* nodeDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */,
+				DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */,
 			);
 			path = HomeDetail;
 			sourceTree = "<group>";
@@ -192,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				DAB7B72A21CBD3BE00ACCDE3 /* Navigation */,
+				DA2D7A632202DD75001C6AC8 /* Hot */,
 				DAB7B77421CBE3B200ACCDE3 /* Node */,
 				DAB7B77121CBE0F700ACCDE3 /* Home */,
 				DAB7B77721CBE3F800ACCDE3 /* Setting */,
@@ -484,10 +498,12 @@
 			files = (
 				DAAFCA5A21E70E25006BF864 /* ZPHHomeDetailViewController.swift in Sources */,
 				DAB7B77321CBE11400ACCDE3 /* ZPHHomeViewController.swift in Sources */,
+				DA2D7A692203480B001C6AC8 /* ZPHContentDetailViewController.swift in Sources */,
 				DAB7B6FD21CBB2AD00ACCDE3 /* AppDelegate.swift in Sources */,
 				DAAFCA6221EB348D006BF864 /* ZPHSettingTableViewCell.swift in Sources */,
 				DAAFCA5E21EB2341006BF864 /* ZPHSetting.swift in Sources */,
 				DAB7B77921CBE40C00ACCDE3 /* ZPHSettingViewController.swift in Sources */,
+				DA2D7A672202E234001C6AC8 /* ZPHHotViewController.swift in Sources */,
 				DA5BE9F9220159C20094E463 /* ZPHNodeModel.swift in Sources */,
 				DAAFCF0D21F2FE19006BF864 /* ZPHLoginViewController.swift in Sources */,
 				DA5BE9FE2201D4A90094E463 /* ZPHNodeDetailViewController.swift in Sources */,

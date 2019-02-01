@@ -20,7 +20,7 @@ class ZPHHomeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "v2exer"
+        self.navigationItem.title = "最新"
         
         tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.dataSource = self
@@ -81,9 +81,14 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
         
         let model = nmArray[indexPath.row]
         
-        let detail = ZPHHomeDetailViewController()
-        detail.hidesBottomBarWhenPushed = true
+//        let detail = ZPHHomeDetailViewController()
+//        detail.hidesBottomBarWhenPushed = true
+//        detail.detailURL = model.url
+//        self.navigationController?.pushViewController(detail, animated: true)
+        
+        let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
+        detail.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detail, animated: true)
     }
 }

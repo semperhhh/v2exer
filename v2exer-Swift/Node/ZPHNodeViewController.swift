@@ -46,22 +46,30 @@ class ZPHNodeViewController: UIViewController {
             
             if let responseStr = response.result.value {
                 
-                print("responseStr =\(responseStr)")
+//                print("responseStr =\(responseStr)")
                 
                 let jiDoc = Ji(htmlString: responseStr)
                 if let nodes:[JiNode] = jiDoc?.xPath("//*[@class='box']/div/table/tr") {
-                    print("nodes = \(nodes)")
+//                    print("nodes = \(nodes)")
                     
                     for node in nodes {
 
                         if let nodeFade = node.xPath("./td/span[@class='fade']").first {
                             
-                            var types = [String]()
+                            var types = [[String:Any]]()
                             
                             if let nodeType:[JiNode] = node.xPath("./td/a") {
                                 
-                                for type in nodeType {
-                                    types.append(type.content!)
+                                for (i,type) in nodeType.enumerated() {
+                                    var typeDic = [String:String]()
+                                    typeDic["name"] = type.content!
+//                                    types.append(type.content!)
+                                    
+                                    if let nodeA = node.xPath("./td/a[\(i + 1)]").first?["href"] {
+//                                        print("nodea = \(nodeA)")
+                                        typeDic["uri"] = nodeA
+                                    }
+                                    types.append(typeDic)
                                 }
                             }
                             
@@ -114,19 +122,22 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ZPHNodeTableViewCell
         let cell = ZPHNodeTableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
         cell.model = model
-        cell.collectionCellBack = { (type) in
+        cell.collectionCellBack = { (name, uri) in
             
-            print("点击的类型 -- \(type)")
-            self.typeRequest(type: type)
+            print("点击的类型 -- \(name)")
+            self.typeRequest(name, uri)
         }
         return cell
     }
     
     //类型请求跳转
-    func typeRequest(type:String) {
+    func typeRequest(_ name:String, _ uri:String) {
         
         let detail = ZPHNodeDetailViewController()
+        detail.navigationItem.title = name
         detail.hidesBottomBarWhenPushed = true
+        detail.name = name
+        detail.uri = uri
         self.navigationController?.pushViewController(detail
             , animated: true)
     }

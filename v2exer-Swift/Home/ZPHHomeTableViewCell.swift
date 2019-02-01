@@ -59,9 +59,16 @@ class ZPHHomeTableViewCell: UITableViewCell {
             
             titleLab.text = homeModel?.title
             
-            if let avatar = homeModel?.member?.avatar_normal {
-
-                let url = URL(string: "http:" + avatar)
+            if homeModel?.avatar == nil {
+                
+                if let avatar = homeModel?.member?.avatar_normal {
+                    
+                    let url = URL(string: "http:" + avatar)
+                    headImgView.kf.setImage(with: url)
+                }
+            }else {
+                
+                let url = URL(string: "http:" + (homeModel?.avatar)!)
                 headImgView.kf.setImage(with: url)
             }
             
@@ -77,7 +84,10 @@ class ZPHHomeTableViewCell: UITableViewCell {
             
             if let nodeTitle = homeModel?.node?.title {
                 
+                nodeTitleBtn.isHidden = false
                 nodeTitleBtn.setTitle(nodeTitle, for: UIControl.State.normal)
+            }else {
+                nodeTitleBtn.isHidden = true
             }
         }
     }
