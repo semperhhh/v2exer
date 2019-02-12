@@ -7,6 +7,7 @@
 //
 
 import UIKit
+@_exported import Alamofire
 
 let kScreenWidth = UIScreen.main.bounds.size.width
 let kScreenHeight = UIScreen.main.bounds.size.height
@@ -39,3 +40,5 @@ let V2EXURL = "https://www.v2ex.com"
 var USERID:Int = 0
 //用户名 判断是否登录使用
 var USERNAME:String?
+//Once 登出使用
+var ONCE:String?

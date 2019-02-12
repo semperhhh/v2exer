@@ -10,8 +10,11 @@ target 'v2exer-Swift' do
     pod 'Alamofire', '~> 4.8.0'
     pod 'Kingfisher', '~> 4.10.1'
     pod 'Ji', '~> 2.1.0'
-    pod 'PullToRefreshKit', '~> 0.8.8'
-
+    pod 'SwiftyJSON', '~> 4.2.0'
+    pod 'MJRefresh'
+    pod 'DGElasticPullToRefresh'
+    pod 'NVActivityIndicatorView'
+    
   target 'v2exer-SwiftTests' do
     inherit! :search_paths
     # Pods for testing

@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+import DGElasticPullToRefresh
+import NVActivityIndicatorView
 
 class ZPHHotViewController: UIViewController {
     
@@ -19,6 +21,13 @@ class ZPHHotViewController: UIViewController {
     }()
     
     private var nmArray = [ZPHHome]()
+    
+    let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+    
+    var activityIndicatorView:NVActivityIndicatorView = {
+        let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.lineScale, color: tabColorGreen, padding: 2.0)
+        return activity
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +44,24 @@ class ZPHHotViewController: UIViewController {
             make.left.right.bottom.equalTo(self.view)
         }
         tableview.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
+        
+        loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
+        tableview.dg_addPullToRefreshWithActionHandler({
+            [weak self]() -> Void in
+            
+            self?.nmArray.removeAll()
+            self?.getRequest()
+            
+            }, loadingView: loadingView)
+        tableview.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
+        tableview.dg_setPullToRefreshBackgroundColor(tableview.backgroundColor!)
+        
+        self.view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(self.view)
+            make.size.equalTo(CGSize(width: 80, height: 40))
+        }
+        activityIndicatorView.startAnimating()
         
         getRequest()
     }
@@ -54,11 +81,19 @@ class ZPHHotViewController: UIViewController {
                         
                         //                        print("index = \(index)")
                         self.nmArray.append(model)
-                        self.tableview.reloadData()
+                    }
+                    self.tableview.dg_stopLoading()
+                    self.tableview.reloadData()
+                    if self.activityIndicatorView.isAnimating {
+                        self.activityIndicatorView.stopAnimating()
                     }
                 }
             }
         }
+    }
+    
+    deinit {
+        tableview.dg_removePullToRefresh()
     }
     
     /*
@@ -92,7 +127,12 @@ extension ZPHHotViewController:UITableViewDataSource,UITableViewDelegate {
         
         let model = self.nmArray[indexPath.row]
         
-        let detail = ZPHHomeDetailViewController()
+//        let detail = ZPHHomeDetailViewController()
+//        detail.detailURL = model.url
+//        detail.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(detail, animated: true)
+        
+        let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
         detail.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detail, animated: true)

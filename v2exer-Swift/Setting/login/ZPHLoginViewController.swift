@@ -31,31 +31,40 @@ class ZPHLoginViewController: UIViewController {
 
     }
     
+    //logo
+    var logoImgView:UIImageView = {
+        var imgView = UIImageView()
+        imgView.backgroundColor = UIColor.white
+        imgView.image = UIImage(named: "logo")
+        return imgView
+    }()
+    
     //登录输入框
-    var loginTextField:UITextField = {
-        var textField = UITextField()
+    var loginTextField:ZPHLoginTextField = {
+        var textField = ZPHLoginTextField()
         textField.placeholder = "用户名"
-        textField.layer.borderColor = UIColor.darkGray.cgColor
-        textField.layer.borderWidth = 1
+        textField.autocapitalizationType = UITextAutocapitalizationType.none
+        textField.autocorrectionType = UITextAutocorrectionType.no
         return textField
     }()
     
     //密码输入框
-    var passTextField:UITextField = {
-        var textField = UITextField()
+    var passTextField:ZPHLoginTextField = {
+        var textField = ZPHLoginTextField()
         textField.placeholder = "密码"
-        textField.layer.borderColor = UIColor.darkGray.cgColor
-        textField.layer.borderWidth = 1
         textField.isSecureTextEntry = true
+        textField.autocapitalizationType = UITextAutocapitalizationType.none
+        textField.autocorrectionType = UITextAutocorrectionType.no
         return textField
     }()
     
     //登录按钮
     var loginButton:UIButton = {
         var btn = UIButton()
-        btn.setTitle("login", for: UIControl.State.normal)
+        btn.setTitle("点击登录", for: UIControl.State.normal)
+        btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(loginButtonAction), for: UIControl.Event.touchUpInside)
-        btn.backgroundColor = UIColor.red
+        btn.backgroundColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         return btn
     }()
     
@@ -71,6 +80,8 @@ class ZPHLoginViewController: UIViewController {
         textField.placeholder = "验证码"
         textField.layer.borderColor = UIColor.darkGray.cgColor
         textField.layer.borderWidth = 1
+        textField.autocapitalizationType = UITextAutocapitalizationType.none
+        textField.autocorrectionType = UITextAutocorrectionType.no
         return textField
     }()
     
@@ -160,6 +171,7 @@ class ZPHLoginViewController: UIViewController {
                 if let once = jiDoc?.xPath("//*[@name='once']")?.first?["value"] {
                     print("once = \(once)")
                     self.onceString = once
+                    ONCE = once
                     let codeUrl = "\(V2EXURL)/_captcha?once=\(once)"
                     Alamofire.request(codeUrl).responseData(completionHandler: { (dataResp) in
                         self.codeImageView.image = UIImage(data: dataResp.data!)
@@ -190,43 +202,50 @@ class ZPHLoginViewController: UIViewController {
             mark.size.equalTo(CGSize.init(width: 45, height: 45))
         }
         
+        view.addSubview(logoImgView)
+        logoImgView.snp.makeConstraints { (mark) in
+            mark.top.equalTo(self.backButton.snp.bottom).offset(10)
+            mark.centerX.equalTo(self.view)
+            mark.size.equalTo(CGSize(width: 280, height: 120))
+        }
+        
         view.addSubview(loginTextField)
         loginTextField.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
-            mark.top.equalTo(100)
-            mark.width.equalTo(200)
-            mark.height.equalTo(50)
+            mark.top.equalTo(logoImgView.snp.bottom).offset(10)
+            mark.width.equalTo(kScreenWidth - 40)
+            mark.height.equalTo(40)
         }
         
         view.addSubview(passTextField)
         passTextField.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
-            mark.top.equalTo(loginTextField.snp_bottomMargin).offset(50)
-            mark.width.equalTo(200)
-            mark.height.equalTo(50)
+            mark.top.equalTo(loginTextField.snp_bottomMargin).offset(30)
+            mark.width.equalTo(loginTextField)
+            mark.height.equalTo(40)
         }
         
         view.addSubview(codeImageView)
         codeImageView.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
-            mark.top.equalTo(passTextField.snp_bottomMargin).offset(50)
-            mark.width.equalTo(200)
+            mark.top.equalTo(passTextField.snp_bottomMargin).offset(30)
+            mark.width.equalTo(loginTextField)
             mark.height.equalTo(50)
         }
         
         view.addSubview(codeTextField)
         codeTextField.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
-            mark.top.equalTo(codeImageView.snp_bottomMargin).offset(50)
-            mark.width.equalTo(200)
-            mark.height.equalTo(50)
+            mark.top.equalTo(codeImageView.snp_bottomMargin).offset(30)
+            mark.width.equalTo(loginTextField)
+            mark.height.equalTo(40)
         }
         
         view.addSubview(loginButton)
         loginButton.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
             mark.top.equalTo(codeTextField.snp_bottomMargin).offset(50)
-            mark.width.equalTo(200)
+            mark.width.equalTo(loginTextField)
             mark.height.equalTo(50)
         }
     }
@@ -242,4 +261,24 @@ class ZPHLoginViewController: UIViewController {
     }
     */
 
+}
+
+class ZPHLoginTextField: UITextField {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        let lineView = UIView()
+        lineView.backgroundColor = UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0)
+        self.addSubview(lineView)
+        lineView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(self).offset(-1)
+            make.left.right.equalTo(self)
+            make.height.equalTo(1)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

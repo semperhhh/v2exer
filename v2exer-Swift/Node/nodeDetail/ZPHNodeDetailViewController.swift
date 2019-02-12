@@ -9,6 +9,9 @@
 import UIKit
 import Alamofire
 import Ji
+import MJRefresh
+import DGElasticPullToRefresh
+import NVActivityIndicatorView
 
 class ZPHNodeDetailViewController: UIViewController {
     
@@ -19,8 +22,16 @@ class ZPHNodeDetailViewController: UIViewController {
         tableview.separatorStyle = .none
         return tableview
     }()
+    var pageInt:Int = 1//页面
+    var footer = MJRefreshAutoNormalFooter()
     
     var nmArray = [ZPHHome]()
+    let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+    
+    var activityIndicatorView:NVActivityIndicatorView = {
+        let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.ballRotateChase, color: tabColorGreen, padding: 2.0)
+        return activity
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,17 +50,49 @@ class ZPHNodeDetailViewController: UIViewController {
         tableview.rowHeight = 102
         
         tableview.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
+    
+        footer.setRefreshingTarget(self, refreshingAction: #selector(footerRefresh))
+        tableview.mj_footer = footer
         
+        loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
+        tableview.dg_addPullToRefreshWithActionHandler({
+            [weak self]() -> Void in
+            
+            self?.pageInt = 1
+            self?.nmArray.removeAll()
+            self?.getRequest()
+        }, loadingView: loadingView)
+        tableview.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
+        tableview.dg_setPullToRefreshBackgroundColor(tableview.backgroundColor!)
+        
+        self.view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(self.view)
+            make.size.equalTo(CGSize(width: 80, height: 40))
+        }
+        activityIndicatorView.startAnimating()
+
+        getRequest()
+    }
+    
+    @objc private func footerRefresh() {
+        
+        pageInt += 1
         getRequest()
     }
     
     private func getRequest() {
         
-        Alamofire.request(V2EXURL + (uri ?? ""), method: .get).responseString { (response) in
+        Alamofire.request(V2EXURL + (uri ?? "") + "?p=\(pageInt)", method: .get).responseString { (response) in
             
             if let reString = response.result.value {
                 
 //                print("restring = \(reString)")
+                self.tableview.dg_stopLoading()//停止下拉
+                
+                if self.footer.isRefreshing {
+                    self.footer.endRefreshing()
+                }
                 
                 let jiDoc = Ji(htmlString: reString)
                 if let cells:[JiNode] = jiDoc?.xPath("//div[@id='TopicsNode']/div/table/tr")
@@ -91,6 +134,9 @@ class ZPHNodeDetailViewController: UIViewController {
                     }
                     
                     self.tableview.reloadData()
+                    if self.activityIndicatorView.isAnimating {
+                        self.activityIndicatorView.stopAnimating()
+                    }
                 }
             }
         }
@@ -99,19 +145,8 @@ class ZPHNodeDetailViewController: UIViewController {
     deinit {
         
         print("ZPHNodeDetailViewController deinit")
+        tableview.dg_removePullToRefresh()
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension ZPHNodeDetailViewController:UITableViewDataSource,UITableViewDelegate {
@@ -134,7 +169,11 @@ extension ZPHNodeDetailViewController:UITableViewDataSource,UITableViewDelegate 
         
         let model = self.nmArray[indexPath.row]
         
-        let detail = ZPHHomeDetailViewController()
+//        let detail = ZPHHomeDetailViewController()
+//        detail.detailURL = model.url
+//        self.navigationController?.pushViewController(detail, animated: true)
+        
+        let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
         self.navigationController?.pushViewController(detail, animated: true)
     }

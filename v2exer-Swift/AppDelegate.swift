@@ -24,12 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabbar = ZPHTabBarController()
         self.window?.rootViewController = tabbar;
         
-        let fpsLabel = V2FPSLabel()
-        self.window?.addSubview(fpsLabel)
-        fpsLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(-64 - kBottomSafeHeight)
-            make.left.equalTo(20)
-        }
+//        let fpsLabel = V2FPSLabel()
+//        self.window?.addSubview(fpsLabel)
+//        fpsLabel.snp.makeConstraints { (make) in
+//            make.bottom.equalTo(-64 - kBottomSafeHeight)
+//            make.left.equalTo(20)
+//        }
         
         USERNAME = UserDefaults.standard.value(forKey: "username") as? String
         

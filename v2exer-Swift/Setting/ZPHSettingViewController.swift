@@ -40,13 +40,47 @@ class ZPHSettingViewController: UIViewController {
     var loginButton:UIButton = {//登录按钮
         var btn = UIButton()
         btn.backgroundColor = UIColor.gray
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        btn.layer.cornerRadius = 11
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        btn.layer.cornerRadius = 4
         btn.setTitle("请登录", for: .normal)
         btn.addTarget(self, action: #selector(loginButtonAction), for: UIControl.Event.touchUpInside)
         return btn
     }()
+    
+    //注销按钮
+    var logoutButton:UIButton = {
+        var btn = UIButton()
+        btn.backgroundColor = UIColor.gray
+        btn.layer.cornerRadius = 4
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        btn.setTitle("logout", for: .normal)
+        btn.addTarget(self, action: #selector(logoutButtonAction), for: .touchUpInside)
+        return btn
+    }()
 
+    @objc func logoutButtonAction() {
+        
+//        if ONCE != nil {
+        
+            let url = "\(V2EXURL)/signout?once=\(ONCE ?? "")"
+            Alamofire.request(url, method: .get).responseString { (response) in
+                
+                if let reString = response.result.value {
+                    
+                    print("reString = \(reString)")
+                    
+                    self.loginButton.isHidden = false
+                    self.logoutButton.isHidden = true
+                    self.userNameLabel.isHidden = true
+                    USERNAME = nil
+                    self.model = nil
+                    self.updataHeadBackground()
+                    self.settingTableView.reloadData()
+                }
+            }
+//        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,10 +114,12 @@ class ZPHSettingViewController: UIViewController {
         
         if USERNAME == nil{
             loginButton.isHidden = false
+            logoutButton.isHidden = true
             userNameLabel.isHidden = true
             return
         }else {
             loginButton.isHidden = true
+            logoutButton.isHidden = false
             userNameLabel.isHidden = false
         }
         
@@ -115,7 +151,8 @@ class ZPHSettingViewController: UIViewController {
         
         headBackgroundView.addSubview(headImgView)
         headImgView.snp.makeConstraints { (make) in
-            make.center.equalTo(headBackgroundView)
+            make.centerX.equalTo(headBackgroundView)
+            make.top.equalTo(headBackgroundView.snp.top).offset(30)
             make.size.equalTo(CGSize(width: 64, height: 64))
         }
         
@@ -127,9 +164,17 @@ class ZPHSettingViewController: UIViewController {
         
         view.addSubview(loginButton)//位置
         loginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(headImgView.snp_bottomMargin).offset(20)
+            make.top.equalTo(userNameLabel.snp_bottomMargin).offset(20)
             make.centerX.equalTo(headBackgroundView)
-            make.height.equalTo(22)
+            make.height.equalTo(28)
+            make.width.equalTo(70)
+        }
+        
+        view.addSubview(logoutButton)
+        logoutButton.snp.makeConstraints { (make) in
+            make.top.equalTo(userNameLabel.snp_bottomMargin).offset(20)
+            make.centerX.equalTo(headBackgroundView)
+            make.height.equalTo(28)
             make.width.equalTo(70)
         }
     }

@@ -36,7 +36,34 @@ class ZPHNodeViewController: UIViewController {
         }
         tableview.register(ZPHNodeTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
         
-        getRequest()
+        archiveRead()
+    }
+    
+    //MARK:存
+    private func archiveSave() {
+        
+        let documentPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true).last
+        let filePath = documentPath! + "/nodes"
+        
+//        let nodeArray = try! NSKeyedArchiver.archivedData(withRootObject: self.nodeArray, requiringSecureCoding: true) as NSData
+        
+        print("\(NSKeyedArchiver.archiveRootObject(self.nodeArray, toFile: filePath))")
+    }
+    
+    //MARK:取
+    private func archiveRead() {
+        
+        let documentPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true).last
+        let filePath = documentPath! + "/nodes"
+        
+        if let mo = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) {
+
+            self.nodeArray = mo as! [ZPHNodeModel]
+            self.tableview.reloadData()
+        }else {
+            print("mo = error")
+            getRequest()
+        }
     }
     
     func getRequest() {
@@ -76,12 +103,13 @@ class ZPHNodeViewController: UIViewController {
                             let dic:[String:Any] = ["nodeFade":nodeFade.content!,
                                                        "types":types]
                             
-                            print("nodeDic = \(dic)")
+//                            print("nodeDic = \(dic)")
                             let model:ZPHNodeModel = ZPHNodeModel(dic: dic)
                             self.nodeArray.append(model)
-                            self.tableview.reloadData()
                         }
                     }
+                    self.tableview.reloadData()
+                    self.archiveSave()
                 }
             }
         }

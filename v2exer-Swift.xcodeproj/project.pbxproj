@@ -15,6 +15,9 @@
 		DA5BE9F9220159C20094E463 /* ZPHNodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9F8220159C20094E463 /* ZPHNodeModel.swift */; };
 		DA5BE9FB22015B5B0094E463 /* ZPHNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9FA22015B5B0094E463 /* ZPHNodeTableViewCell.swift */; };
 		DA5BE9FE2201D4A90094E463 /* ZPHNodeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9FD2201D4A90094E463 /* ZPHNodeDetailViewController.swift */; };
+		DA702F242204052A0020C62B /* ZPHContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F232204052A0020C62B /* ZPHContentTableViewCell.swift */; };
+		DA702F26220406600020C62B /* ZPHContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */; };
+		DA702F2822057DC80020C62B /* ZPHContentDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */; };
 		DAAFCA5A21E70E25006BF864 /* ZPHHomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */; };
 		DAAFCA5C21EAE6E8006BF864 /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5B21EAE6E8006BF864 /* V2FPSLabel.swift */; };
 		DAAFCA5E21EB2341006BF864 /* ZPHSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */; };
@@ -66,6 +69,9 @@
 		DA5BE9F8220159C20094E463 /* ZPHNodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeModel.swift; sourceTree = "<group>"; };
 		DA5BE9FA22015B5B0094E463 /* ZPHNodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeTableViewCell.swift; sourceTree = "<group>"; };
 		DA5BE9FD2201D4A90094E463 /* ZPHNodeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeDetailViewController.swift; sourceTree = "<group>"; };
+		DA702F232204052A0020C62B /* ZPHContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentTableViewCell.swift; sourceTree = "<group>"; };
+		DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentTitleTableViewCell.swift; sourceTree = "<group>"; };
+		DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentDetailModel.swift; sourceTree = "<group>"; };
 		DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeDetailViewController.swift; sourceTree = "<group>"; };
 		DAAFCA5B21EAE6E8006BF864 /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
 		DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHSetting.swift; sourceTree = "<group>"; };
@@ -167,6 +173,9 @@
 			children = (
 				DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */,
 				DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */,
+				DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */,
+				DA702F232204052A0020C62B /* ZPHContentTableViewCell.swift */,
+				DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */,
 			);
 			path = HomeDetail;
 			sourceTree = "<group>";
@@ -437,16 +446,24 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DGElasticPullToRefresh/DGElasticPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Ji/Ji.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DGElasticPullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Ji.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -497,13 +514,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAAFCA5A21E70E25006BF864 /* ZPHHomeDetailViewController.swift in Sources */,
+				DA702F26220406600020C62B /* ZPHContentTitleTableViewCell.swift in Sources */,
 				DAB7B77321CBE11400ACCDE3 /* ZPHHomeViewController.swift in Sources */,
 				DA2D7A692203480B001C6AC8 /* ZPHContentDetailViewController.swift in Sources */,
 				DAB7B6FD21CBB2AD00ACCDE3 /* AppDelegate.swift in Sources */,
 				DAAFCA6221EB348D006BF864 /* ZPHSettingTableViewCell.swift in Sources */,
 				DAAFCA5E21EB2341006BF864 /* ZPHSetting.swift in Sources */,
+				DA702F242204052A0020C62B /* ZPHContentTableViewCell.swift in Sources */,
 				DAB7B77921CBE40C00ACCDE3 /* ZPHSettingViewController.swift in Sources */,
 				DA2D7A672202E234001C6AC8 /* ZPHHotViewController.swift in Sources */,
+				DA702F2822057DC80020C62B /* ZPHContentDetailModel.swift in Sources */,
 				DA5BE9F9220159C20094E463 /* ZPHNodeModel.swift in Sources */,
 				DAAFCF0D21F2FE19006BF864 /* ZPHLoginViewController.swift in Sources */,
 				DA5BE9FE2201D4A90094E463 /* ZPHNodeDetailViewController.swift in Sources */,
@@ -613,7 +633,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -668,7 +688,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -683,17 +703,18 @@
 			baseConfigurationReference = 76A0F2B1BC352EDFB826FBB0 /* Pods-v2exer-Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3LQZWC5F6U;
+				DEVELOPMENT_TEAM = 5UK7P892DU;
 				INFOPLIST_FILE = "v2exer-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "zph.v2exer-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = zph.v2exer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -702,17 +723,18 @@
 			baseConfigurationReference = EA485C87CC8AE9CDF20A9B2C /* Pods-v2exer-Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3LQZWC5F6U;
+				DEVELOPMENT_TEAM = 5UK7P892DU;
 				INFOPLIST_FILE = "v2exer-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "zph.v2exer-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = zph.v2exer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

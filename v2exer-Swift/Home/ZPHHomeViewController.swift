@@ -9,11 +9,19 @@
 import UIKit
 import SnapKit
 import Alamofire
+import MJRefresh
+import DGElasticPullToRefresh
+import NVActivityIndicatorView
 
 class ZPHHomeViewController: UIViewController {
     
     var tableView = UITableView()
     var nmArray:[ZPHHome] = [ZPHHome]()
+    let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+    var activityIndicatorView:NVActivityIndicatorView = {
+        let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.lineScale, color: tabColorGreen, padding: 2.0)
+        return activity
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +37,42 @@ class ZPHHomeViewController: UIViewController {
         tableView.separatorStyle = .none//分割线
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.left.right.equalTo(self.view)
+            make.top.equalTo(kTopBarHeight)
+            make.left.right.equalTo(self.view)
             make.bottom.equalTo(self.view)
         }
         tableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+
+        loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
+        tableView.dg_addPullToRefreshWithActionHandler({
+            [weak self]() -> Void in
+            
+            self?.nmArray.removeAll()
+            self?.getRequest()
+
+        }, loadingView: loadingView)
+        tableView.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
+        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
+  
+        self.view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(self.view)
+            make.size.equalTo(CGSize(width: 80, height: 40))
+        }
+        
+        activityIndicatorView.startAnimating()
         
         getRequest()
+    }
+    
+    //MARK:刷新
+    @objc private func headerRefresh() {
+        print("headerRefresh")
+//        getRequest()
+    }
+    
+    func refresh() {
+        print("refresh")
     }
     
     //MARK:网络请求
@@ -52,11 +90,20 @@ class ZPHHomeViewController: UIViewController {
 
 //                        print("index = \(index)")
                         self.nmArray.append(model)
-                        self.tableView.reloadData()
+                    }
+                    self.tableView.dg_stopLoading()
+                    self.tableView.reloadData()
+                    if self.activityIndicatorView.isAnimating {
+                        self.activityIndicatorView.stopAnimating()
                     }
                 }
             }
         }
+    }
+    
+    deinit {
+        
+        tableView.dg_removePullToRefresh()
     }
 }
 
