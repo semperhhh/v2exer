@@ -8,6 +8,9 @@
 
 import UIKit
 @_exported import Alamofire
+@_exported import DGElasticPullToRefresh
+@_exported import NVActivityIndicatorView
+@_exported import Ji
 
 let kScreenWidth = UIScreen.main.bounds.size.width
 let kScreenHeight = UIScreen.main.bounds.size.height

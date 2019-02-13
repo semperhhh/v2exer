@@ -18,6 +18,7 @@
 		DA702F242204052A0020C62B /* ZPHContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F232204052A0020C62B /* ZPHContentTableViewCell.swift */; };
 		DA702F26220406600020C62B /* ZPHContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */; };
 		DA702F2822057DC80020C62B /* ZPHContentDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */; };
+		DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7030E422139AE00020C62B /* ZPHEnshrineViewController.swift */; };
 		DAAFCA5A21E70E25006BF864 /* ZPHHomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */; };
 		DAAFCA5C21EAE6E8006BF864 /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5B21EAE6E8006BF864 /* V2FPSLabel.swift */; };
 		DAAFCA5E21EB2341006BF864 /* ZPHSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */; };
@@ -72,6 +73,7 @@
 		DA702F232204052A0020C62B /* ZPHContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentTableViewCell.swift; sourceTree = "<group>"; };
 		DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentDetailModel.swift; sourceTree = "<group>"; };
+		DA7030E422139AE00020C62B /* ZPHEnshrineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHEnshrineViewController.swift; sourceTree = "<group>"; };
 		DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeDetailViewController.swift; sourceTree = "<group>"; };
 		DAAFCA5B21EAE6E8006BF864 /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
 		DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHSetting.swift; sourceTree = "<group>"; };
@@ -168,6 +170,14 @@
 			path = nodeDetail;
 			sourceTree = "<group>";
 		};
+		DA7030E322139A800020C62B /* Enshrine */ = {
+			isa = PBXGroup;
+			children = (
+				DA7030E422139AE00020C62B /* ZPHEnshrineViewController.swift */,
+			);
+			path = Enshrine;
+			sourceTree = "<group>";
+		};
 		DAAFCA5821E70DD2006BF864 /* HomeDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 			children = (
 				DAB7B72A21CBD3BE00ACCDE3 /* Navigation */,
 				DA2D7A632202DD75001C6AC8 /* Hot */,
+				DA7030E322139A800020C62B /* Enshrine */,
 				DAB7B77421CBE3B200ACCDE3 /* Node */,
 				DAB7B77121CBE0F700ACCDE3 /* Home */,
 				DAB7B77721CBE3F800ACCDE3 /* Setting */,
@@ -451,6 +462,7 @@
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
@@ -462,6 +474,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -536,6 +549,7 @@
 				DAB7B87621CE4F7900ACCDE3 /* shareFile.swift in Sources */,
 				DAB7B72E21CBD48200ACCDE3 /* ZPHTabBarController.swift in Sources */,
 				DAB7B77621CBE3C100ACCDE3 /* ZPHNodeViewController.swift in Sources */,
+				DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

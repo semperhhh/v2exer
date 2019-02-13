@@ -23,6 +23,9 @@ class ZPHTabBarController: UITabBarController {
 
         let node = ZPHNodeViewController()
         self.addChildWith(controller: node, imgName: "IconNode", itemName: "节点")
+        
+        let enshrine = ZPHEnshrineViewController()
+        self.addChildWith(controller: enshrine, imgName: "IconEnshrine", itemName: "收藏")
 
         let setting1 = ZPHSettingViewController()
         self.addChildWith(controller: setting1, imgName: "IconSetting", itemName: "设置")

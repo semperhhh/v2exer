@@ -58,7 +58,7 @@ class ZPHContentDetailViewController: UIViewController {
             make.size.equalTo(CGSize(width: 80, height: 40))
         }
         activityIndicatorView.startAnimating()
-        
+    
         getRequest()
     }
     
@@ -173,21 +173,21 @@ extension ZPHContentDetailViewController:UITableViewDataSource,UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         switch indexPath.row {
         case 0:
-            
+
             let cell = ZPHContentTitleTableViewCell(style: .default, reuseIdentifier: "cellTitle")
             cell.contentDic = contentDic
             return cell
 
         default:
-            
+
             let model = self.replyArray[indexPath.row - 1]
             let cell = ZPHContentTableViewCell(style: .default, reuseIdentifier: "cell")
             cell.model = model
             return cell
-            
+
         }
     }
     

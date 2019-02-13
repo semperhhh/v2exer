@@ -17,6 +17,7 @@ class ZPHHome: NSObject {
     var last_reply_by:String?//最后回复于
     var member:ZPHHomeMember?
     var node:ZPHHomeNode?//节点信息
+    var nodeTitle:String?//节点名称
     var url : String?//网址
 //    @objc var Id : String = ""
     var last_touch:String?//最后回复时间

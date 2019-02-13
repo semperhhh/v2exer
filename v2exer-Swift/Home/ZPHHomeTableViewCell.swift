@@ -82,15 +82,24 @@ class ZPHHomeTableViewCell: UITableViewCell {
                 lastReplyLab.text = "\(lastReplyLab.text ?? "") \(lastTouched)"
             }
             
-            if let nodeTitle = homeModel?.node?.title {
+            if let nodeTitle = homeModel?.nodeTitle {
                 
                 nodeTitleBtn.isHidden = false
                 nodeTitleBtn.setTitle(nodeTitle, for: UIControl.State.normal)
+                
+            }else if let nodeTitle = homeModel?.node?.title {
+                
+                nodeTitleBtn.isHidden = false
+                nodeTitleBtn.setTitle(nodeTitle, for: UIControl.State.normal)
+                
             }else {
                 nodeTitleBtn.isHidden = true
             }
         }
     }
+    
+    //按钮回调
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
