@@ -23,12 +23,22 @@ class ZPHHomeViewController: UIViewController {
         return activity
     }()
     
+    let segment:UISegmentedControl = {
+        let segment = UISegmentedControl.init(items: ["最新","最热"])
+        segment.frame = CGRect.init(x: 0, y: 0, width: 150.0, height: 30.0)
+        segment.selectedSegmentIndex = 0
+        segment.tintColor = UIColor.white
+        return segment
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "最新"
+        
+//        self.navigationItem.titleView = segment
         
         tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.dataSource = self

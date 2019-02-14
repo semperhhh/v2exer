@@ -25,6 +25,9 @@ class ZPHContentDetailViewController: UIViewController {
         let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.ballRotateChase, color: tabColorGreen, padding: 2.0)
         return activity
     }()
+    
+    var topicsArr = [[String:String]]()//top操作数组
+    var rightBtn:UIBarButtonItem = UIBarButtonItem()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,8 @@ class ZPHContentDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.navigationItem.title = "内容"
         self.view.backgroundColor = UIColor.white
+        
+        rightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(rightButtonAction))
         
         tableview.dataSource = self
         tableview.delegate = self
@@ -62,15 +67,70 @@ class ZPHContentDetailViewController: UIViewController {
         getRequest()
     }
     
+    @objc func rightButtonAction() {
+        
+        let alertViewC = UIAlertController(title: "操作", message: "", preferredStyle: .actionSheet)
+        
+        for topics in topicsArr {
+            
+            let collect:UIAlertAction = UIAlertAction.init(title: topics["content"], style: .default) { (alert) in
+                
+                let url = V2EXURL + (topics["url"] ?? "")
+                Alamofire.request(url, method: .get).responseString(completionHandler: { (response) in
+                    
+                    if let reString = response.result.value {
+                        
+//                        print(reString)
+                    }
+                })
+            }
+            alertViewC.addAction(collect)
+        }
+        
+        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+        alertViewC.addAction(cancel)
+        
+        self.present(alertViewC, animated: true, completion: nil)
+    }
+    
     private func getRequest() {
         
         Alamofire.request(detailURL!).responseString { (response) in
             
             if let reString = response.result.value {
                 
-                print("reString = \(reString)")
+//                print("reString = \(reString)")
                 
                 let jiDoc = Ji(htmlString: reString)
+                
+                //收藏按钮
+                if let topicsDoc = jiDoc?.xPath("//div[@class='box']/div[@class='topic_buttons']/a") {
+                    
+                    //加入收藏
+                    if let href = topicsDoc.first?["href"] {
+                        
+                        var hrefDic = [String:String]()
+                        hrefDic["url"] = href
+                        hrefDic["content"] = topicsDoc.first?.content
+                        self.topicsArr.append(hrefDic)
+                    }
+                    
+                    /* 忽略主题
+                    if let href = topicsDoc.last?["href"] {
+                        
+                        var hrefDic = [String:String]()
+                        hrefDic["url"] = href
+                        hrefDic["content"] = topicsDoc.last?.content
+                        self.topicsArr.append(hrefDic)
+                    }
+ */
+                    
+                    //添加按钮
+                    self.navigationItem.rightBarButtonItem = self.rightBtn
+                    
+//                    print("topicsDoc.first?.content = \(topicsDoc.first?.content)")
+//                    print("topicsDoc.last?.content = \(topicsDoc.last?.content)")
+                }
                 
                 if let boxDoc = jiDoc?.xPath("//div[@class='box'][@style]")?.first {
                     

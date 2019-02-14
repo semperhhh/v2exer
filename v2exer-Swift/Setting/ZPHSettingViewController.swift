@@ -42,7 +42,7 @@ class ZPHSettingViewController: UIViewController {
         btn.backgroundColor = UIColor.gray
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         btn.layer.cornerRadius = 4
-        btn.setTitle("请登录", for: .normal)
+        btn.setTitle("登录", for: .normal)
         btn.addTarget(self, action: #selector(loginButtonAction), for: UIControl.Event.touchUpInside)
         return btn
     }()
@@ -53,7 +53,7 @@ class ZPHSettingViewController: UIViewController {
         btn.backgroundColor = UIColor.gray
         btn.layer.cornerRadius = 4
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        btn.setTitle("logout", for: .normal)
+        btn.setTitle("登出", for: .normal)
         btn.addTarget(self, action: #selector(logoutButtonAction), for: .touchUpInside)
         return btn
     }()
