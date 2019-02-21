@@ -17,9 +17,6 @@ class ZPHTabBarController: UITabBarController {
         
         let home = ZPHHomeViewController()
         self.addChildWith(controller: home, imgName: "IconHome", itemName: "最新")
-        
-        let setting = ZPHHotViewController()
-        self.addChildWith(controller: setting, imgName: "IconNew", itemName: "最热")
 
         let node = ZPHNodeViewController()
         self.addChildWith(controller: node, imgName: "IconNode", itemName: "节点")
@@ -31,17 +28,20 @@ class ZPHTabBarController: UITabBarController {
         self.addChildWith(controller: setting1, imgName: "IconSetting", itemName: "设置")
         
         //kvc动态替换tabbar
-//        let tabbar = ZPHTabBar()
-//        setValue(tabbar, forKey: "tabBar")
-//
-//        tabbar.homeButton.addTarget(self, action: #selector(homeButtonAciton), for: UIControl.Event.touchUpInside)
+        let tabbar = ZPHTabBar()
+        setValue(tabbar, forKey: "tabBar")
+
+        tabbar.homeButton.addTarget(self, action: #selector(homeButtonAciton), for: UIControl.Event.touchUpInside)
         self.tabBar.isTranslucent = false
     }
     
     @objc func homeButtonAciton() {
         
         print("home --")
-        self.selectedIndex = 2
+        
+        //push 编辑界面
+        let edit = ZPHEditViewController()
+        self.present(edit, animated: true, completion: nil)
     }
     
     //添加子控制器

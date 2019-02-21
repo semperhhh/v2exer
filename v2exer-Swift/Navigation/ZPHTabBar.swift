@@ -32,11 +32,13 @@ class ZPHTabBar: UITabBar {
                 
                 subview.frame = CGRect.init(x: Width * CGFloat(index), y: 0, width: Width, height: Height)
                 
+                index += 1
+                
                 if index == 2 {
                     
                     homeButton.frame = CGRect.init(x: Width * CGFloat(index), y: 0, width: Width, height: Height)
+                    index += 1
                 }
-                index += 1
             }
         }
     }
@@ -48,7 +50,7 @@ class ZPHTabBar: UITabBar {
     lazy var homeButton:UIButton = {
 
         let button = UIButton()
-        button.setImage(UIImage(named: "IconHome"), for: UIControl.State.normal)
+        button.setImage(UIImage(named: "IconAdd"), for: UIControl.State.normal)
         
         return button
     }()

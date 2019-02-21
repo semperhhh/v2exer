@@ -15,12 +15,32 @@ import NVActivityIndicatorView
 
 class ZPHHomeViewController: UIViewController {
     
-    var tableView = UITableView()
-    var nmArray:[ZPHHome] = [ZPHHome]()
+    var nmArray:[ZPHHome] = [ZPHHome]()//左边数据
+    var rightArray:[ZPHHome] = [ZPHHome]()//右边数据
+    
     let loadingView = DGElasticPullToRefreshLoadingViewCircle()
     var activityIndicatorView:NVActivityIndicatorView = {
         let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.lineScale, color: tabColorGreen, padding: 2.0)
         return activity
+    }()
+    
+    var scrollView:UIScrollView = {
+        let scrollview = UIScrollView(frame: CGRect(x: 0, y: CGFloat(kBottomSafeHeight), width: kScreenWidth * 2, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight)))
+        return scrollview
+    }()
+    
+    //左边的列表
+    var leftTableView:UITableView = {
+        let tableview = UITableView(frame: CGRect.zero, style: .plain)
+        tableview.rowHeight = 102
+        return tableview
+    }()
+    
+    //右边的列表
+    var rightTableView:UITableView = {
+        let tableview = UITableView(frame: CGRect.zero, style: .plain)
+        tableview.rowHeight = 102
+        return tableview
     }()
     
     let segment:UISegmentedControl = {
@@ -31,38 +51,70 @@ class ZPHHomeViewController: UIViewController {
         return segment
     }()
     
+    @objc func segmentAction() {
+        
+        let select = segment.selectedSegmentIndex
+        
+        switch select {
+        case 0:
+            print("segmentAction -- 0")
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            break
+        case 1:
+            print("segmentAction -- 1")
+            scrollView.setContentOffset(CGPoint(x: kScreenWidth, y: 0), animated: true)
+            break
+        default:
+            break
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "最新"
         
-//        self.navigationItem.titleView = segment
+        self.navigationItem.titleView = segment
+        segment.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
         
-        tableView = UITableView.init(frame: CGRect.zero, style: .plain)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = 102
-        tableView.separatorStyle = .none//分割线
-        self.view.addSubview(tableView)
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(kTopBarHeight)
-            make.left.right.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+        self.view.addSubview(scrollView)
+        
+        scrollView.addSubview(leftTableView)
+        leftTableView.dataSource = self
+        leftTableView.delegate = self
+        leftTableView.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.equalTo(scrollView.snp.left)
+            make.width.equalTo(kScreenWidth)
+            make.height.equalTo(scrollView)
         }
-        tableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+        leftTableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+        
+        scrollView.addSubview(rightTableView)
+        rightTableView.dataSource = self
+        rightTableView.delegate = self
+        rightTableView.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.equalTo(kScreenWidth)
+            make.width.equalTo(kScreenWidth)
+            make.height.equalTo(scrollView)
+        }
+        rightTableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
 
         loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
-        tableView.dg_addPullToRefreshWithActionHandler({
+        leftTableView.dg_addPullToRefreshWithActionHandler({
             [weak self]() -> Void in
             
             self?.nmArray.removeAll()
             self?.getRequest()
 
         }, loadingView: loadingView)
-        tableView.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
-        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
+        leftTableView.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
+        leftTableView.dg_setPullToRefreshBackgroundColor(leftTableView.backgroundColor!)
   
         self.view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { (make) in
@@ -88,6 +140,10 @@ class ZPHHomeViewController: UIViewController {
     //MARK:网络请求
     func getRequest() {
         
+        var group = DispatchGroup.init()
+        
+        group.enter()
+        
         Alamofire.request("https://www.v2ex.com/api/topics/latest.json", method: .get).responseJSON { (response) in
 
             if let data = response.result.value {
@@ -101,19 +157,49 @@ class ZPHHomeViewController: UIViewController {
 //                        print("index = \(index)")
                         self.nmArray.append(model)
                     }
-                    self.tableView.dg_stopLoading()
-                    self.tableView.reloadData()
-                    if self.activityIndicatorView.isAnimating {
-                        self.activityIndicatorView.stopAnimating()
-                    }
+                    
+                    group.leave()
                 }
+            }
+        }
+        
+        group.enter()
+        
+        let url = "\(V2EXURL)/api/topics/hot.json"
+        Alamofire.request(url, method: .get).responseJSON { (response) in
+            
+            if let data = response.result.value {
+                
+                if let dataArray = data as? [[String:Any]] {
+                    
+                    for (index,dict) in dataArray.enumerated() {
+                        
+                        let model = ZPHHome(dic: dict)
+                        
+                        //                        print("index = \(index)")
+                        self.rightArray.append(model)
+                    }
+                    
+                    group.leave()
+                }
+            }
+        }
+        
+        group.notify(queue: DispatchQueue.main) {
+            
+            self.leftTableView.reloadData()
+            self.leftTableView.dg_stopLoading()
+            self.rightTableView.reloadData()
+            self.rightTableView.dg_stopLoading()
+            if self.activityIndicatorView.isAnimating {
+                self.activityIndicatorView.stopAnimating()
             }
         }
     }
     
     deinit {
         
-        tableView.dg_removePullToRefresh()
+        leftTableView.dg_removePullToRefresh()
     }
 }
 
@@ -121,14 +207,28 @@ class ZPHHomeViewController: UIViewController {
 extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return nmArray.count
+        if tableView == self.leftTableView {
+            return nmArray.count
+        }else
+            if tableView == self.rightTableView {
+            return rightArray.count
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        var model:ZPHHome?
+        
+        if tableView == leftTableView {
+            model = nmArray[indexPath.row]
+        }else if tableView == rightTableView {
+            model = rightArray[indexPath.row]
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ZPHHomeTableViewCell
         
-        cell.homeModel = nmArray[indexPath.row]
+        cell.homeModel = model
         
         return cell
     }
@@ -136,15 +236,15 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let model = nmArray[indexPath.row]
-        
-//        let detail = ZPHHomeDetailViewController()
-//        detail.hidesBottomBarWhenPushed = true
-//        detail.detailURL = model.url
-//        self.navigationController?.pushViewController(detail, animated: true)
+        var model:ZPHHome?
+        if tableView == leftTableView {
+            model = nmArray[indexPath.row]
+        }else if tableView == rightTableView {
+            model = rightArray[indexPath.row]
+        }
         
         let detail = ZPHContentDetailViewController()
-        detail.detailURL = model.url
+        detail.detailURL = model?.url
         detail.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detail, animated: true)
     }
