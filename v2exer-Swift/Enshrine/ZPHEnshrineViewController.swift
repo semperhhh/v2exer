@@ -33,7 +33,7 @@ class ZPHEnshrineViewController: UIViewController {
         tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 102
+        tableView.rowHeight = 130
         tableView.separatorStyle = .none//分割线
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in

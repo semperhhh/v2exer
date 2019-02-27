@@ -15,13 +15,21 @@ class ZPHHomeTableViewCell: UITableViewCell {
     private var backView:UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 12
+        return view
+    }()
+    
+    //左边背景
+    private var leftBackView:UIView = {
+        let view = UIView()
+        view.backgroundColor = tabColorGreen
         return view
     }()
     
     //头像
     private var headImgView:UIImageView = {
         let imgView = UIImageView()
-        imgView.layer.cornerRadius = 5
+        imgView.layer.cornerRadius = 18
         imgView.layer.masksToBounds = true
         return imgView
     }()
@@ -37,6 +45,22 @@ class ZPHHomeTableViewCell: UITableViewCell {
     private var lastReplyLab:UILabel = {
         let lab = UILabel()
         lab.textColor = UIColor(red: 150.0/255.0, green: 150.0/255.0, blue: 150.0/255.0, alpha: 1.0)
+        lab.font = UIFont.systemFont(ofSize: 13)
+        return lab
+    }()
+    
+    //最后回复:天
+    private var lastReplyDay:UILabel = {
+        let lab = UILabel()
+        lab.textColor = UIColor.white
+        lab.font = UIFont.systemFont(ofSize: 13)
+        return lab
+    }()
+    
+    //最后回复:时间
+    private var lastReplyTime:UILabel = {
+        let lab = UILabel()
+        lab.textColor = UIColor.white
         lab.font = UIFont.systemFont(ofSize: 13)
         return lab
     }()
@@ -79,7 +103,10 @@ class ZPHHomeTableViewCell: UITableViewCell {
             
             if let lastTouched = homeModel?.last_touch {
                 
-                lastReplyLab.text = "\(lastReplyLab.text ?? "") \(lastTouched)"
+                let array1 = lastTouched.components(separatedBy: "日")
+                
+                lastReplyDay.text = array1.first
+                lastReplyTime.text = array1.last
             }
             
             if let nodeTitle = homeModel?.nodeTitle {
@@ -108,34 +135,57 @@ class ZPHHomeTableViewCell: UITableViewCell {
         
         contentView.addSubview(backView)
         backView.snp.makeConstraints { (make) in
-            make.top.left.right.equalTo(contentView)
+            make.top.equalTo(contentView).offset(5)
             make.bottom.equalTo(contentView).offset(-5)
-        }
-        
-        contentView.addSubview(titleLab)
-        titleLab.snp.makeConstraints { (make) in
-            make.top.left.equalTo(contentView).offset(5)
+            make.left.equalTo(contentView).offset(10)
             make.right.equalTo(contentView).offset(-10)
         }
         
-        contentView.addSubview(headImgView)
+        contentView.addSubview(leftBackView)
+        leftBackView.frame = CGRect(x: 10, y: 5, width: 80, height: 120)
+        let maskPath = UIBezierPath(roundedRect: leftBackView.bounds, byRoundingCorners: UIRectCorner(rawValue: UIRectCorner.bottomLeft.rawValue | UIRectCorner.topLeft.rawValue), cornerRadii: CGSize(width: 12, height: 12))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = leftBackView.bounds
+        maskLayer.path = maskPath.cgPath
+        leftBackView.layer.mask = maskLayer
+        
+        leftBackView.addSubview(headImgView)
         headImgView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(backView).offset(-10)
-            make.right.equalTo(contentView).offset(-10)
             make.size.equalTo(CGSize(width: 36, height: 36))
+            make.centerX.equalTo(self.leftBackView)
+            make.top.equalTo(self.leftBackView).offset(20)
         }
         
-        contentView.addSubview(lastReplyLab)
-        lastReplyLab.snp.makeConstraints { (make) in
-            make.top.equalTo(headImgView)
-            make.left.equalTo(titleLab)
+        leftBackView.addSubview(lastReplyDay)
+        lastReplyDay.snp.makeConstraints { (make) in
+            make.centerX.equalTo(headImgView)
+            make.top.equalTo(headImgView.snp.bottom).offset(20)
         }
         
-        contentView.addSubview(nodeTitleBtn)
+        leftBackView.addSubview(lastReplyTime)
+        lastReplyTime.snp.makeConstraints { (make) in
+            make.centerX.equalTo(headImgView)
+            make.top.equalTo(lastReplyDay.snp.bottom).offset(5)
+        }
+        
+        backView.addSubview(titleLab)
+        titleLab.snp.makeConstraints { (make) in
+            make.top.equalTo(leftBackView).offset(5)
+            make.right.equalTo(backView).offset(-10)
+            make.left.equalTo(leftBackView.snp.right).offset(5)
+        }
+        
+        backView.addSubview(nodeTitleBtn)
         nodeTitleBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(lastReplyLab.snp.bottom).offset(5)
-            make.left.equalTo(lastReplyLab)
+            make.bottom.equalTo(backView.snp.bottom).offset(-10)
+            make.left.equalTo(titleLab)
             make.height.equalTo(18)
+        }
+        
+        backView.addSubview(lastReplyLab)
+        lastReplyLab.snp.makeConstraints { (make) in
+            make.bottom.equalTo(nodeTitleBtn.snp.top).offset(-8)
+            make.left.equalTo(titleLab)
         }
     }
     

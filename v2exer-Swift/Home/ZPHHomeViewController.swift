@@ -25,21 +25,23 @@ class ZPHHomeViewController: UIViewController {
     }()
     
     var scrollView:UIScrollView = {
-        let scrollview = UIScrollView(frame: CGRect(x: 0, y: CGFloat(kBottomSafeHeight), width: kScreenWidth * 2, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight)))
+        let scrollview = UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth * 2, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight)))
         return scrollview
     }()
     
     //左边的列表
     var leftTableView:UITableView = {
         let tableview = UITableView(frame: CGRect.zero, style: .plain)
-        tableview.rowHeight = 102
+        tableview.rowHeight = 130
+        tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableview
     }()
     
     //右边的列表
     var rightTableView:UITableView = {
         let tableview = UITableView(frame: CGRect.zero, style: .plain)
-        tableview.rowHeight = 102
+        tableview.rowHeight = 130
+        tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableview
     }()
     

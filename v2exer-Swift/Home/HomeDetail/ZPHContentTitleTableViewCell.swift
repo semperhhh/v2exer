@@ -53,6 +53,8 @@ class ZPHContentTitleTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.selectionStyle = UITableViewCell.SelectionStyle.none
+        
         self.contentView.addSubview(headLabel)
         headLabel.snp.makeConstraints { (make) in
             make.top.equalTo(20)
