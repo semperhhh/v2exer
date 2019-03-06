@@ -25,7 +25,8 @@ class ZPHHomeViewController: UIViewController {
     }()
     
     var scrollView:UIScrollView = {
-        let scrollview = UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth * 2, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight)))
+        let scrollview = UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight)))
+        scrollview.contentSize = CGSize(width: kScreenWidth * 2, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight))
         return scrollview
     }()
     
@@ -84,6 +85,7 @@ class ZPHHomeViewController: UIViewController {
         segment.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
         
         self.view.addSubview(scrollView)
+        scrollView.delegate = self
         
         scrollView.addSubview(leftTableView)
         leftTableView.dataSource = self
@@ -199,6 +201,11 @@ class ZPHHomeViewController: UIViewController {
         }
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        print("scrollView---- \(scrollView.contentOffset)")
+    }
+    
     deinit {
         
         leftTableView.dg_removePullToRefresh()
@@ -251,3 +258,5 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
         self.navigationController?.pushViewController(detail, animated: true)
     }
 }
+
+

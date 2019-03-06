@@ -16,6 +16,7 @@ class ZPHContentDetailViewController: UIViewController {
     var detailURL:String?
     var tableview:UITableView = {
         var tableview = UITableView()
+        tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableview
     }()
     
@@ -195,7 +196,7 @@ class ZPHContentDetailViewController: UIViewController {
                             cellDict["img"] = cellImg
                         }
                         
-                        print("cellDict -- \(cellDict)")
+//                        print("cellDict -- \(cellDict)")
                         
                         let model = ZPHContentDetailModel(dic: cellDict)
                         self.replyArray.append(model)
@@ -272,7 +273,7 @@ extension ZPHContentDetailViewController:UITableViewDataSource,UITableViewDelega
                 cellHeight = boundingRect.height + 20 + (cellHeight ?? 0)
             }
             
-            print("cellHeight ------ \(String(describing: cellHeight))")
+//            print("cellHeight ------ \(String(describing: cellHeight))")
             return cellHeight ?? 0
         default:
             let model = self.replyArray[indexPath.row - 1]

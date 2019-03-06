@@ -20,10 +20,13 @@ class ZPHEditPickerView: UIView {
         
         didSet {
             
-            self.pickerView.reloadAllComponents()
-            let dic = nodesArray.first!
-            self.nodeSelect = dic["name"]
-            self.valueSelect = dic["value"]
+            if nodesArray.count != 0 {
+                
+                let dic = nodesArray.first!
+                self.nodeSelect = dic["name"]
+                self.valueSelect = dic["value"]
+                self.pickerView.reloadAllComponents()
+            }
         }
     }
     

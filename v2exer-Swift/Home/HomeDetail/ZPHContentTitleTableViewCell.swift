@@ -10,6 +10,15 @@ import UIKit
 
 class ZPHContentTitleTableViewCell: UITableViewCell {
     
+    //背景
+    var backView:UIView = {
+        var view = UIView()
+        view.backgroundColor = UIColor(red: 240.0/255.0, green: 242.0/255.0, blue: 252.0/255.0, alpha: 1.0)
+        view.layer.cornerRadius = 5
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
     //标题
     var headLabel:UILabel = {
         var lab = UILabel()
@@ -55,18 +64,26 @@ class ZPHContentTitleTableViewCell: UITableViewCell {
         
         self.selectionStyle = UITableViewCell.SelectionStyle.none
         
-        self.contentView.addSubview(headLabel)
-        headLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(20)
-            make.left.equalTo(self.contentView).offset(10)
-            make.right.equalTo(self.contentView).offset(-10)
+        self.contentView.addSubview(backView)
+        backView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.contentView).offset(5)
+            make.left.equalTo(self.contentView).offset(8)
+            make.right.equalTo(self.contentView).offset(-8)
+            make.bottom.equalTo(self.contentView).offset(-5).priority(.low)
         }
         
-        self.contentView.addSubview(contentLabel)
+        backView.addSubview(headLabel)
+        headLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(20)
+            make.left.equalTo(backView).offset(10)
+            make.right.equalTo(backView).offset(-10)
+        }
+
+        backView.addSubview(contentLabel)
         contentLabel.snp.makeConstraints { (make) in
             make.top.equalTo(headLabel.snp_bottomMargin)
-            make.left.equalTo(self.contentView).offset(10)
-            make.right.equalTo(self.contentView).offset(-10)
+            make.left.equalTo(backView).offset(10)
+            make.right.equalTo(backView).offset(-10)
         }
     }
     

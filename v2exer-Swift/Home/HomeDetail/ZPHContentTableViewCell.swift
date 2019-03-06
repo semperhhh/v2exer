@@ -22,7 +22,7 @@ class ZPHContentTableViewCell: UITableViewCell {
     
             let boundingReply = replyAttr.boundingRect(with: CGSize(width: kScreenWidth - 44 - 50, height: 0), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
 
-            print("boundingReply = \(boundingReply.height)")
+//            print("boundingReply = \(boundingReply.height)")
             
             if boundingReply.height + 30 > 44 {
                 
@@ -34,6 +34,15 @@ class ZPHContentTableViewCell: UITableViewCell {
             self.timeLabel.text = model?.time
         }
     }
+    
+    //背景
+    var backView:UIView = {
+        var view = UIView()
+        view.backgroundColor = UIColor(red: 240.0/255.0, green: 242.0/255.0, blue: 252.0/255.0, alpha: 1.0)
+        view.layer.cornerRadius = 5
+        view.layer.masksToBounds = true
+        return view
+    }()
     
     var imgView:UIImageView = {
         var imgView = UIImageView()
@@ -56,20 +65,28 @@ class ZPHContentTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(imgView)
+        self.contentView.addSubview(backView)
+        backView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.contentView).offset(5)
+            make.left.equalTo(self.contentView).offset(8)
+            make.right.equalTo(self.contentView).offset(-8)
+            make.bottom.equalTo(self.contentView).offset(-5).priority(.low)
+        }
+        
+        backView.addSubview(imgView)
         imgView.snp.makeConstraints { (make) in
-            make.top.left.equalTo(self.contentView).offset(10)
+            make.top.left.equalTo(backView).offset(10)
             make.size.equalTo(CGSize.init(width: 44, height: 44))
         }
         
-        self.contentView.addSubview(replyLabel)
+        backView.addSubview(replyLabel)
         replyLabel.snp.makeConstraints { (make) in
             make.top.equalTo(imgView)
             make.left.equalTo(imgView.snp.rightMargin).offset(20)
-            make.right.equalTo(self.contentView).offset(-20)
+            make.right.equalTo(backView).offset(-20)
         }
         
-        self.contentView.addSubview(timeLabel)
+        backView.addSubview(timeLabel)
         timeLabel.snp.makeConstraints { (make) in
             make.top.equalTo(replyLabel.snp.bottom).offset(10)
             make.left.right.equalTo(replyLabel)
