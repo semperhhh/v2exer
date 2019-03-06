@@ -22,7 +22,13 @@ class ZPHTabBar: UITabBar {
         super.layoutSubviews()
         
         let Width = bounds.width / 5.0
-        let Height = bounds.height
+        var Height:CGFloat {
+            if iPhoneX {
+                return 49
+            }else {
+                return self.bounds.height
+            }
+        }
         var index = 0
         
         //遍历控件

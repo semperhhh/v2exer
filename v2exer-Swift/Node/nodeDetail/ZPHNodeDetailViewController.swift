@@ -20,6 +20,7 @@ class ZPHNodeDetailViewController: UIViewController {
     var tableview:UITableView = {
         var tableview = UITableView()
         tableview.separatorStyle = .none
+        tableview.rowHeight = 140
         return tableview
     }()
     var pageInt:Int = 1//页面
@@ -46,8 +47,6 @@ class ZPHNodeDetailViewController: UIViewController {
             make.top.equalTo(kTopBarHeight)
             make.left.right.bottom.equalTo(self.view)
         }
-    
-        tableview.rowHeight = 102
         
         tableview.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
     

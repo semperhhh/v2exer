@@ -107,7 +107,19 @@ class ZPHSettingViewController: UIViewController {
         
         settingTableView.register(ZPHSettingTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
         
+        //更新
+        let upinstallButton = UIBarButtonItem(title: "更新", style: .plain, target: self, action: #selector(upinstallButtonClick))
+        self.navigationItem.rightBarButtonItem = upinstallButton
+        
         getRequest()
+    }
+    
+    //更新跳转
+    @objc func upinstallButtonClick() {
+        
+        let upinstall = ZPHUpinstallViewController()
+        upinstall.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(upinstall, animated: true)
     }
     
     private func getRequest() {

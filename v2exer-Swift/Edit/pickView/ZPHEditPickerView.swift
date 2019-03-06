@@ -21,6 +21,9 @@ class ZPHEditPickerView: UIView {
         didSet {
             
             self.pickerView.reloadAllComponents()
+            let dic = nodesArray.first!
+            self.nodeSelect = dic["name"]
+            self.valueSelect = dic["value"]
         }
     }
     
@@ -34,6 +37,7 @@ class ZPHEditPickerView: UIView {
         let button = UIButton()
         button.setTitle("确定", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         return button
     }()
     
@@ -42,9 +46,16 @@ class ZPHEditPickerView: UIView {
         let button = UIButton()
         button.setTitle("取消", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         return button
     }()
     
+    //确定回调
+    var determineBlock:((_ nodeString:String, _ value:String) -> Void)?
+    
+    //选中的节点
+    var nodeSelect:String?
+    var valueSelect:String?
 
     override init(frame: CGRect) {
         
@@ -55,7 +66,7 @@ class ZPHEditPickerView: UIView {
         self.addSubview(pickerView)
         pickerView.snp.makeConstraints { (make) in
             make.bottom.left.right.equalTo(self)
-            make.height.equalTo(270)
+            make.height.equalTo(210)
         }
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -84,13 +95,25 @@ class ZPHEditPickerView: UIView {
     func dismiss() {
         
         UIView.animate(withDuration: 0.5) {
-            self.frame = CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: 300)
+            self.frame = CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: 250)
+        }
+    }
+    
+    func show() {
+        
+        UIView.animate(withDuration: 0.5) {
+            self.frame = CGRect(x: 0, y: kScreenHeight - 250, width: kScreenWidth, height: 250)
         }
     }
     
     @objc func determineButtonAction() {
         
         dismiss()
+        
+        //回调
+        if determineBlock != nil {
+            determineBlock!(self.nodeSelect!,self.valueSelect!)
+        }
     }
     
     @objc func cancelButtonAction() {
@@ -134,6 +157,7 @@ extension ZPHEditPickerView:UIPickerViewDataSource,UIPickerViewDelegate {
         
         let dic = self.nodesArray[row]
         
-        print("pickerView - \(dic["name"] ?? "")")
+        self.nodeSelect = dic["name"]
+        self.valueSelect = dic["value"]
     }
 }

@@ -25,7 +25,7 @@ class ZPHTabBarController: UITabBarController {
         self.addChildWith(controller: enshrine, imgName: "IconEnshrine", itemName: "收藏")
 
         let setting1 = ZPHSettingViewController()
-        self.addChildWith(controller: setting1, imgName: "IconSetting", itemName: "设置")
+        self.addChildWith(controller: setting1, imgName: "IconSetting", itemName: "空间")
         
         //kvc动态替换tabbar
         let tabbar = ZPHTabBar()

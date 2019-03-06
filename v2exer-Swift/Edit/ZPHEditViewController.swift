@@ -64,7 +64,7 @@ class ZPHEditViewController: UIViewController {
     var pickerButton:UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 236.0/255.0, green: 236.0/255.0, blue: 236.0/255.0, alpha: 1.0)
-        button.setTitle("node", for: UIControl.State.normal)
+        button.setTitle("节点选择", for: UIControl.State.normal)
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 4
@@ -77,7 +77,7 @@ class ZPHEditViewController: UIViewController {
         
         print("pickerbuttonaction self.nodes = \(self.nodesArray.count)")
         
-        pickerView.dismiss()
+        pickerView.show()
     }
     
     //节点数据
@@ -85,9 +85,14 @@ class ZPHEditViewController: UIViewController {
     
     //节点选择
     var pickerView:ZPHEditPickerView = {
-        let picker = ZPHEditPickerView(frame: CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: 300))
+        let picker = ZPHEditPickerView(frame: CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: 250))
         return picker
     }()
+    
+    //节点once
+    var onceString:String?
+    //发布节点
+    var nodeSelectValue:String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +117,7 @@ class ZPHEditViewController: UIViewController {
                 
                 for node in nodesDoc {
                     
-                    print("node = \(node)")
+//                    print("node = \(node)")
                     var nodeDict = [String:String]()
                     
                     if let valueString = node.attributes["value"] {
@@ -126,6 +131,12 @@ class ZPHEditViewController: UIViewController {
                 //传数据
                 self.pickerView.nodesArray = self.nodesArray
             }
+            
+            if let onceDoc = jiDoc?.xPath("//div[@class='box'][@id='box']/form/input[@name='once']")?.first?["value"] {
+                
+                self.onceString = onceDoc
+            }
+            
         }
     }
     
@@ -162,24 +173,31 @@ class ZPHEditViewController: UIViewController {
             make.height.equalTo(70)
         }
         
-        self.view.addSubview(pictureCollectionView)
-        pictureCollectionView.dataSource = self
-        pictureCollectionView.delegate = self
-        pictureCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(contentTextView.snp.bottom).offset(20)
-            make.left.right.equalTo(contentTextView)
-            make.height.equalTo(pictureCollectionView.snp.width)
-        }
-    pictureCollectionView.register(ZPHEditCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellId")
+        //暂时不做上传图片
+//        self.view.addSubview(pictureCollectionView)
+//        pictureCollectionView.dataSource = self
+//        pictureCollectionView.delegate = self
+//        pictureCollectionView.snp.makeConstraints { (make) in
+//            make.top.equalTo(contentTextView.snp.bottom).offset(20)
+//            make.left.right.equalTo(contentTextView)
+//            make.height.equalTo(pictureCollectionView.snp.width)
+//        }
+//
+//        pictureCollectionView.register(ZPHEditCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellId")
         
         self.view.addSubview(pickerButton)
         pickerButton.snp.makeConstraints { (make) in
-            make.top.equalTo(pictureCollectionView.snp.bottom).offset(20)
-            make.left.right.equalTo(pictureCollectionView)
-            make.height.equalTo(30)
+            make.top.equalTo(contentTextView.snp.bottom).offset(20)
+            make.left.right.equalTo(contentTextView)
+            make.height.equalTo(40)
         }
         
         self.view.addSubview(pickerView)
+        pickerView.determineBlock = { [weak self] (name:String,value:String) in
+//            print("name = \(name), value = \(value)")
+            self!.pickerButton.setTitle(name, for: .normal)
+            self!.nodeSelectValue = value
+        }
     }
     
     @objc func backButtonAction() {
@@ -187,9 +205,33 @@ class ZPHEditViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    //发布
     @objc func releseButtonAction() {
         
+        //请求
+        let param = ["title":headlineTextfield.text,
+                     "content":contentTextView.text,
+                     "node_name":self.nodeSelectValue,
+                     "content":contentTextView.text,
+                     "once":self.onceString]
+        
+        let url = V2EXURL + "/new"
+        //回调
+        
+        ZPHNetworkTool.networkRequest(url, method: .post, parameters: param as Parameters) { (response) in
+            
+            print(response)
+        }
+        //成功
+        
+        //失败
+        
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    deinit {
+        
+        print("ZPHEditViewController -- deinit")
     }
     
 
