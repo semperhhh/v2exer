@@ -14,7 +14,7 @@ class ZPHContentTableViewCell: UITableViewCell {
     var model:ZPHContentDetailModel? {
         didSet {
             let url = URL(string: "http:" + (model?.img ?? ""))
-            self.imgView.kf.setImage(with: url)
+            self.imgButton.kf.setImage(with: url, for: UIControl.State.normal)
             
             let replyAttr = NSMutableAttributedString.init(string: (model?.reply ?? ""), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16)])
             
@@ -44,10 +44,21 @@ class ZPHContentTableViewCell: UITableViewCell {
         return view
     }()
     
-    var imgView:UIImageView = {
-        var imgView = UIImageView()
-        return imgView
+    var imgButton:UIButton = {
+        let button = UIButton()
+        return button
     }()
+    
+    
+    /// 头像按钮点击回调
+    var imgButtonActionBlock:(() -> Void)?
+    
+    @objc func imgButtonAction() {
+        
+        if (self.imgButtonActionBlock != nil) {
+            self.imgButtonActionBlock!()
+        }
+    }
     
     var replyLabel:UILabel = {
         var lab = UILabel()
@@ -73,16 +84,17 @@ class ZPHContentTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView).offset(-5).priority(.low)
         }
         
-        backView.addSubview(imgView)
-        imgView.snp.makeConstraints { (make) in
+        imgButton.addTarget(self, action: #selector(imgButtonAction), for: UIControl.Event.touchUpInside)
+        backView.addSubview(imgButton)
+        imgButton.snp.makeConstraints { (make) in
             make.top.left.equalTo(backView).offset(10)
             make.size.equalTo(CGSize.init(width: 44, height: 44))
         }
         
         backView.addSubview(replyLabel)
         replyLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(imgView)
-            make.left.equalTo(imgView.snp.rightMargin).offset(20)
+            make.top.equalTo(imgButton)
+            make.left.equalTo(imgButton.snp.rightMargin).offset(20)
             make.right.equalTo(backView).offset(-20)
         }
         

@@ -25,5 +25,9 @@ target 'v2exer-Swift' do
     inherit! :search_paths
     # Pods for testing
   end
-
+  
+  target 'v2exWidget' do
+      inherit! :search_paths
+  end
+  
 end

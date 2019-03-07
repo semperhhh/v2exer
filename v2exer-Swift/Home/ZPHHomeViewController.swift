@@ -201,11 +201,6 @@ class ZPHHomeViewController: UIViewController {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        print("scrollView---- \(scrollView.contentOffset)")
-    }
-    
     deinit {
         
         leftTableView.dg_removePullToRefresh()

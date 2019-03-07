@@ -33,6 +33,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         USERNAME = UserDefaults.standard.value(forKey: "username") as? String
         
+        //第一次打开记录时间
+        let shared = UserDefaults.init(suiteName: "group.v2exer")
+        let onceTime = shared?.value(forKey: "onceTime") as? String
+        
+        if onceTime == nil {
+            
+            let now = Date()
+            let datefor = DateFormatter()
+            datefor.dateFormat = "yyyyMMdd"
+            let nowStr = datefor.string(from: now)
+            shared?.set(nowStr, forKey: "onceTime")
+        }
+        
         return true
     }
 

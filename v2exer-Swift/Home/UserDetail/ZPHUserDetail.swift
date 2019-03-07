@@ -1,25 +1,23 @@
 //
-//  ZPHContentDetailModel.swift
+//  ZPHUserDetail.swift
 //  v2exer-Swift
 //
-//  Created by zhangpenghui on 2019/2/2.
+//  Created by 张鹏辉 on 2019/3/7.
 //  Copyright © 2019 zph. All rights reserved.
 //
 
 import UIKit
 
 @objcMembers
-class ZPHContentDetailModel: NSObject {
+class ZPHUserDetail: NSObject {
 
-    var time:String?
-    var reply:String?
-    var img:String?
-    var userName:String?//用户名
-    var userHref:String?//地址
+    var title:String?
+    var post:String?//帖子名称
+    var postUrl:String?//地址
     
     var cellHeight:CGFloat?
     
-    init(dic:[String:Any]) {
+    init(dic:[String:String]) {
         super.init()
         
         setValuesForKeys(dic)

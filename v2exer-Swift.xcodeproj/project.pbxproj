@@ -23,6 +23,9 @@
 		DA702F26220406600020C62B /* ZPHContentTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */; };
 		DA702F2822057DC80020C62B /* ZPHContentDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */; };
 		DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7030E422139AE00020C62B /* ZPHEnshrineViewController.swift */; };
+		DAA062502230FC5500E9B516 /* ZPHUserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA0624F2230FC5500E9B516 /* ZPHUserDetailViewController.swift */; };
+		DAA0625222310F3400E9B516 /* ZPHUserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA0625122310F3400E9B516 /* ZPHUserDetail.swift */; };
+		DAA062542231110900E9B516 /* ZPHUserDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA062532231110900E9B516 /* ZPHUserDetailCell.swift */; };
 		DAAFCA5A21E70E25006BF864 /* ZPHHomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */; };
 		DAAFCA5C21EAE6E8006BF864 /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5B21EAE6E8006BF864 /* V2FPSLabel.swift */; };
 		DAAFCA5E21EB2341006BF864 /* ZPHSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */; };
@@ -47,6 +50,7 @@
 		DAB8ECD8222779E900AEA79B /* v2exWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAB8ECCC222779E900AEA79B /* v2exWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DAB8ECE12227CFF200AEA79B /* ZPHUpinstallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECE02227CFF200AEA79B /* ZPHUpinstallViewController.swift */; };
 		DAB8ECE32227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECE22227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift */; };
+		FDC192D4EACB251675A9F816 /* Pods_v2exWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081B26D73BB4277234AC3E7 /* Pods_v2exWidget.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,11 +94,14 @@
 /* Begin PBXFileReference section */
 		1C040BE01D98CB9D25CB7102 /* Pods_v2exer_SwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_v2exer_SwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C8486D79BE234471BC55BC4 /* Pods-v2exer-SwiftUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-SwiftUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-SwiftUITests/Pods-v2exer-SwiftUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3081B26D73BB4277234AC3E7 /* Pods_v2exWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_v2exWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		41CF3CBC3FACC24363A2F3D8 /* Pods-v2exWidget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exWidget.release.xcconfig"; path = "Pods/Target Support Files/Pods-v2exWidget/Pods-v2exWidget.release.xcconfig"; sourceTree = "<group>"; };
 		49D4AF88A3C5015F87D56966 /* Pods-v2exer-SwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-SwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-SwiftTests/Pods-v2exer-SwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		75901DBFB7FEE4EB21EE9371 /* Pods_v2exer_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_v2exer_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76A0F2B1BC352EDFB826FBB0 /* Pods-v2exer-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		8509A4D4C80905A6BDF255F4 /* Pods_v2exer_SwiftUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_v2exer_SwiftUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8801C0B88BB16B3EBABA3BD3 /* Pods-v2exer-SwiftUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-SwiftUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-SwiftUITests/Pods-v2exer-SwiftUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BFD1628A139EA22934CC41C5 /* Pods-v2exWidget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exWidget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-v2exWidget/Pods-v2exWidget.debug.xcconfig"; sourceTree = "<group>"; };
 		DA017DBA221EAD58000CFF56 /* ZPHEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHEditViewController.swift; sourceTree = "<group>"; };
 		DA0A7CC6222548EC00F2A10A /* ZPHNetworkTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNetworkTool.swift; sourceTree = "<group>"; };
 		DA0A7CCB222685FC00F2A10A /* ZPHEditPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHEditPickerView.swift; sourceTree = "<group>"; };
@@ -108,6 +115,9 @@
 		DA702F25220406600020C62B /* ZPHContentTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentTitleTableViewCell.swift; sourceTree = "<group>"; };
 		DA702F2722057DC80020C62B /* ZPHContentDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentDetailModel.swift; sourceTree = "<group>"; };
 		DA7030E422139AE00020C62B /* ZPHEnshrineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHEnshrineViewController.swift; sourceTree = "<group>"; };
+		DAA0624F2230FC5500E9B516 /* ZPHUserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUserDetailViewController.swift; sourceTree = "<group>"; };
+		DAA0625122310F3400E9B516 /* ZPHUserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUserDetail.swift; sourceTree = "<group>"; };
+		DAA062532231110900E9B516 /* ZPHUserDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUserDetailCell.swift; sourceTree = "<group>"; };
 		DAAFCA5921E70E25006BF864 /* ZPHHomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeDetailViewController.swift; sourceTree = "<group>"; };
 		DAAFCA5B21EAE6E8006BF864 /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
 		DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHSetting.swift; sourceTree = "<group>"; };
@@ -175,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAB8ECCE222779E900AEA79B /* NotificationCenter.framework in Frameworks */,
+				FDC192D4EACB251675A9F816 /* Pods_v2exWidget.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +201,8 @@
 				49D4AF88A3C5015F87D56966 /* Pods-v2exer-SwiftTests.release.xcconfig */,
 				1C8486D79BE234471BC55BC4 /* Pods-v2exer-SwiftUITests.debug.xcconfig */,
 				8801C0B88BB16B3EBABA3BD3 /* Pods-v2exer-SwiftUITests.release.xcconfig */,
+				BFD1628A139EA22934CC41C5 /* Pods-v2exWidget.debug.xcconfig */,
+				41CF3CBC3FACC24363A2F3D8 /* Pods-v2exWidget.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -201,6 +214,7 @@
 				1C040BE01D98CB9D25CB7102 /* Pods_v2exer_SwiftTests.framework */,
 				8509A4D4C80905A6BDF255F4 /* Pods_v2exer_SwiftUITests.framework */,
 				DAB8ECCD222779E900AEA79B /* NotificationCenter.framework */,
+				3081B26D73BB4277234AC3E7 /* Pods_v2exWidget.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -261,6 +275,16 @@
 				DA7030E422139AE00020C62B /* ZPHEnshrineViewController.swift */,
 			);
 			path = Enshrine;
+			sourceTree = "<group>";
+		};
+		DAA0624C2230FBFD00E9B516 /* UserDetail */ = {
+			isa = PBXGroup;
+			children = (
+				DAA0624F2230FC5500E9B516 /* ZPHUserDetailViewController.swift */,
+				DAA062532231110900E9B516 /* ZPHUserDetailCell.swift */,
+				DAA0625122310F3400E9B516 /* ZPHUserDetail.swift */,
+			);
+			path = UserDetail;
 			sourceTree = "<group>";
 		};
 		DAAFCA5821E70DD2006BF864 /* HomeDetail */ = {
@@ -360,6 +384,7 @@
 		DAB7B77121CBE0F700ACCDE3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				DAA0624C2230FBFD00E9B516 /* UserDetail */,
 				DAAFCA5821E70DD2006BF864 /* HomeDetail */,
 				DAB7B77221CBE11400ACCDE3 /* ZPHHomeViewController.swift */,
 				DAB7B77A21CBEAC200ACCDE3 /* ZPHHomeTableViewCell.swift */,
@@ -476,6 +501,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAB8ECDB222779E900AEA79B /* Build configuration list for PBXNativeTarget "v2exWidget" */;
 			buildPhases = (
+				131FCE70EF6EE46E295C0857 /* [CP] Check Pods Manifest.lock */,
 				DAB8ECC8222779E900AEA79B /* Sources */,
 				DAB8ECC9222779E900AEA79B /* Frameworks */,
 				DAB8ECCA222779E900AEA79B /* Resources */,
@@ -581,6 +607,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		131FCE70EF6EE46E295C0857 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-v2exWidget-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		368AAFA33FE692D93A95DD64 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -605,7 +653,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/DGElasticPullToRefresh/DGElasticPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Ji/Ji.framework",
@@ -630,7 +678,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B5D82EB3EEDB7198C907F1B3 /* [CP] Check Pods Manifest.lock */ = {
@@ -694,6 +742,7 @@
 				DA5BE9F9220159C20094E463 /* ZPHNodeModel.swift in Sources */,
 				DAAFCF0D21F2FE19006BF864 /* ZPHLoginViewController.swift in Sources */,
 				DA5BE9FE2201D4A90094E463 /* ZPHNodeDetailViewController.swift in Sources */,
+				DAA0625222310F3400E9B516 /* ZPHUserDetail.swift in Sources */,
 				DAB7B77D21CBEE2400ACCDE3 /* ZPHHome.swift in Sources */,
 				DA5BE9FB22015B5B0094E463 /* ZPHNodeTableViewCell.swift in Sources */,
 				DAB7B87221CD441D00ACCDE3 /* ZPHTabBar.swift in Sources */,
@@ -701,11 +750,13 @@
 				DA2A229722223C5000EFD838 /* ZPHEditCollectionViewCell.swift in Sources */,
 				DAB7B77B21CBEAC200ACCDE3 /* ZPHHomeTableViewCell.swift in Sources */,
 				DAAFCA5C21EAE6E8006BF864 /* V2FPSLabel.swift in Sources */,
+				DAA062542231110900E9B516 /* ZPHUserDetailCell.swift in Sources */,
 				DAB7B87621CE4F7900ACCDE3 /* shareFile.swift in Sources */,
 				DAB7B72E21CBD48200ACCDE3 /* ZPHTabBarController.swift in Sources */,
 				DAB7B77621CBE3C100ACCDE3 /* ZPHNodeViewController.swift in Sources */,
 				DA0A7CC7222548EC00F2A10A /* ZPHNetworkTool.swift in Sources */,
 				DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */,
+				DAA062502230FC5500E9B516 /* ZPHUserDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1013,6 +1064,7 @@
 		};
 		DAB8ECD9222779E900AEA79B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFD1628A139EA22934CC41C5 /* Pods-v2exWidget.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = v2exWidget/v2exWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1034,6 +1086,7 @@
 		};
 		DAB8ECDA222779E900AEA79B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41CF3CBC3FACC24363A2F3D8 /* Pods-v2exWidget.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = v2exWidget/v2exWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;

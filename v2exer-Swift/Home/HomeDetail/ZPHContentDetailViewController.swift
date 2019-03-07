@@ -196,6 +196,12 @@ class ZPHContentDetailViewController: UIViewController {
                             cellDict["img"] = cellImg
                         }
                         
+                        if let cellUser = cell.xPath("./td/strong/a").first {
+                            
+                            cellDict["userName"] = cellUser.content//用户名
+                            cellDict["userHref"] = cellUser["href"]//地址
+                        }
+                        
 //                        print("cellDict -- \(cellDict)")
                         
                         let model = ZPHContentDetailModel(dic: cellDict)
@@ -247,9 +253,26 @@ extension ZPHContentDetailViewController:UITableViewDataSource,UITableViewDelega
             let model = self.replyArray[indexPath.row - 1]
             let cell = ZPHContentTableViewCell(style: .default, reuseIdentifier: "cell")
             cell.model = model
+            cell.imgButtonActionBlock = {
+                
+                print("头像点击回调跳转个人详情")
+                self.goUserDetail(model.userHref)
+            }
             return cell
 
         }
+    }
+    
+    //跳转个人详情
+    func goUserDetail(_ userHref:String?) {
+        
+        if userHref == nil {
+            return
+        }
+        
+        let userDetail = ZPHUserDetailViewController()
+        userDetail.userHref = userHref
+        self.navigationController?.pushViewController(userDetail, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
