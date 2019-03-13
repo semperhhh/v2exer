@@ -27,6 +27,8 @@ class ZPHHomeViewController: UIViewController {
     var scrollView:UIScrollView = {
         let scrollview = UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight)))
         scrollview.contentSize = CGSize(width: kScreenWidth * 2, height: kScreenHeight - CGFloat(kTopBarHeight) - CGFloat(kTabBarHeight))
+        scrollview.showsHorizontalScrollIndicator = false
+        scrollview.isPagingEnabled = true
         return scrollview
     }()
     
@@ -129,6 +131,16 @@ class ZPHHomeViewController: UIViewController {
         activityIndicatorView.startAnimating()
         
         getRequest()
+    }
+    
+    //滚动停止
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.x == 0 {//最新
+            segment.selectedSegmentIndex = 0
+        }else { //最热
+            segment.selectedSegmentIndex = 1
+        }
     }
     
     //MARK:刷新

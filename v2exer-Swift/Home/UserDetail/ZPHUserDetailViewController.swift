@@ -75,6 +75,8 @@ class ZPHUserDetailViewController: UIViewController {
     var replyTableView:UITableView = {
         let tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
         tableview.backgroundColor = UIColor.white
+        tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableview.showsVerticalScrollIndicator = false
         return tableview
     }()
 
@@ -177,11 +179,9 @@ class ZPHUserDetailViewController: UIViewController {
                     if let spanDoc = cell.xPath("./table/tr/td/span").first {
                         
                         //回复了
-                        if let titleDoc = spanDoc["class"] {
-                            
-//                            print("titleDoc = \(titleDoc)")
-                            dic["title"] = titleDoc
-                        }
+                        
+//                        print("titleDoc = \(titleDoc)")
+                        dic["title"] = spanDoc.content
                         
                         if let postDoc = spanDoc.xPath("./a").last {
                             
@@ -194,6 +194,8 @@ class ZPHUserDetailViewController: UIViewController {
                     let model = ZPHUserDetail(dic: dic)
                     self.replyArray.append(model)
                 }
+                
+                self.replyTableView.reloadData()
             }
         }
     }
@@ -218,8 +220,9 @@ extension ZPHUserDetailViewController:UITableViewDataSource,UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let model = self.replyArray[indexPath.row]
         let cell = ZPHUserDetailCell.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: "ZPHUserDetailCell")
-        
+        cell.model = model
         return cell
     }
     
@@ -230,6 +233,8 @@ extension ZPHUserDetailViewController:UITableViewDataSource,UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 64
+        let model = self.replyArray[indexPath.row]
+        
+        return model.cellHeight
     }
 }

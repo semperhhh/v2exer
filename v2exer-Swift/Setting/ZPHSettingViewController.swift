@@ -60,7 +60,7 @@ class ZPHSettingViewController: UIViewController {
 
     @objc func logoutButtonAction() {
         
-//        if ONCE != nil {
+        if ONCE != nil {
         
             let url = "\(V2EXURL)/signout?once=\(ONCE ?? "")"
             Alamofire.request(url, method: .get).responseString { (response) in
@@ -73,12 +73,26 @@ class ZPHSettingViewController: UIViewController {
                     self.logoutButton.isHidden = true
                     self.userNameLabel.isHidden = true
                     USERNAME = nil
+                    ONCE = nil
                     self.model = nil
                     self.updataHeadBackground()
                     self.settingTableView.reloadData()
+                    
+                    //修改偏好
+                    UserDefaults.standard.set(nil, forKey: "username")
+                    UserDefaults.standard.set(nil, forKey: "once")
+                    UserDefaults.standard.synchronize()
                 }
             }
-//        }
+        }else {
+            self.loginButton.isHidden = false
+            self.logoutButton.isHidden = true
+            self.userNameLabel.isHidden = true
+            USERNAME = nil
+            self.model = nil
+            self.updataHeadBackground()
+            self.settingTableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
@@ -107,9 +121,9 @@ class ZPHSettingViewController: UIViewController {
         
         settingTableView.register(ZPHSettingTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
         
-        //更新
+        //更新(暂时去掉)
         let upinstallButton = UIBarButtonItem(title: "更新", style: .plain, target: self, action: #selector(upinstallButtonClick))
-        self.navigationItem.rightBarButtonItem = upinstallButton
+//        self.navigationItem.rightBarButtonItem = upinstallButton
         
         getRequest()
     }

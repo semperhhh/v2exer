@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         
         USERNAME = UserDefaults.standard.value(forKey: "username") as? String
+        ONCE = UserDefaults.standard.value(forKey: "once") as? String
         
         //第一次打开记录时间
         let shared = UserDefaults.init(suiteName: "group.v2exer")

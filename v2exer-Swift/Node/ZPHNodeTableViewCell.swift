@@ -35,14 +35,21 @@ class ZPHNodeTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.backgroundColor = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.isScrollEnabled = false
         self.contentView.addSubview(collectionView)
-        collectionView.snp.makeConstraints { (mark) in
-            mark.edges.equalTo(self.contentView)
+        collectionView.snp.makeConstraints { (make) in
+            make.top.bottom.equalTo(self.contentView)
+            make.left.equalTo(self.contentView).offset(5)
+            make.right.equalTo(self.contentView).offset(-5)
         }
         collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cell1")
+
+        collectionView.layer.cornerRadius = 10
+        collectionView.layer.masksToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -82,8 +89,13 @@ extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelega
         label.snp.makeConstraints { (make) in
             make.centerX.centerY.equalTo(cell.contentView)
             make.width.equalTo(cell.contentView.bounds.size.width)
+            make.height.equalTo(cell.contentView)
         }
-        cell.backgroundColor = UIColor.init(red: 99.0/255.0, green: 166.0/255.0, blue: 48.0/255.0, alpha: 1.0)
+//        label.backgroundColor = UIColor.init(red: 99.0/255.0, green: 166.0/255.0, blue: 48.0/255.0, alpha: 1.0)
+        label.layer.cornerRadius = 4
+        label.layer.masksToBounds = true
+        label.layer.borderColor = UIColor.init(red: 99.0/255.0, green: 166.0/255.0, blue: 48.0/255.0, alpha: 1.0).cgColor
+        label.layer.borderWidth = 1
         return cell
     }
     

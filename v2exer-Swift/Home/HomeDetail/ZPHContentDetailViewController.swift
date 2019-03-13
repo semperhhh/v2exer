@@ -30,6 +30,12 @@ class ZPHContentDetailViewController: UIViewController {
     var topicsArr = [[String:String]]()//top操作数组
     var rightBtn:UIBarButtonItem = UIBarButtonItem()
 
+    /// 回复
+    var addReplyView:ZPHHomeAddReplyView = {
+        let reply = ZPHHomeAddReplyView()
+        return reply
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,6 +72,57 @@ class ZPHContentDetailViewController: UIViewController {
         activityIndicatorView.startAnimating()
     
         getRequest()
+        
+        //回复
+        addReplyView.replyBlock = {[weak self] replyString in
+
+            self?.getReplyRequest(replyString)
+        }
+        self.view.addSubview(addReplyView)
+        addReplyView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(self.view)
+            make.height.equalTo(44 + kBottomSafeHeight)
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasHidden), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        //点击取消键盘
+        let tap = UITapGestureRecognizer(target: self, action: #selector(topAction))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func getReplyRequest(_ replyString: String) {
+    
+        print("replyString = \(replyString)")
+        
+        //菊花转两秒
+    }
+    
+    @objc func topAction() {
+        
+        self.view.endEditing(true)
+    }
+    
+    //键盘展示和隐藏
+    @objc func keyboardWasShown(notify:NSNotification) {
+        
+        guard notify.userInfo != nil else {
+            return
+        }
+        
+        let keyboardFrame:CGRect = notify.userInfo?["UIKeyboardFrameEndUserInfoKey"] as! CGRect
+        
+        print("ZPHContentDetailViewController keyboardFrame = \(keyboardFrame)")
+    
+        UIView.animate(withDuration: 2.0) {
+            self.addReplyView.snp.remakeConstraints { (make) in
+                make.left.right.equalTo(self.view)
+                make.height.equalTo(44)
+                make.top.equalTo(keyboardFrame.origin.y - self.addReplyView.bounds.size.height)
+            }
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc func rightButtonAction() {
@@ -150,7 +207,7 @@ class ZPHContentDetailViewController: UIViewController {
                     
                     if let contentTitle = boxDoc.xPath("./div[@class='cell']/div/div[@class='markdown_body']").first {
                         
-                        let htmlText = "<head><style>img{width:\(kScreenWidth - 20) !important;height:auto}</style></head>\(contentTitle.debugDescription)"
+                        let htmlText = "<head><style>img{width:\(kScreenWidth - 20) !important;height:auto}p{font-size:20px;}</style></head>\(contentTitle.debugDescription)"
                         do {
                             let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
                             
@@ -220,7 +277,6 @@ class ZPHContentDetailViewController: UIViewController {
     deinit {
         print("ZPHContentDetailViewController -- deinit")
     }
-    
 
     /*
     // MARK: - Navigation

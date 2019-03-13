@@ -14,6 +14,7 @@ class ZPHNodeViewController: UIViewController {
     
     var tableview:UITableView = {
         var tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
+        tableview.showsVerticalScrollIndicator = false
         return tableview
     }()
     
@@ -177,9 +178,9 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
         let view = UIView()
         view.backgroundColor = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
         
-        let lab = UILabel(frame: CGRect.init(x: 0, y: 0, width: 200, height: 34))
-        lab.text = model.nodeFade
-        lab.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.black)
+        let lab = UILabel(frame: CGRect.init(x: 0, y: 0, width: 200, height: 40))
+        lab.text = " \(model.nodeFade ?? "")"
+        lab.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.semibold)
         view.addSubview(lab)
         
         return view
@@ -187,7 +188,7 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return 34
+        return 40
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

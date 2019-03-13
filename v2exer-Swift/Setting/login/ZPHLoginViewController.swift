@@ -172,10 +172,15 @@ class ZPHLoginViewController: UIViewController {
                     print("once = \(once)")
                     self.onceString = once
                     ONCE = once
+
                     let codeUrl = "\(V2EXURL)/_captcha?once=\(once)"
                     Alamofire.request(codeUrl).responseData(completionHandler: { (dataResp) in
                         self.codeImageView.image = UIImage(data: dataResp.data!)
                     })
+                    
+                    //once存偏好
+                    UserDefaults.standard.set(once, forKey: "once")
+                    UserDefaults.standard.synchronize()
                 }
             }
         }

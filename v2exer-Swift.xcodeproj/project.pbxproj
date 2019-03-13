@@ -50,6 +50,7 @@
 		DAB8ECD8222779E900AEA79B /* v2exWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAB8ECCC222779E900AEA79B /* v2exWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DAB8ECE12227CFF200AEA79B /* ZPHUpinstallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECE02227CFF200AEA79B /* ZPHUpinstallViewController.swift */; };
 		DAB8ECE32227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECE22227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift */; };
+		DAF2012C2237A6130003015D /* ZPHHomeAddReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2012B2237A6130003015D /* ZPHHomeAddReplyView.swift */; };
 		FDC192D4EACB251675A9F816 /* Pods_v2exWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081B26D73BB4277234AC3E7 /* Pods_v2exWidget.framework */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +152,7 @@
 		DAB8ECDE2227C85E00AEA79B /* v2exer-Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "v2exer-Swift.entitlements"; sourceTree = "<group>"; };
 		DAB8ECE02227CFF200AEA79B /* ZPHUpinstallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUpinstallViewController.swift; sourceTree = "<group>"; };
 		DAB8ECE22227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUpinstallTableViewCell.swift; sourceTree = "<group>"; };
+		DAF2012B2237A6130003015D /* ZPHHomeAddReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeAddReplyView.swift; sourceTree = "<group>"; };
 		EA485C87CC8AE9CDF20A9B2C /* Pods-v2exer-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-Swift/Pods-v2exer-Swift.release.xcconfig"; sourceTree = "<group>"; };
 		F954DB381073ED7F568698B1 /* Pods-v2exer-SwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-v2exer-SwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-v2exer-SwiftTests/Pods-v2exer-SwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -384,6 +386,7 @@
 		DAB7B77121CBE0F700ACCDE3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				DAF2012A2237A5C60003015D /* addReply */,
 				DAA0624C2230FBFD00E9B516 /* UserDetail */,
 				DAAFCA5821E70DD2006BF864 /* HomeDetail */,
 				DAB7B77221CBE11400ACCDE3 /* ZPHHomeViewController.swift */,
@@ -433,6 +436,14 @@
 				DAB8ECE22227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift */,
 			);
 			path = upInstall;
+			sourceTree = "<group>";
+		};
+		DAF2012A2237A5C60003015D /* addReply */ = {
+			isa = PBXGroup;
+			children = (
+				DAF2012B2237A6130003015D /* ZPHHomeAddReplyView.swift */,
+			);
+			path = addReply;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -755,6 +766,7 @@
 				DAB7B72E21CBD48200ACCDE3 /* ZPHTabBarController.swift in Sources */,
 				DAB7B77621CBE3C100ACCDE3 /* ZPHNodeViewController.swift in Sources */,
 				DA0A7CC7222548EC00F2A10A /* ZPHNetworkTool.swift in Sources */,
+				DAF2012C2237A6130003015D /* ZPHHomeAddReplyView.swift in Sources */,
 				DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */,
 				DAA062502230FC5500E9B516 /* ZPHUserDetailViewController.swift in Sources */,
 			);

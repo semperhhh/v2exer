@@ -15,7 +15,7 @@ class ZPHUserDetail: NSObject {
     var post:String?//帖子名称
     var postUrl:String?//地址
     
-    var cellHeight:CGFloat?
+    var cellHeight:CGFloat = 0
     
     init(dic:[String:String]) {
         super.init()
