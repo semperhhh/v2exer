@@ -56,6 +56,8 @@ class ZPHHome: NSObject {
 class ZPHHomeMember: NSObject {
  
     @objc var avatar_normal:String?//正常头像
+    @objc var username:String?//用户名
+    @objc var url:String?//用户网址
     
     init(dic:[String:Any]) {
         super.init()
@@ -70,7 +72,7 @@ class ZPHHomeMember: NSObject {
 class ZPHHomeNode: NSObject {
     
     @objc var title:String?//节点
-    
+    @objc var url:String?//节点地址
     init(dic:[String:Any]) {
         super.init()
         setValuesForKeys(dic)

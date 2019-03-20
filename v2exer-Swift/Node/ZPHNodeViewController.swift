@@ -163,7 +163,6 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
     func typeRequest(_ name:String, _ uri:String) {
         
         let detail = ZPHNodeDetailViewController()
-        detail.navigationItem.title = name
         detail.hidesBottomBarWhenPushed = true
         detail.name = name
         detail.uri = uri

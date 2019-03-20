@@ -27,11 +27,11 @@ class ZPHHomeTableViewCell: UITableViewCell {
     }()
     
     //头像
-    private var headImgView:UIImageView = {
-        let imgView = UIImageView()
-        imgView.layer.cornerRadius = 18
-        imgView.layer.masksToBounds = true
-        return imgView
+    private var headImgButton:UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 22
+        btn.layer.masksToBounds = true
+        return btn
     }()
     
     //标题
@@ -76,6 +76,12 @@ class ZPHHomeTableViewCell: UITableViewCell {
         return btn
     }()
     
+    /// 头像点击block
+    var headImageBlock : ((_ userHref: String)->Void)?
+    
+    /// 节点点击block
+    var nodeTitleBlock:((_ url: String,_ name: String) -> Void)?
+    
     //模型
     var homeModel:ZPHHome? {
         
@@ -88,12 +94,12 @@ class ZPHHomeTableViewCell: UITableViewCell {
                 if let avatar = homeModel?.member?.avatar_normal {
                     
                     let url = URL(string: "http:" + avatar)
-                    headImgView.kf.setImage(with: url)
+                    headImgButton.kf.setBackgroundImage(with: url, for: .normal)
                 }
             }else {
                 
                 let url = URL(string: "http:" + (homeModel?.avatar)!)
-                headImgView.kf.setImage(with: url)
+                headImgButton.kf.setBackgroundImage(with: url, for: .normal)
             }
             
             if let lastreply = homeModel?.last_reply_by {
@@ -125,9 +131,6 @@ class ZPHHomeTableViewCell: UITableViewCell {
         }
     }
     
-    //按钮回调
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -149,22 +152,23 @@ class ZPHHomeTableViewCell: UITableViewCell {
         maskLayer.path = maskPath.cgPath
         leftBackView.layer.mask = maskLayer
         
-        leftBackView.addSubview(headImgView)
-        headImgView.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 36, height: 36))
+        headImgButton.addTarget(self, action: #selector(headImgButtonAction), for: .touchUpInside)
+        leftBackView.addSubview(headImgButton)
+        headImgButton.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 44, height: 44))
             make.centerX.equalTo(self.leftBackView)
             make.top.equalTo(self.leftBackView).offset(20)
         }
         
         leftBackView.addSubview(lastReplyDay)
         lastReplyDay.snp.makeConstraints { (make) in
-            make.centerX.equalTo(headImgView)
-            make.top.equalTo(headImgView.snp.bottom).offset(20)
+            make.centerX.equalTo(headImgButton)
+            make.top.equalTo(headImgButton.snp.bottom).offset(16)
         }
         
         leftBackView.addSubview(lastReplyTime)
         lastReplyTime.snp.makeConstraints { (make) in
-            make.centerX.equalTo(headImgView)
+            make.centerX.equalTo(headImgButton)
             make.top.equalTo(lastReplyDay.snp.bottom).offset(5)
         }
         
@@ -175,6 +179,7 @@ class ZPHHomeTableViewCell: UITableViewCell {
             make.left.equalTo(leftBackView.snp.right).offset(5)
         }
         
+        nodeTitleBtn.addTarget(self, action: #selector(nodeTitleBtnAction), for: .touchUpInside)
         backView.addSubview(nodeTitleBtn)
         nodeTitleBtn.snp.makeConstraints { (make) in
             make.bottom.equalTo(backView.snp.bottom).offset(-10)
@@ -186,6 +191,22 @@ class ZPHHomeTableViewCell: UITableViewCell {
         lastReplyLab.snp.makeConstraints { (make) in
             make.bottom.equalTo(nodeTitleBtn.snp.top).offset(-8)
             make.left.equalTo(titleLab)
+        }
+    }
+    
+    //MARK:头像点击回调
+    @objc func headImgButtonAction() {
+    
+        if (self.headImageBlock != nil) {
+            self.headImageBlock!(homeModel?.member?.url ?? "没有找到用户地址")
+        }
+    }
+    
+    //节点点击回调
+    @objc func nodeTitleBtnAction() {
+        
+        if self.nodeTitleBlock != nil {
+            self.nodeTitleBlock!(homeModel?.node?.url ?? "没有找到节点地址",homeModel?.node?.title ?? "没有找到节点名字")
         }
     }
     

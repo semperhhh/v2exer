@@ -135,9 +135,20 @@ class ZPHUserDetailViewController: UIViewController {
     
     func requestNetwork() {
         
-        let url = V2EXURL + userHref!
+        if userHref == nil {
+            return
+        }
         
-        ZPHNetworkTool.networkRequest(url) { (response) in
+        var url:String?
+        
+        //以http开头
+        if userHref!.hasPrefix("http") {
+            url = userHref!
+        }else {
+            url = V2EXURL + userHref!
+        }
+    
+        ZPHNetworkTool.networkRequest(url!) { (response) in
             
             print(response)
             

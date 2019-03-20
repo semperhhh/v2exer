@@ -36,7 +36,7 @@ class ZPHHomeAddReplyView: UIView {
             make.top.equalTo(2)
             make.left.equalTo(2)
             make.right.equalTo(self.snp.right).offset(-2)
-            make.bottom.equalTo(self.snp.bottom).offset(-2)
+            make.height.equalTo(40)
         }
     }
     

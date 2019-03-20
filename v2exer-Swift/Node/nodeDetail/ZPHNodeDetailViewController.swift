@@ -16,7 +16,15 @@ import NVActivityIndicatorView
 class ZPHNodeDetailViewController: UIViewController {
     
     var name:String?
-    var uri:String?
+    var uri:String? {
+        didSet {
+            
+            //不是以http开头的
+            if !uri!.hasPrefix("http") {
+                uri = V2EXURL + (uri ?? "")
+            }
+        }
+    }
     var tableview:UITableView = {
         var tableview = UITableView()
         tableview.separatorStyle = .none
@@ -39,6 +47,7 @@ class ZPHNodeDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = name
         
         tableview.dataSource = self
         tableview.delegate = self
@@ -82,7 +91,7 @@ class ZPHNodeDetailViewController: UIViewController {
     
     private func getRequest() {
         
-        Alamofire.request(V2EXURL + (uri ?? "") + "?p=\(pageInt)", method: .get).responseString { (response) in
+        Alamofire.request(uri! + "?p=\(pageInt)", method: .get).responseString { (response) in
             
             if let reString = response.result.value {
                 
