@@ -15,6 +15,8 @@ target 'v2exer-Swift' do
     pod 'DGElasticPullToRefresh'
     pod 'NVActivityIndicatorView'
     pod 'SkeletonView'
+    pod 'FoldingCell'
+    pod 'JXSegmentedView'
     
   target 'v2exer-SwiftTests' do
     inherit! :search_paths

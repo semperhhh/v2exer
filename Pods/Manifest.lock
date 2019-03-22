@@ -1,11 +1,13 @@
 PODS:
   - Alamofire (4.8.0)
   - DGElasticPullToRefresh (1.1)
+  - FoldingCell (4.0.3)
   - Ji (2.1.0):
     - Ji/Ji (= 2.1.0)
   - Ji/Ji (2.1.0):
     - Ji/Ji-libxml
   - Ji/Ji-libxml (2.1.0)
+  - JXSegmentedView (0.0.6)
   - Kingfisher (4.10.1)
   - MJRefresh (3.1.15.7)
   - NVActivityIndicatorView (4.4.0):
@@ -18,7 +20,9 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.8.0)
   - DGElasticPullToRefresh
+  - FoldingCell
   - Ji (~> 2.1.0)
+  - JXSegmentedView
   - Kingfisher (~> 4.10.1)
   - MJRefresh
   - NVActivityIndicatorView
@@ -30,7 +34,9 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - DGElasticPullToRefresh
+    - FoldingCell
     - Ji
+    - JXSegmentedView
     - Kingfisher
     - MJRefresh
     - NVActivityIndicatorView
@@ -41,7 +47,9 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
   DGElasticPullToRefresh: 28f11a6026302a90f8ffebbc6e24748e584dddd3
+  FoldingCell: 617197a8ec9feff741419361e756eea71d60559f
   Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
+  JXSegmentedView: 9d33b133c381658b12e235382b6efdf9aa6c7c6a
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
@@ -49,6 +57,6 @@ SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: d107613832c0c7373ba724b9fd3ea5625e52888f
+PODFILE CHECKSUM: c1ab55e310a99311caa650cf03290815147abbe1
 
 COCOAPODS: 1.6.1
