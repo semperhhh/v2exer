@@ -20,6 +20,7 @@ class ZPHUserDetailPartController: UIViewController {
         let tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
         tableview.backgroundColor = UIColor.white
         tableview.showsVerticalScrollIndicator = false
+        tableview.tableFooterView = UIView()
         return tableview
     }()
 

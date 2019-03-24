@@ -35,7 +35,9 @@ class ZPHUserDetailPartCell: UITableViewCell {
         
         self.contentView.addSubview(self.contentLab)
         self.contentLab.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.contentView)
+            make.centerY.equalTo(self.contentView)
+            make.left.equalTo(self.contentView).offset(5)
+            make.right.equalTo(self.contentView).offset(-5)
         }
     }
     
