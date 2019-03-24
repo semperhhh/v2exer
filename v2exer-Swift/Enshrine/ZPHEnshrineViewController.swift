@@ -171,6 +171,26 @@ extension ZPHEnshrineViewController:UITableViewDataSource,UITableViewDelegate {
         
         cell.homeModel = nmArray[indexPath.row]
         
+        cell.headImageBlock = { userHref in
+            
+            print("点击了头像 \(userHref)")
+            let userDetail = ZPHUserDetailViewController()
+            userDetail.userHref = userHref
+            //用户地址 循环引用
+            userDetail.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(userDetail, animated: true)
+        }
+        
+        cell.nodeTitleBlock = { url,name in
+            
+            print("点击了节点 \(url)")
+            let nodeDetail = ZPHNodeDetailViewController()
+            nodeDetail.uri = url
+            nodeDetail.name = name
+            nodeDetail.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(nodeDetail, animated: true)
+        }
+        
         return cell
     }
     

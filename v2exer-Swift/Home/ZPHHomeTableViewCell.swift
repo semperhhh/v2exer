@@ -198,7 +198,7 @@ class ZPHHomeTableViewCell: UITableViewCell {
     @objc func headImgButtonAction() {
     
         if (self.headImageBlock != nil) {
-            self.headImageBlock!(homeModel?.member?.url ?? "没有找到用户地址")
+            self.headImageBlock!(homeModel?.member?.url ?? homeModel?.userHref ?? "没有找到用户地址")
         }
     }
     

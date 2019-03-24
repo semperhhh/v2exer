@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JXSegmentedView
 
 class ZPHUserDetailViewController: UIViewController {
     
@@ -24,23 +25,7 @@ class ZPHUserDetailViewController: UIViewController {
     }()
     
     //介绍字典
-    var detailDic = [String:String]() {
-        
-        didSet {
-            
-            if detailDic["imageUrl"] != nil {
-                
-            }
-            
-            if detailDic["userName"] != nil {
-            
-            }
-        
-            if detailDic["dau"] != nil {
-            
-            }
-        }
-    }
+    var detailDic = [String:String]()
     
     //头像
     var headImageView:UIImageView = {
@@ -58,6 +43,7 @@ class ZPHUserDetailViewController: UIViewController {
         label.layer.cornerRadius = 4
         label.layer.masksToBounds = true
         label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
         return label
     }()
     
@@ -71,14 +57,39 @@ class ZPHUserDetailViewController: UIViewController {
         return label
     }()
     
-    //回复列表
-    var replyTableView:UITableView = {
-        let tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
-        tableview.backgroundColor = UIColor.white
-        tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
-        tableview.showsVerticalScrollIndicator = false
-        return tableview
+    //特别关注
+    private var specialButton:UIButton = {
+        
+        let btn = UIButton()
+        btn.setTitle("特别关注", for: .normal)
+        btn.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.layer.cornerRadius = 6
+        return btn
     }()
+    
+    //屏蔽
+    private var shieldButton:UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        btn.setTitle("屏蔽用户", for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        btn.setTitleColor(UIColor.red, for: .normal)
+        btn.layer.cornerRadius = 6
+        return btn
+    }()
+
+    //分割列表
+    var segmentedView:JXSegmentedView = JXSegmentedView()
+    //分割列表数据
+    var segmentedDataSource:JXSegmentedTitleDataSource = JXSegmentedTitleDataSource()
+    //列表滚动视图
+    var listContainerView:JXSegmentedListContainerView?
+    
+    //参与列表
+    var userDetailReply = ZPHUserDetailReplyController()
+    //发布列表
+    var userDetailPart = ZPHUserDetailPartController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,48 +100,84 @@ class ZPHUserDetailViewController: UIViewController {
         self.navigationItem.title = "个人介绍"
         
         self.requestNetwork()
-        
-        self.getTopViewUI()
+    
     }
     
     func getTopViewUI() {
         
         self.view.addSubview(topView)
+        topView.addSubview(headImageView)
+        topView.addSubview(userNameLabel)
+        topView.addSubview(dauLabel)
+        topView.addSubview(self.specialButton)
+        topView.addSubview(self.shieldButton)
+        
         topView.snp.makeConstraints { (make) in
             make.left.right.equalTo(self.view)
             make.top.equalTo(kTopBarHeight)
             make.height.equalTo(200)
         }
-        
-        topView.addSubview(headImageView)
+    
         headImageView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(topView)
+            make.top.equalTo(topView.snp.top).offset(30)
+            make.left.equalTo(topView).offset(24)
             make.size.equalTo(CGSize(width: 64, height: 64))
-            make.top.equalTo(34)
         }
         
-        topView.addSubview(userNameLabel)
         userNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(headImageView.snp.bottom).offset(10)
-            make.centerX.equalTo(topView)
-            make.height.equalTo(24)
+            make.centerY.equalTo(headImageView)
+            make.left.equalTo(headImageView.snp.right).offset(10)
         }
         
-        topView.addSubview(dauLabel)
         dauLabel.snp.makeConstraints { (make) in
             make.top.equalTo(userNameLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(userNameLabel)
+            make.left.equalTo(userNameLabel)
             make.height.equalTo(24)
         }
         
-        replyTableView.dataSource = self
-        replyTableView.delegate = self
-        replyTableView.register(ZPHUserDetailCell.classForCoder(), forCellReuseIdentifier: "ZPHUserDetailCell")
-        self.view.addSubview(replyTableView)
-        replyTableView.snp.makeConstraints { (make) in
-            make.top.equalTo(topView.snp.bottom)
-            make.left.right.bottom.equalTo(self.view)
+        self.specialButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(topView.snp.bottom).offset(-18)
+            make.left.equalTo(topView).offset(30)
+            make.size.equalTo(CGSize(width: 150, height: 54))
         }
+        
+        self.shieldButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.specialButton)
+            make.right.equalTo(topView.snp.right).offset(-30)
+            make.size.equalTo(CGSize(width: 150, height: 54))
+        }
+        
+        self.segmentedView.delegate = self
+        self.segmentedView.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        self.view.addSubview(self.segmentedView)
+        self.segmentedView.snp.makeConstraints { (make) in
+            make.top.equalTo(topView.snp.bottom)
+            make.left.right.equalTo(self.view)
+            make.height.equalTo(56)
+        }
+        
+        self.segmentedDataSource.titles = ["参与的主题", "发布的主题"]
+        self.segmentedDataSource.isTitleColorGradientEnabled = true
+        self.segmentedDataSource.titleNormalColor = tabColorGreen
+        self.segmentedDataSource.titleSelectedColor = tabColorGreen
+        self.segmentedDataSource.reloadData(selectedIndex: 0)
+        self.segmentedView.dataSource = self.segmentedDataSource
+        
+        /// 初始化指示器
+        let indicator = JXSegmentedIndicatorLineView()
+        indicator.indicatorWidth = 30
+        indicator.indicatorColor = tabColorGreen
+        self.segmentedView.indicators = [indicator]
+        
+        //滚动列表
+        self.listContainerView = JXSegmentedListContainerView(dataSource: self)
+        self.segmentedView.contentScrollView = self.listContainerView?.scrollView
+        self.view.addSubview(self.listContainerView!)
+        self.listContainerView?.snp.makeConstraints({ (make) in
+            make.top.equalTo(self.segmentedView.snp.bottom)
+            make.left.right.equalTo(self.view)
+            make.bottom.equalTo(self.view)
+        })
     }
     
     func requestNetwork() {
@@ -150,65 +197,99 @@ class ZPHUserDetailViewController: UIViewController {
     
         ZPHNetworkTool.networkRequest(url!) { (response) in
             
-            print(response)
-            
-            let jiDoc = Ji(htmlString: response)
-            
-            //个人介绍
-            if let pageDoc = jiDoc?.xPath("//div[@class='box']/div[@class='cell']/table/tr")?.first {
+            DispatchQueue.global().async {
                 
-                //头像
-                if let imageUrl = pageDoc.xPath("./td[@align='center']/img[@class='avatar']").first?["src"] {
-                    
-                    self.detailDic["imageUrl"] = imageUrl
-                    let url = URL(string: "http:" + imageUrl)
-                    self.headImageView.kf.setImage(with: url)
-                }
+//                print(response)
                 
-                //用户名
-                if let userName = pageDoc.xPath("./td/h1").first {
-                    
-                    self.detailDic["userName"] = userName.content
-                    self.userNameLabel.text = "  \(userName.content ?? "")  "
-                }
+                let jiDoc = Ji(htmlString: response)
                 
-                //今日活跃度排名
-                if let dau = pageDoc.xPath("./td/span/a").first {
+                var partLists = [ZPHUserDetailPart]()
+                //自己发布
+                if let partDoc = jiDoc?.xPath("//div[@class='box']/div[@class='cell item']") {
                     
-                    self.detailDic["dau"] = dau.content
-                    self.dauLabel.text = "  今日活跃度排名 \(dau.content ?? "0")  "
-                }
-            }
-            
-            var dic = [String:String]()
-            
-            //最近回复
-            if let themeDoc = jiDoc?.xPath("//div[@class='box']/div[@class='dock_area']"){
-                
-                for cell in themeDoc {
-                    
-                    if let spanDoc = cell.xPath("./table/tr/td/span").first {
+                    for cell in partDoc {
                         
-                        //回复了
+                        var dic = [String:String]()
                         
-//                        print("titleDoc = \(titleDoc)")
-                        dic["title"] = spanDoc.content
-                        
-                        if let postDoc = spanDoc.xPath("./a").last {
+                        if let spanDoc = cell.xPath("./table/tr/td/span").first {
+                            dic["content"] = spanDoc.content
+                        }
+                        if let hrefDoc = cell.xPath("./table/tr/td/a").first?["href"] {
                             
-//                            print("post = \(postDoc)")
-                            dic["post"] = postDoc.content
-                            dic["postUrl"] = postDoc["href"]
+                            dic["contentHref"] = hrefDoc
+                        }
+                        
+                        let model = ZPHUserDetailPart(dic: dic)
+                        partLists.append(model)
+                    }
+                }
+                
+                //最近回复
+                if let themeDoc = jiDoc?.xPath("//div[@class='box']/div[@class='dock_area']") {
+
+                    for cell in themeDoc {
+
+                        var dic = [String:String]()
+                        
+                        if let spanDoc = cell.xPath("./table/tr/td/span").first {
+
+                            //回复了
+
+                            //                        print("titleDoc = \(titleDoc)")
+                            dic["title"] = spanDoc.content
+
+                            if let postDoc = spanDoc.xPath("./a").last {
+
+                                //                            print("post = \(postDoc)")
+                                dic["post"] = postDoc.content
+                                dic["postUrl"] = postDoc["href"]
+                            }
+                        }
+
+                        let model = ZPHUserDetail(dic: dic)
+                        self.replyArray.append(model)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    
+                    self.userDetailPart.partArray = partLists
+                    self.userDetailReply.replyArray = self.replyArray
+                    
+                    //个人介绍
+                    if let pageDoc = jiDoc?.xPath("//div[@class='box']/div[@class='cell']/table/tr")?.first {
+                        
+                        //头像
+                        if let imageUrl = pageDoc.xPath("./td[@align='center']/img[@class='avatar']").first?["src"] {
+                            
+                            self.detailDic["imageUrl"] = imageUrl
+                            let url = URL(string: "http:" + imageUrl)
+                            self.headImageView.kf.setImage(with: url)
+                        }
+                        
+                        //用户名
+                        if let userName = pageDoc.xPath("./td/h1").first {
+                            
+                            self.detailDic["userName"] = userName.content
+                            self.userNameLabel.text = "  \(userName.content ?? "")  "
+                        }
+                        
+                        //今日活跃度排名
+                        if let dau = pageDoc.xPath("./td/span/a").first {
+                            
+                            self.detailDic["dau"] = dau.content
+                            self.dauLabel.text = "  今日活跃度排名 \(dau.content ?? "0")  "
                         }
                     }
                     
-                    let model = ZPHUserDetail(dic: dic)
-                    self.replyArray.append(model)
+                    self.getTopViewUI()
                 }
-                
-                self.replyTableView.reloadData()
             }
         }
+    }
+    
+    deinit {
+        print("ZPHUserDetailViewController -deinit")
     }
 
     /*
@@ -248,4 +329,39 @@ extension ZPHUserDetailViewController:UITableViewDataSource,UITableViewDelegate 
         
         return model.cellHeight
     }
+}
+
+extension ZPHUserDetailViewController:JXSegmentedViewDelegate, JXSegmentedListContainerViewDataSource {
+    
+    func listContainerView(_ listContainerView: JXSegmentedListContainerView, initListAt index: Int) -> JXSegmentedListContainerViewListDelegate {
+       
+        switch index {
+        case 0:
+            self.userDetailReply.naviController = self.navigationController
+            return self.userDetailReply
+        default:
+            self.userDetailPart.naviController = self.navigationController
+            return self.userDetailPart
+        }
+
+    }
+    
+    
+    func segmentedView(_ segmentedView: JXSegmentedView, didClickSelectedItemAt index: Int) {
+        
+        listContainerView?.didClickSelectedItem(at: index)
+    }
+    
+    func segmentedView(_ segmentedView: JXSegmentedView, scrollingFrom leftIndex: Int, to rightIndex: Int, percent: CGFloat) {
+        
+        listContainerView?.segmentedViewScrolling(from: leftIndex, to: rightIndex, percent: percent, selectedIndex: segmentedView.selectedIndex)
+    }
+    
+    func numberOfLists(in listContainerView: JXSegmentedListContainerView) -> Int {
+        
+        return self.segmentedDataSource.titles.count
+    }
+    
+
+    
 }

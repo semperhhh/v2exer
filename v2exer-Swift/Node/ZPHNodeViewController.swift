@@ -27,6 +27,7 @@ class ZPHNodeViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "节点"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
         tableview.dataSource = self
         tableview.delegate = self
@@ -166,6 +167,7 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
         detail.hidesBottomBarWhenPushed = true
         detail.name = name
         detail.uri = uri
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.pushViewController(detail
             , animated: true)
     }

@@ -13,7 +13,18 @@ import NVActivityIndicatorView
 
 class ZPHContentDetailViewController: UIViewController {
     
-    var detailURL:String?
+    var detailURL:String? {
+        didSet {
+            
+            if detailURL != nil {
+                
+                if !detailURL!.hasPrefix("http") {
+                    detailURL = V2EXURL + detailURL!
+                }
+            }
+        }
+    }
+    
     var tableview:UITableView = {
         var tableview = UITableView()
         tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -22,10 +33,6 @@ class ZPHContentDetailViewController: UIViewController {
     
     var contentDic = [String:Any]()//头部内容字典
     var replyArray = [ZPHContentDetailModel]()//回复数组
-    var activityIndicatorView:NVActivityIndicatorView = {
-        let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.ballRotateChase, color: tabColorGreen, padding: 2.0)
-        return activity
-    }()
     
     var topicsArr = [[String:String]]()//top操作数组
     var rightBtn:UIBarButtonItem = UIBarButtonItem()
@@ -64,13 +71,6 @@ class ZPHContentDetailViewController: UIViewController {
         footerView.addSubview(lab)
         tableview.tableFooterView = footerView
         
-        self.view.addSubview(activityIndicatorView)
-        activityIndicatorView.snp.makeConstraints { (make) in
-            make.centerX.centerY.equalTo(self.view)
-            make.size.equalTo(CGSize(width: 80, height: 40))
-        }
-        activityIndicatorView.startAnimating()
-    
         getRequest()
         
         //回复
@@ -85,7 +85,7 @@ class ZPHContentDetailViewController: UIViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasHidden), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         //点击取消键盘
         let tap = UITapGestureRecognizer(target: self, action: #selector(topAction))
@@ -104,6 +104,27 @@ class ZPHContentDetailViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    //键盘隐藏
+    @objc func keyboardWasHidden(notify:NSNotification) {
+        
+        guard notify.userInfo != nil else {
+            return
+        }
+        
+        let keyboardFrame:CGRect = notify.userInfo?["UIKeyboardFrameEndUserInfoKey"] as! CGRect
+        
+        print("ZPHContentDetailViewController keyboardFrame = \(keyboardFrame)")
+        
+        UIView.animate(withDuration: 2.0) {
+            self.addReplyView.snp.remakeConstraints { (make) in
+                make.left.right.equalTo(self.view)
+                make.height.equalTo(44 + kBottomSafeHeight)
+                make.top.equalTo(keyboardFrame.origin.y - 44 - CGFloat(kBottomSafeHeight))
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     //键盘展示和隐藏
     @objc func keyboardWasShown(notify:NSNotification) {
         
@@ -119,7 +140,7 @@ class ZPHContentDetailViewController: UIViewController {
             self.addReplyView.snp.remakeConstraints { (make) in
                 make.left.right.equalTo(self.view)
                 make.height.equalTo(44)
-                make.top.equalTo(keyboardFrame.origin.y - self.addReplyView.bounds.size.height)
+                make.top.equalTo(keyboardFrame.origin.y - 44)
             }
             self.view.layoutIfNeeded()
         }
@@ -155,120 +176,123 @@ class ZPHContentDetailViewController: UIViewController {
         
         Alamofire.request(detailURL!).responseString { (response) in
             
-            if let reString = response.result.value {
+            DispatchQueue.global().async {
                 
-//                print("reString = \(reString)")
-                
-                let jiDoc = Ji(htmlString: reString)
-                
-                //收藏按钮
-                if let topicsDoc = jiDoc?.xPath("//div[@class='box']/div[@class='topic_buttons']/a") {
+                if let reString = response.result.value {
                     
-                    //加入收藏
-                    if let href = topicsDoc.first?["href"] {
+                    //                print("reString = \(reString)")
+                    
+                    let jiDoc = Ji(htmlString: reString)
+                    
+                    //收藏按钮
+                    if let topicsDoc = jiDoc?.xPath("//div[@class='box']/div[@class='topic_buttons']/a") {
                         
-                        var hrefDic = [String:String]()
-                        hrefDic["url"] = href
-                        hrefDic["content"] = topicsDoc.first?.content
-                        self.topicsArr.append(hrefDic)
+                        //加入收藏
+                        if let href = topicsDoc.first?["href"] {
+                            
+                            var hrefDic = [String:String]()
+                            hrefDic["url"] = href
+                            hrefDic["content"] = topicsDoc.first?.content
+                            self.topicsArr.append(hrefDic)
+                        }
+                        
+                        /* 忽略主题
+                         if let href = topicsDoc.last?["href"] {
+                         
+                         var hrefDic = [String:String]()
+                         hrefDic["url"] = href
+                         hrefDic["content"] = topicsDoc.last?.content
+                         self.topicsArr.append(hrefDic)
+                         }
+                         */
+            
+                        //                    print("topicsDoc.first?.content = \(topicsDoc.first?.content)")
+                        //                    print("topicsDoc.last?.content = \(topicsDoc.last?.content)")
                     }
                     
-                    /* 忽略主题
-                    if let href = topicsDoc.last?["href"] {
+                    if let boxDoc = jiDoc?.xPath("//div[@class='box'][@style]")?.first {
                         
-                        var hrefDic = [String:String]()
-                        hrefDic["url"] = href
-                        hrefDic["content"] = topicsDoc.last?.content
-                        self.topicsArr.append(hrefDic)
+                        if let headTitle = boxDoc.xPath("./div/h1").first {
+                            
+                            let htmlText = headTitle.debugDescription
+                            do {
+                                let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+                                
+                                //                            self.headLabel.attributedText = attrStr
+                                self.contentDic["head"] = attrStr
+                            } catch  {
+                                print("error")
+                            }
+                        }
+                        
+                        if let contentTitle = boxDoc.xPath("./div[@class='cell']/div/div[@class='markdown_body']").first {
+                            
+                            let htmlText = "<head><style>img{width:\(kScreenWidth - 20) !important;height:auto}p{font-size:20px;}</style></head>\(contentTitle.debugDescription)"
+                            do {
+                                let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+                                
+                                //                            self.contentLabel.attributedText = attrStr
+                                self.contentDic["content"] = attrStr
+                            } catch  {
+                                print("error")
+                            }
+                        }else if let contentTitle = boxDoc.xPath("./div[@class='cell']/div[@class='topic_content']").first {
+                            
+                            let htmlText = "<head><style>img{width:\(kScreenWidth - 20) !important;height:auto}</style></head>\(contentTitle.debugDescription)"
+                            do {
+                                let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+                                
+                                //                            self.contentLabel.attributedText = attrStr
+                                self.contentDic["content"] = attrStr
+                            } catch  {
+                                print("error")
+                            }
+                        }
                     }
- */
                     
-                    //添加按钮
-                    self.navigationItem.rightBarButtonItem = self.rightBtn
+                    if let cellDoc:[JiNode] = jiDoc?.xPath("//div[@class='box']/div[@class='cell'][@id]/table/tr") {
+                        
+                        var cellDict = [String:Any]()
+                        for cell in cellDoc {
+                            
+                            if let cellReply = cell.xPath("./td/div[@class='reply_content']").first {
+                                
+                                //                            print("cellReply -- \(cellReply.content!)")
+                                cellDict["reply"] = cellReply.content!
+                            }
+                            
+                            if let cellTime = cell.xPath("./td/span[@class='ago']").first {
+                                
+                                //                            print("cellTime -- \(cellTime.content!)")
+                                cellDict["time"] = cellTime.content!
+                            }
+                            
+                            if let cellImg = cell.xPath("./td/img").first?["src"] {
+                                
+                                //                            print("cellImg -- \(cellImg)")
+                                cellDict["img"] = cellImg
+                            }
+                            
+                            if let cellUser = cell.xPath("./td/strong/a").first {
+                                
+                                cellDict["userName"] = cellUser.content//用户名
+                                cellDict["userHref"] = cellUser["href"]//地址
+                            }
+                            
+                            //                        print("cellDict -- \(cellDict)")
+                            
+                            let model = ZPHContentDetailModel(dic: cellDict)
+                            self.replyArray.append(model)
+                        }
+                    }
                     
-//                    print("topicsDoc.first?.content = \(topicsDoc.first?.content)")
-//                    print("topicsDoc.last?.content = \(topicsDoc.last?.content)")
-                }
+                    DispatchQueue.main.async {
+                        
+                        //添加按钮
+                        self.navigationItem.rightBarButtonItem = self.rightBtn
                 
-                if let boxDoc = jiDoc?.xPath("//div[@class='box'][@style]")?.first {
-                    
-                    if let headTitle = boxDoc.xPath("./div/h1").first {
-                        
-                        let htmlText = headTitle.debugDescription
-                        do {
-                            let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-                            
-//                            self.headLabel.attributedText = attrStr
-                            self.contentDic["head"] = attrStr
-                        } catch  {
-                            print("error")
-                        }
+                        self.tableview.reloadData()
                     }
-                    
-                    if let contentTitle = boxDoc.xPath("./div[@class='cell']/div/div[@class='markdown_body']").first {
-                        
-                        let htmlText = "<head><style>img{width:\(kScreenWidth - 20) !important;height:auto}p{font-size:20px;}</style></head>\(contentTitle.debugDescription)"
-                        do {
-                            let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-                            
-//                            self.contentLabel.attributedText = attrStr
-                            self.contentDic["content"] = attrStr
-                        } catch  {
-                            print("error")
-                        }
-                    }else if let contentTitle = boxDoc.xPath("./div[@class='cell']/div[@class='topic_content']").first {
-                        
-                        let htmlText = "<head><style>img{width:\(kScreenWidth - 20) !important;height:auto}</style></head>\(contentTitle.debugDescription)"
-                        do {
-                            let attrStr = try NSMutableAttributedString(data: htmlText.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-                            
-//                            self.contentLabel.attributedText = attrStr
-                            self.contentDic["content"] = attrStr
-                        } catch  {
-                            print("error")
-                        }
-                    }
-                }
-                
-                if let cellDoc:[JiNode] = jiDoc?.xPath("//div[@class='box']/div[@class='cell'][@id]/table/tr") {
-                    
-                    var cellDict = [String:Any]()
-                    for cell in cellDoc {
-                        
-                        if let cellReply = cell.xPath("./td/div[@class='reply_content']").first {
-                            
-//                            print("cellReply -- \(cellReply.content!)")
-                            cellDict["reply"] = cellReply.content!
-                        }
-                        
-                        if let cellTime = cell.xPath("./td/span[@class='ago']").first {
-                            
-//                            print("cellTime -- \(cellTime.content!)")
-                            cellDict["time"] = cellTime.content!
-                        }
-                        
-                        if let cellImg = cell.xPath("./td/img").first?["src"] {
-                            
-//                            print("cellImg -- \(cellImg)")
-                            cellDict["img"] = cellImg
-                        }
-                        
-                        if let cellUser = cell.xPath("./td/strong/a").first {
-                            
-                            cellDict["userName"] = cellUser.content//用户名
-                            cellDict["userHref"] = cellUser["href"]//地址
-                        }
-                        
-//                        print("cellDict -- \(cellDict)")
-                        
-                        let model = ZPHContentDetailModel(dic: cellDict)
-                        self.replyArray.append(model)
-                    }
-                }
-                
-                self.tableview.reloadData()
-                if self.activityIndicatorView.isAnimating {
-                    self.activityIndicatorView.stopAnimating()
                 }
             }
         }

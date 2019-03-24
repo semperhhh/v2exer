@@ -23,6 +23,8 @@ class ZPHHome: NSObject {
     var last_touch:String?//最后回复时间
     var avatar:String?//头像
     
+    var userHref:String?//创建用户地址
+    
     init(dic:[String:Any]) {
         
         super.init()

@@ -11,10 +11,10 @@ import Alamofire
 
 class ZPHSettingViewController: UIViewController {
     
-    private var headBackgroundView:UIImageView = {
-        var imgView = UIImageView()
-        imgView.backgroundColor = UIColor.white
-        return imgView
+    private var headBackgroundView:UIView = {
+        var view = UIView()
+        view.backgroundColor = UIColor.white
+        return view
     }()
     
     private var headImgView:UIImageView = {//头像
@@ -27,34 +27,48 @@ class ZPHSettingViewController: UIViewController {
     
     private var userNameLabel:UILabel = {//用户名
         var label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
         return label
+    }()
+    
+    /// 个人主页按钮
+    private var userPageButton:UIButton = {
+        var btn = UIButton()
+        btn.setTitle("个人主页 >", for: .normal)
+        btn.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.layer.cornerRadius = 14
+        return btn
     }()
     
     private var model:ZPHSetting?//模型
     
     private var settingTableView:UITableView = {
         var tableView = UITableView(frame: CGRect.zero, style: UITableView.Style.grouped)
+//        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableView
     }()
     
     var loginButton:UIButton = {//登录按钮
         var btn = UIButton()
-        btn.backgroundColor = UIColor.gray
+        btn.backgroundColor = UIColor.white
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         btn.layer.cornerRadius = 4
         btn.setTitle("登录", for: .normal)
-        btn.addTarget(self, action: #selector(loginButtonAction), for: UIControl.Event.touchUpInside)
+        btn.addTarget(self, action: #selector(loginButtonAction), for: .touchUpInside)
+        btn.setTitleColor(UIColor.black, for: .normal)
         return btn
     }()
     
     //注销按钮
     var logoutButton:UIButton = {
         var btn = UIButton()
-        btn.backgroundColor = UIColor.gray
+        btn.backgroundColor = UIColor.white
         btn.layer.cornerRadius = 4
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         btn.setTitle("登出", for: .normal)
         btn.addTarget(self, action: #selector(logoutButtonAction), for: .touchUpInside)
+        btn.setTitleColor(UIColor.black, for: .normal)
         return btn
     }()
 
@@ -101,39 +115,19 @@ class ZPHSettingViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.white
         navigationItem.title = "设置"
-        
-        view.addSubview(headBackgroundView)
-        headBackgroundView.snp.makeConstraints { (make) in
-            make.top.equalTo(kTopBarHeight)
-            make.left.right.equalTo(view)
-            make.height.equalTo(200)
-        }
-        
-        headBackgroundAdd()//头像背景
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
         view.addSubview(settingTableView)
         settingTableView.dataSource = self
         settingTableView.delegate = self
         settingTableView.snp.makeConstraints { (make) in
-            make.top.equalTo(headBackgroundView.snp_bottomMargin)
+            make.top.equalTo(kTopBarHeight)
             make.left.right.bottom.equalTo(view)
         }
         
         settingTableView.register(ZPHSettingTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
         
-        //更新(暂时去掉)
-        let upinstallButton = UIBarButtonItem(title: "更新", style: .plain, target: self, action: #selector(upinstallButtonClick))
-//        self.navigationItem.rightBarButtonItem = upinstallButton
-        
         getRequest()
-    }
-    
-    //更新跳转
-    @objc func upinstallButtonClick() {
-        
-        let upinstall = ZPHUpinstallViewController()
-        upinstall.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(upinstall, animated: true)
     }
     
     private func getRequest() {
@@ -176,33 +170,38 @@ class ZPHSettingViewController: UIViewController {
     private func headBackgroundAdd() {
         
         headBackgroundView.addSubview(headImgView)
+        headBackgroundView.addSubview(userNameLabel)
+        
+        userPageButton.addTarget(self, action: #selector(userPageButtonAction), for: .touchUpInside)
+        headBackgroundView.addSubview(userPageButton)
+        
         headImgView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(headBackgroundView)
             make.top.equalTo(headBackgroundView.snp.top).offset(30)
+            make.left.equalTo(headBackgroundView).offset(24)
             make.size.equalTo(CGSize(width: 64, height: 64))
         }
         
-        headBackgroundView.addSubview(userNameLabel)
         userNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(headImgView.snp_bottomMargin).offset(20)
-            make.centerX.equalTo(headBackgroundView)
+            make.centerY.equalTo(headImgView)
+            make.left.equalTo(headImgView.snp.right).offset(10)
         }
         
-        view.addSubview(loginButton)//位置
-        loginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(userNameLabel.snp_bottomMargin).offset(20)
+        userPageButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(headBackgroundView)
-            make.height.equalTo(28)
-            make.width.equalTo(70)
+            make.top.equalTo(headImgView.snp.bottom).offset(30)
+            make.size.equalTo(CGSize(width: 300, height: 50))
         }
+
+    }
+
+    /// 个人主页的跳转
+    @objc func userPageButtonAction() {
         
-        view.addSubview(logoutButton)
-        logoutButton.snp.makeConstraints { (make) in
-            make.top.equalTo(userNameLabel.snp_bottomMargin).offset(20)
-            make.centerX.equalTo(headBackgroundView)
-            make.height.equalTo(28)
-            make.width.equalTo(70)
-        }
+        let userDetail = ZPHUserDetailViewController()
+        userDetail.userHref = "/member/" + (USERNAME ?? "")
+        userDetail.hidesBottomBarWhenPushed = true
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationController?.pushViewController(userDetail, animated: true)
     }
     
     @objc func loginButtonAction() {
@@ -218,53 +217,113 @@ class ZPHSettingViewController: UIViewController {
         }
         navigationController?.present(login, animated: true, completion: nil)
     }
+    
+    //更新跳转
+    @objc func upinstallButtonClick() {
+        
+        let upinstall = ZPHUpinstallViewController()
+        upinstall.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(upinstall, animated: true)
+    }
+    
 }
 
 extension ZPHSettingViewController:UITableViewDataSource,UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell:ZPHSettingTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ZPHSettingTableViewCell
-        switch indexPath.section {
+        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+        switch indexPath.row {
         case 0:
-            cell.nameTitle = model?.github
-            break
-        case 1:
-            cell.nameTitle = model?.twitter
-            break
-        case 2:
-            cell.nameTitle = model?.url
+            cell.textLabel?.text = "时间记录"
             break
         default:
+            cell.textLabel?.text = "联系我"
             break
         }
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        switch section {
-        case 0:
-            return "GITHub"
-        case 1:
-            return "TWITTRE"
-        case 2:
-            return "个人主页"
-        default:
-            return "other"
+        guard section == 0 else {
+            return nil
         }
+        
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        
+        view.addSubview(headBackgroundView)
+        headBackgroundView.snp.makeConstraints { (make) in
+            make.top.left.right.equalTo(view)
+            make.bottom.equalTo(view).offset(-10)
+        }
+        
+        headBackgroundAdd()//头像背景
+        
+        return view
     }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        guard section != section - 1 else {
+            return nil
+        }
+        
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
+        
+        view.addSubview(loginButton)
+        view.addSubview(logoutButton)
+        
+        loginButton.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(view)
+            make.left.equalTo(8)
+            make.right.equalTo(-8)
+            make.height.equalTo(50)
+        }
+        
+        logoutButton.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(view)
+            make.left.equalTo(8)
+            make.right.equalTo(-8)
+            make.height.equalTo(50)
+        }
+        
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        guard section != section - 1 else {
+            return 0
+        }
+        
+        return 75
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        guard section == 0 else {
+            return 0
+        }
+        
+        return 216
+    }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return 88
     }
 }

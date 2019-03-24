@@ -81,8 +81,8 @@ class ZPHHomeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "最新"
-        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+
         self.navigationItem.titleView = segment
         segment.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
         

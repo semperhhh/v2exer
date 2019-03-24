@@ -132,8 +132,13 @@ class ZPHNodeDetailViewController: UIViewController {
                         
                         if let urlDoc = cell.xPath("./td/span/a").first?["href"] {
                             
-                            print("urlDoc = \(urlDoc)")
+//                            print("urlDoc = \(urlDoc)")
                             dic["url"] = V2EXURL + urlDoc
+                        }
+                        
+                        if let userHref = cell.xPath("./td/span/strong/a").first?["href"] {
+                            
+                            dic["userHref"] = V2EXURL + userHref
                         }
                         
                         print("dic = \(dic)")
@@ -169,6 +174,17 @@ extension ZPHNodeDetailViewController:UITableViewDataSource,UITableViewDelegate 
         
         let cell = ZPHHomeTableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
         cell.homeModel = model
+        
+        cell.headImageBlock = { userHref in
+            
+            print("点击了头像 \(userHref)")
+            let userDetail = ZPHUserDetailViewController()
+            userDetail.userHref = userHref
+            //用户地址 循环引用
+            userDetail.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(userDetail, animated: true)
+        }
+        
         return cell
     }
     
