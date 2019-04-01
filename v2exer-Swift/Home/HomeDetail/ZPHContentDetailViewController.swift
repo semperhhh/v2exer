@@ -42,7 +42,7 @@ class ZPHContentDetailViewController: UIViewController {
         let reply = ZPHHomeAddReplyView()
         return reply
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,17 +51,19 @@ class ZPHContentDetailViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         
         rightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(rightButtonAction))
-        
+
         tableview.dataSource = self
         tableview.delegate = self
         self.view.addSubview(tableview)
         tableview.snp.makeConstraints { (make) in
             make.top.equalTo(kTopBarHeight)
-            make.left.right.bottom.equalTo(self.view)
+            make.left.right.equalTo(self.view)
+            make.bottom.equalTo(self.view).offset(-kTabBarHeight)
         }
         tableview.register(ZPHContentTitleTableViewCell.classForCoder(), forCellReuseIdentifier: "cellTitle")
         tableview.register(ZPHContentTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
-            
+
+        /* 添加footer会导致界面闪一下
         let footerView = UIView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 30))
         let lab = UILabel.init(frame: CGRect(x: 0, y: 1, width: kScreenWidth, height: 29))
         lab.text = "没有新的回复"
@@ -70,9 +72,10 @@ class ZPHContentDetailViewController: UIViewController {
         lab.textAlignment = NSTextAlignment.center
         footerView.addSubview(lab)
         tableview.tableFooterView = footerView
-        
+        */
+
         getRequest()
-        
+
         //回复
         addReplyView.replyBlock = {[weak self] replyString in
 
@@ -83,10 +86,10 @@ class ZPHContentDetailViewController: UIViewController {
             make.left.right.bottom.equalTo(self.view)
             make.height.equalTo(44 + kBottomSafeHeight)
         }
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+
         //点击取消键盘
         let tap = UITapGestureRecognizer(target: self, action: #selector(topAction))
         self.view.addGestureRecognizer(tap)
