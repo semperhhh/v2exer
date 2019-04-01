@@ -19,10 +19,22 @@ class ZPHHomeTableViewCell: UITableViewCell {
         return view
     }()
     
-    //左边背景
-    private var leftBackView:UIView = {
+    //节点名称
+    private var nodeTitleBtn:UIButton = {
+        let btn = UIButton()
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        btn.titleLabel?.textAlignment = NSTextAlignment.center
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.backgroundColor = UIColor(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0, alpha: 1.0)
+        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        btn.layer.cornerRadius = 2.5
+        return btn
+    }()
+    
+    //分割线
+    private var lineView:UIView = {
         let view = UIView()
-        view.backgroundColor = tabColorGreen
+        view.backgroundColor = UIColor(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0, alpha: 1.0)
         return view
     }()
     
@@ -37,6 +49,7 @@ class ZPHHomeTableViewCell: UITableViewCell {
     //标题
     private var titleLab:UILabel = {
         let lab = UILabel()
+        lab.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         lab.numberOfLines = 2
         return lab
     }()
@@ -63,17 +76,6 @@ class ZPHHomeTableViewCell: UITableViewCell {
         lab.textColor = UIColor.white
         lab.font = UIFont.systemFont(ofSize: 13)
         return lab
-    }()
-    
-    //节点名称
-    private var nodeTitleBtn:UIButton = {
-        let btn = UIButton()
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        btn.titleLabel?.textAlignment = NSTextAlignment.center
-        btn.backgroundColor = UIColor(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0, alpha: 1.0)
-        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-        btn.layer.cornerRadius = 2.5
-        return btn
     }()
     
     /// 头像点击block
@@ -143,54 +145,54 @@ class ZPHHomeTableViewCell: UITableViewCell {
             make.left.equalTo(contentView).offset(10)
             make.right.equalTo(contentView).offset(-10)
         }
+
+        nodeTitleBtn.addTarget(self, action: #selector(nodeTitleBtnAction), for: .touchUpInside)
+        backView.addSubview(nodeTitleBtn)
+        nodeTitleBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(backView).offset(10)
+            make.left.equalTo(backView).offset(10)
+            make.size.equalTo(CGSize(width: 80, height: 26))
+        }
         
-        contentView.addSubview(leftBackView)
-        leftBackView.frame = CGRect(x: 10, y: 5, width: 80, height: 120)
-        let maskPath = UIBezierPath(roundedRect: leftBackView.bounds, byRoundingCorners: UIRectCorner(rawValue: UIRectCorner.bottomLeft.rawValue | UIRectCorner.topLeft.rawValue), cornerRadii: CGSize(width: 12, height: 12))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = leftBackView.bounds
-        maskLayer.path = maskPath.cgPath
-        leftBackView.layer.mask = maskLayer
+        backView.addSubview(lineView)
+        lineView.snp.makeConstraints { (make) in
+            make.top.equalTo(nodeTitleBtn.snp.bottom).offset(5)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.height.equalTo(1)
+        }
         
         headImgButton.addTarget(self, action: #selector(headImgButtonAction), for: .touchUpInside)
-        leftBackView.addSubview(headImgButton)
+        backView.addSubview(headImgButton)
         headImgButton.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 44, height: 44))
-            make.centerX.equalTo(self.leftBackView)
-            make.top.equalTo(self.leftBackView).offset(20)
-        }
-        
-        leftBackView.addSubview(lastReplyDay)
-        lastReplyDay.snp.makeConstraints { (make) in
-            make.centerX.equalTo(headImgButton)
-            make.top.equalTo(headImgButton.snp.bottom).offset(16)
-        }
-        
-        leftBackView.addSubview(lastReplyTime)
-        lastReplyTime.snp.makeConstraints { (make) in
-            make.centerX.equalTo(headImgButton)
-            make.top.equalTo(lastReplyDay.snp.bottom).offset(5)
+            make.left.equalTo(self.nodeTitleBtn)
+            make.top.equalTo(self.lineView).offset(20)
         }
         
         backView.addSubview(titleLab)
         titleLab.snp.makeConstraints { (make) in
-            make.top.equalTo(leftBackView).offset(5)
+            make.top.equalTo(self.lineView.snp.bottom).offset(5)
             make.right.equalTo(backView).offset(-10)
-            make.left.equalTo(leftBackView.snp.right).offset(5)
+            make.left.equalTo(self.headImgButton.snp.right).offset(10)
         }
-        
-        nodeTitleBtn.addTarget(self, action: #selector(nodeTitleBtnAction), for: .touchUpInside)
-        backView.addSubview(nodeTitleBtn)
-        nodeTitleBtn.snp.makeConstraints { (make) in
-            make.bottom.equalTo(backView.snp.bottom).offset(-10)
-            make.left.equalTo(titleLab)
-            make.height.equalTo(18)
-        }
-        
+
+//        backView.addSubview(lastReplyDay)
+//        lastReplyDay.snp.makeConstraints { (make) in
+//            make.centerX.equalTo(headImgButton)
+//            make.top.equalTo(headImgButton.snp.bottom).offset(16)
+//        }
+
         backView.addSubview(lastReplyLab)
         lastReplyLab.snp.makeConstraints { (make) in
-            make.bottom.equalTo(nodeTitleBtn.snp.top).offset(-8)
+            make.bottom.equalTo(self.headImgButton.snp.bottom).offset(-5)
             make.left.equalTo(titleLab)
+        }
+        
+        backView.addSubview(lastReplyTime)
+        lastReplyTime.snp.makeConstraints { (make) in
+            make.centerY.equalTo(lastReplyLab)
+            make.left.equalTo(lastReplyLab.snp.right).offset(10)
         }
     }
     

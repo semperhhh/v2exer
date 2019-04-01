@@ -84,46 +84,46 @@ class ZPHHomeViewController: UIViewController {
         self.navigationItem.title = "首页"
         self.navigationController?.navigationBar.prefersLargeTitles = true
 
-//        self.navigationItem.titleView = segment
-//        segment.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
-//
-//
-//
-//        self.view.addSubview(scrollView)
-//        scrollView.delegate = self
-//
-//        scrollView.addSubview(leftTableView)
-//        leftTableView.dataSource = self
-//        leftTableView.delegate = self
-//        leftTableView.snp.makeConstraints { (make) in
-//            make.top.equalTo(0)
-//            make.left.equalTo(scrollView.snp.left)
-//            make.width.equalTo(kScreenWidth)
-//            make.height.equalTo(scrollView)
-//        }
-//        leftTableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
-//
-//        scrollView.addSubview(rightTableView)
-//        rightTableView.dataSource = self
-//        rightTableView.delegate = self
-//        rightTableView.snp.makeConstraints { (make) in
-//            make.top.equalTo(0)
-//            make.left.equalTo(kScreenWidth)
-//            make.width.equalTo(kScreenWidth)
-//            make.height.equalTo(scrollView)
-//        }
-//        rightTableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
-//
-//        loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
-//        leftTableView.dg_addPullToRefreshWithActionHandler({
-//            [weak self]() -> Void in
-//
-//            self?.nmArray.removeAll()
-//            self?.getRequest()
-//
-//        }, loadingView: loadingView)
-//        leftTableView.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
-//        leftTableView.dg_setPullToRefreshBackgroundColor(leftTableView.backgroundColor!)
+        self.navigationItem.titleView = segment
+        segment.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
+
+
+
+        self.view.addSubview(scrollView)
+        scrollView.delegate = self
+
+        scrollView.addSubview(leftTableView)
+        leftTableView.dataSource = self
+        leftTableView.delegate = self
+        leftTableView.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.equalTo(scrollView.snp.left)
+            make.width.equalTo(kScreenWidth)
+            make.height.equalTo(scrollView)
+        }
+        leftTableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+
+        scrollView.addSubview(rightTableView)
+        rightTableView.dataSource = self
+        rightTableView.delegate = self
+        rightTableView.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.equalTo(kScreenWidth)
+            make.width.equalTo(kScreenWidth)
+            make.height.equalTo(scrollView)
+        }
+        rightTableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
+
+        loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
+        leftTableView.dg_addPullToRefreshWithActionHandler({
+            [weak self]() -> Void in
+
+            self?.nmArray.removeAll()
+            self?.getRequest()
+
+        }, loadingView: loadingView)
+        leftTableView.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
+        leftTableView.dg_setPullToRefreshBackgroundColor(leftTableView.backgroundColor!)
 
         self.view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { (make) in
