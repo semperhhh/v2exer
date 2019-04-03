@@ -19,6 +19,7 @@
 		DA2D7A692203480B001C6AC8 /* ZPHContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */; };
 		DA354194225264E600F0BB1F /* ZPHHomeTimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA354193225264E600F0BB1F /* ZPHHomeTimeCollectionViewCell.swift */; };
 		DA3F28682250FD7500EA2762 /* ZPHHomeCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3F28672250FD7500EA2762 /* ZPHHomeCollectionCell.swift */; };
+		DA40C31A2254DF8F008CA0A1 /* ZPHHomeWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C3192254DF8F008CA0A1 /* ZPHHomeWeekView.swift */; };
 		DA5BE9F9220159C20094E463 /* ZPHNodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9F8220159C20094E463 /* ZPHNodeModel.swift */; };
 		DA5BE9FB22015B5B0094E463 /* ZPHNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9FA22015B5B0094E463 /* ZPHNodeTableViewCell.swift */; };
 		DA5BE9FE2201D4A90094E463 /* ZPHNodeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5BE9FD2201D4A90094E463 /* ZPHNodeDetailViewController.swift */; };
@@ -119,6 +120,7 @@
 		DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentDetailViewController.swift; sourceTree = "<group>"; };
 		DA354193225264E600F0BB1F /* ZPHHomeTimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeTimeCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA3F28672250FD7500EA2762 /* ZPHHomeCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeCollectionCell.swift; sourceTree = "<group>"; };
+		DA40C3192254DF8F008CA0A1 /* ZPHHomeWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeWeekView.swift; sourceTree = "<group>"; };
 		DA5BE9F8220159C20094E463 /* ZPHNodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeModel.swift; sourceTree = "<group>"; };
 		DA5BE9FA22015B5B0094E463 /* ZPHNodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeTableViewCell.swift; sourceTree = "<group>"; };
 		DA5BE9FD2201D4A90094E463 /* ZPHNodeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNodeDetailViewController.swift; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				DAB7B77A21CBEAC200ACCDE3 /* ZPHHomeTableViewCell.swift */,
 				DAB7B77C21CBEE2400ACCDE3 /* ZPHHome.swift */,
 				DA3F28672250FD7500EA2762 /* ZPHHomeCollectionCell.swift */,
+				DA40C3192254DF8F008CA0A1 /* ZPHHomeWeekView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				DAAFCA5A21E70E25006BF864 /* ZPHHomeDetailViewController.swift in Sources */,
 				DAB8ECE32227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift in Sources */,
 				DA017DBB221EAD58000CFF56 /* ZPHEditViewController.swift in Sources */,
+				DA40C31A2254DF8F008CA0A1 /* ZPHHomeWeekView.swift in Sources */,
 				DA702F26220406600020C62B /* ZPHContentTitleTableViewCell.swift in Sources */,
 				DAB7B77321CBE11400ACCDE3 /* ZPHHomeViewController.swift in Sources */,
 				DAB8ECE12227CFF200AEA79B /* ZPHUpinstallViewController.swift in Sources */,

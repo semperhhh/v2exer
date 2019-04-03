@@ -32,6 +32,20 @@ class ZPHHomeViewController: UIViewController {
         return tableview
     }()
     
+    //日期
+    private var weekCollectionView:UICollectionView = {
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: kScreenWidth / 7, height: 50)
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = UIColor.white
+        return collectionView
+    }()
+    
     //分页滚动
     private var collectionView:UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -44,6 +58,9 @@ class ZPHHomeViewController: UIViewController {
         collection.backgroundColor = UIColor.clear
         return collection
     }()
+    
+    //日期数组
+    private var dataArray:[String] = ["1", "2"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,6 +163,8 @@ class ZPHHomeViewController: UIViewController {
     }
 }
 
+//MARK: - 日期
+
 //MARK: - TableViewDataSource
 extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
     
@@ -204,7 +223,7 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return 180
+        return 230
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -212,13 +231,23 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
         let view = UIView()
         view.backgroundColor = UIColor.clear
         
-        let label = UILabel(frame: CGRect(x: 4, y: 0, width: kScreenWidth, height: 30))
+        let weekView = ZPHHomeWeekView.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 30))
+        view.addSubview(weekView)
+        
+        //星期
+        self.weekCollectionView.frame = CGRect(x: 0, y: 30, width: kScreenWidth, height: 50)
+        self.weekCollectionView.dataSource = self
+        self.weekCollectionView.delegate = self
+        self.weekCollectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellWeek")
+        view.addSubview(self.weekCollectionView)
+        
+        let label = UILabel(frame: CGRect(x: 4, y: 80, width: kScreenWidth, height: 30))
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.text = "当前最热"
         view.addSubview(label)
         
         //轮播图
-        self.collectionView.frame = CGRect(x: 0, y: 30, width: kScreenWidth, height: 120)
+        self.collectionView.frame = CGRect(x: 0, y: 110, width: kScreenWidth, height: 120)
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(ZPHHomeCollectionCell.classForCoder(), forCellWithReuseIdentifier: "cell")
@@ -228,13 +257,31 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
     }
 }
 
+//MARK:--UICollectionViewDelegate
 extension ZPHHomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if collectionView === self.weekCollectionView {
+            return self.dataArray.count
+        }
         return self.rightArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if collectionView === self.weekCollectionView {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellWeek", for: indexPath)
+            let lab = UILabel()
+            lab.text = self.dataArray[indexPath.row]
+            lab.textAlignment = NSTextAlignment.center
+            cell.contentView.addSubview(lab)
+            lab.snp.makeConstraints { (make) in
+                make.edges.equalTo(cell.contentView)
+            }
+            return cell
+        }
         
         let model = self.rightArray[indexPath.row]
         
@@ -246,6 +293,11 @@ extension ZPHHomeViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        if collectionView == self.weekCollectionView {
+            
+            return
+        }
         
         let model = self.rightArray[indexPath.row]
         
