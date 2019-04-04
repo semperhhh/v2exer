@@ -157,13 +157,21 @@ class ZPHHomeViewController: UIViewController {
         }
     }
     
+    //MARK: - 日期
+    private func getWeek() {
+        
+        let dateComponents = NSDateComponents.init()
+        let date = NSDate.init()
+        
+        print("date = \(date)")
+    }
+    
     deinit {
         
-
+        
     }
 }
 
-//MARK: - 日期
 
 //MARK: - TableViewDataSource
 extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
