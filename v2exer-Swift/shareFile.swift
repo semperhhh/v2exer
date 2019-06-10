@@ -28,9 +28,6 @@ let kTabBarHeight = StausbarHeight > 20 ? 83 : 49
 
 let tabColorGreen = UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0)
 
-//随机颜色
-let RANDOMColor = UIColor(red: CGFloat(arc4random() % 255) / 255.0, green: CGFloat(arc4random() % 255) / 255.0, blue: CGFloat(arc4random() % 255) / 255.0, alpha: 1.0)
-
 //用户代理，使用这个切换是获取 m站点 还是www站数据
 let USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4";
 let MOBILE_CLIENT_HEADERS = ["user-agent":USER_AGENT]
@@ -45,3 +42,16 @@ var USERID:Int = 0
 var USERNAME:String?
 //Once 登出使用
 var ONCE:String?
+
+//随机颜色
+extension UIColor {
+    
+    class var randomColor: UIColor {
+        get {
+            let red = CGFloat(arc4random()%256)/255.0
+            let green = CGFloat(arc4random()%256)/255.0
+            let blue = CGFloat(arc4random()%256)/255.0
+            return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+        }
+    }
+}

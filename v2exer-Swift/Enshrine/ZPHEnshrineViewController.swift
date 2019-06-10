@@ -8,34 +8,16 @@
 
 import UIKit
 
-class ZPHEnshrineViewController: UIViewController {
-    
-    var tableView:UITableView = {
-        var tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
-        return tableview
-    }()
-    
-    //数组
-    var nmArray = [ZPHHome]()
-    let loadingView = DGElasticPullToRefreshLoadingViewCircle()
-    var activityIndicatorView:NVActivityIndicatorView = {
-        let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.lineScale, color: tabColorGreen, padding: 2.0)
-        return activity
-    }()
+class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = RANDOMColor
+        self.view.backgroundColor = UIColor.randomColor
         self.navigationItem.title = "收藏"
-        
-        tableView = UITableView.init(frame: CGRect.zero, style: .plain)
-        tableView.dataSource = self
-        tableView.delegate = self
+
         tableView.rowHeight = 130
-        tableView.separatorStyle = .none//分割线
-        self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(kTopBarHeight)
             make.left.right.equalTo(self.view)
@@ -43,38 +25,19 @@ class ZPHEnshrineViewController: UIViewController {
         }
         tableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
         
-        loadingView.tintColor = UIColor(red: 78.0/255.0, green: 221.0/255.0, blue: 200.0/255.0, alpha: 1.0)
-        tableView.dg_addPullToRefreshWithActionHandler({
-            [weak self]() -> Void in
-            
-            self?.nmArray.removeAll()
-            self?.getRequest()
-            
-            }, loadingView: loadingView)
-        tableView.dg_setPullToRefreshFillColor(UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0))
-        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
-        
-        self.view.addSubview(activityIndicatorView)
-        activityIndicatorView.snp.makeConstraints { (make) in
-            make.centerX.centerY.equalTo(self.view)
-            make.size.equalTo(CGSize(width: 80, height: 40))
-        }
-        
-        activityIndicatorView.startAnimating()
-        
-        getRequest()
+        self.tableView.mj_header.beginRefreshing()
     }
     
-    private func getRequest() {
+    override func refreshLoad() {
         
         let url = V2EXURL + "/my/topics"
         
         Alamofire.request(url, method: .get).responseString { (response) in
             
+            self.tableView.mj_header.endRefreshing()
+            self.dataArray.removeAll()
+            
             if let reString = response.result.value {
-                
-                self.tableView.dg_stopLoading()//停止下拉
-                self.activityIndicatorView.stopAnimating()
                 
                 let jiDoc = Ji(htmlString: reString)
                 
@@ -131,7 +94,7 @@ class ZPHEnshrineViewController: UIViewController {
                         
                         print("dic = \(dic)")
                         let model = ZPHHome.init(dic: dic)
-                        self.nmArray.append(model)
+                        self.dataArray.append(model)
                     }
                     
                     self.tableView.reloadData()
@@ -159,17 +122,13 @@ class ZPHEnshrineViewController: UIViewController {
 }
 
 //MARK: - TableViewDataSource
-extension ZPHEnshrineViewController:UITableViewDataSource,UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return nmArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+extension ZPHEnshrineViewController {
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ZPHHomeTableViewCell
         
-        cell.homeModel = nmArray[indexPath.row]
+        cell.homeModel = self.dataArray[indexPath.row] as? ZPHHome
         
         cell.headImageBlock = { userHref in
             
@@ -197,7 +156,7 @@ extension ZPHEnshrineViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let model = nmArray[indexPath.row]
+        let model:ZPHHome = self.dataArray[indexPath.row] as! ZPHHome
         
         //        let detail = ZPHHomeDetailViewController()
         //        detail.hidesBottomBarWhenPushed = true

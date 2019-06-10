@@ -147,10 +147,9 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let model = self.nodeArray[indexPath.section]
-        
-        //复用问题
+    
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ZPHNodeTableViewCell
-        let cell = ZPHNodeTableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+        let cell = ZPHNodeTableViewCell(style: .default, reuseIdentifier: "cell")
         cell.model = model
         cell.collectionCellBack = { (name, uri) in
             
@@ -199,8 +198,8 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
         if model.types!.count % 4 != 0 {
             rowNum += 1
         }
-        
-        return CGFloat(44 * rowNum + 20 + (rowNum - 1) * 10)
+
+        return CGFloat(Int(kScreenWidth / 4) * rowNum)
     }
 
 }

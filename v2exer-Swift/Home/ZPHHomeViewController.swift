@@ -13,24 +13,9 @@ import MJRefresh
 import DGElasticPullToRefresh
 import NVActivityIndicatorView
 
-class ZPHHomeViewController: UIViewController {
+class ZPHHomeViewController: ZPHBaseRefreshGroupController {
     
-    var nmArray:[ZPHHome] = [ZPHHome]()//左边数据
     var rightArray:[ZPHHome] = [ZPHHome]()//右边数据
-    
-    let loadingView = DGElasticPullToRefreshLoadingViewCircle()
-    var activityIndicatorView:NVActivityIndicatorView = {
-        let activity = NVActivityIndicatorView(frame: CGRect.zero, type: NVActivityIndicatorType.lineScale, color: tabColorGreen, padding: 2.0)
-        return activity
-    }()
-    
-    //列表
-    private var tableview:UITableView = {
-        let tableview = UITableView(frame: CGRect.zero, style: .grouped)
-        tableview.rowHeight = 130
-        tableview.separatorStyle = UITableViewCell.SeparatorStyle.none
-        return tableview
-    }()
     
     //日期
     private var weekCollectionView:UICollectionView = {
@@ -60,7 +45,22 @@ class ZPHHomeViewController: UIViewController {
     }()
     
     //日期数组
-    private var dataArray:[String] = ["1", "2"]
+    private var dateArray:[String] = []
+    
+    //当前日期位置
+    private var selectDateIndex:NSInteger = 0
+    
+    //当前日期星期几
+    private var selectDateWeek:Int = 0
+    
+    //小白点
+    private var pageControl:UIPageControl = UIPageControl()
+    
+    //计时器
+    private var timer:Timer?
+    
+    //当前轮播
+    private var currentCollect = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,41 +69,29 @@ class ZPHHomeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "首页"
         
         //列表
-        tableview.dataSource = self
-        tableview.delegate = self
-        tableview.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cellId")
-        self.view.addSubview(tableview)
-        tableview.snp.makeConstraints { (make) in
+        self.tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
-    
-        //加载
-        self.view.addSubview(activityIndicatorView)
-        activityIndicatorView.snp.makeConstraints { (make) in
-            make.centerX.centerY.equalTo(self.view)
-            make.size.equalTo(CGSize(width: 80, height: 40))
-        }
+        self.tableView.register(ZPHHomeTableViewCell.self, forCellReuseIdentifier: "cellId")
         
-        activityIndicatorView.startAnimating()
-        
-        getRequest()
+        self.refreshLoad()
     }
     
-    //MARK:刷新
-    @objc private func headerRefresh() {
-        print("headerRefresh")
-//        getRequest()
+    override func refreshMore() {
+        
+        self.tableView.mj_footer.endRefreshingWithNoMoreData()
     }
     
-    func refresh() {
-        print("refresh")
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        self.timer?.invalidate()
+        self.timer = nil
     }
     
     //MARK:网络请求
-    func getRequest() {
+    override func refreshLoad() {
         
         let group = DispatchGroup.init()
         
@@ -114,16 +102,17 @@ class ZPHHomeViewController: UIViewController {
             if let data = response.result.value {
 
                 if let dataArray = data as? [[String:Any]] {
+                    
+                    self.dataArray.removeAll()
 
                     for dict in dataArray {
 
                         let model = ZPHHome(dic: dict)
-                        self.nmArray.append(model)
+                        self.dataArray.append(model)
                     }
-                    
-                    group.leave()
                 }
             }
+            group.leave()
         }
         
         group.enter()
@@ -135,60 +124,72 @@ class ZPHHomeViewController: UIViewController {
                 
                 if let dataArray = data as? [[String:Any]] {
                     
+                    self.rightArray.removeAll()
+                    
                     for dict in dataArray {
                         
                         let model = ZPHHome(dic: dict)
                         self.rightArray.append(model)
                     }
-                    
-                    group.leave()
                 }
             }
+            group.leave()
         }
         
         group.notify(queue: DispatchQueue.main) {
             
-            self.tableview.reloadData()
-            self.tableview.dg_stopLoading()
+            self.tableView.mj_header.endRefreshing()
+            self.tableView.reloadData()
             self.collectionView.reloadData()
-            if self.activityIndicatorView.isAnimating {
-                self.activityIndicatorView.stopAnimating()
-            }
         }
     }
+}
+
+extension Date {
     
-    //MARK: - 日期
-    private func getWeek() {
+    //MARK:根据date获取当月第一天周几
+    public func calendarToFirstWeekDay() -> (NSInteger) {
         
-        let dateComponents = NSDateComponents.init()
-        let date = NSDate.init()
-        
-        print("date = \(date)")
+        var calendar = Calendar.current//日历
+        calendar.firstWeekday = 1//日历的第一个工作日是星期一
+        var dateComponents = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: self)//日历的部件
+        dateComponents.day = 1//日历的第一天
+        let firstDayOfMonthDate = calendar.date(from: dateComponents)
+        let firstDay = calendar.ordinality(of: Calendar.Component.weekday, in: Calendar.Component.weekOfMonth, for: firstDayOfMonthDate!)
+        return firstDay! - 1 //美国时间周日为星期的第一天，所以周日-周六为1-7，改为0-6方便计算
     }
     
-    deinit {
+    //MARK:获取当月有多少天
+    public func calendarToMonthDays() -> NSInteger {
         
+        let calend = Calendar.current
+        let daysInOfMonth = calend.range(of: Calendar.Component.day, in: Calendar.Component.month, for: self)
+        return daysInOfMonth!.count
+    }
+    
+    //MARK:获取偏移个月的date
+    public func calendarGetDateOffsetMonths(_ offset: NSInteger) -> Date {
         
+        let calend = Calendar.current
+        var lastmonthComps = DateComponents()
+        lastmonthComps.setValue(offset, for: Calendar.Component.month)
+        let newDate = calend.date(byAdding: lastmonthComps, to: self)
+        return newDate!
     }
 }
 
 
 //MARK: - TableViewDataSource
-extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
+extension ZPHHomeViewController {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return nmArray.count
+        return dataArray.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let model = nmArray[indexPath.row]
+        let model:ZPHHome = dataArray[indexPath.row] as! ZPHHome
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! ZPHHomeTableViewCell
         cell.selectionStyle = .none
@@ -201,6 +202,7 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
             userDetail.userHref = userHref
             //用户地址 循环引用
             userDetail.hidesBottomBarWhenPushed = true
+            self.navigationController?.navigationBar.prefersLargeTitles = false
             self.navigationController?.pushViewController(userDetail, animated: true)
         }
         
@@ -217,51 +219,70 @@ extension ZPHHomeViewController:UITableViewDataSource,UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return 130
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let model = nmArray[indexPath.row]
+        let model:ZPHHome = self.dataArray[indexPath.row] as! ZPHHome
 
         let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
         detail.hidesBottomBarWhenPushed = true
-
         self.navigationController?.pushViewController(detail, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return 230
+        return 0
     }
     
+    /*
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let view = UIView()
         view.backgroundColor = UIColor.clear
         
-        let weekView = ZPHHomeWeekView.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 30))
-        view.addSubview(weekView)
-        
         //星期
         self.weekCollectionView.frame = CGRect(x: 0, y: 30, width: kScreenWidth, height: 50)
         self.weekCollectionView.dataSource = self
         self.weekCollectionView.delegate = self
-        self.weekCollectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellWeek")
-        view.addSubview(self.weekCollectionView)
+        self.weekCollectionView.register(ZPHHomeTimeCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellWeek")
+//        view.addSubview(self.weekCollectionView)
         
-        let label = UILabel(frame: CGRect(x: 4, y: 80, width: kScreenWidth, height: 30))
+        let label = UILabel(frame: CGRect(x: 4, y: 0, width: kScreenWidth, height: 30))
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.text = "当前最热"
-        view.addSubview(label)
+//        view.addSubview(label)
         
         //轮播图
-        self.collectionView.frame = CGRect(x: 0, y: 110, width: kScreenWidth, height: 120)
+        self.collectionView.frame = CGRect(x: 0, y: 30, width: kScreenWidth, height: 120)
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(ZPHHomeCollectionCell.classForCoder(), forCellWithReuseIdentifier: "cell")
-        view.addSubview(self.collectionView)
+//        view.addSubview(self.collectionView)
+        
+        //小白点
+        self.pageControl.frame = CGRect(x: 0, y: 150, width: 0, height: 20)
+        self.pageControl.numberOfPages = self.rightArray.count
+        self.pageControl.currentPage = 0
+        self.pageControl.currentPageIndicatorTintColor = UIColor.black
+        self.pageControl.pageIndicatorTintColor = UIColor.white
+        self.pageControl.addTarget(self, action: #selector(pageControlChange), for: .valueChanged)
+//        view.addSubview(self.pageControl)
 
         return view
+    }
+    */
+    
+    @objc func pageControlChange() {
+        
+        print(self.pageControl.currentPage);
+        self.currentCollect = self.pageControl.currentPage;
+        self.collectionView .scrollToItem(at: IndexPath(item: self.pageControl.currentPage, section: 0), at: .left, animated: true)
     }
 }
 
@@ -271,7 +292,7 @@ extension ZPHHomeViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView === self.weekCollectionView {
-            return self.dataArray.count
+            return self.dateArray.count
         }
         return self.rightArray.count
     }
@@ -280,19 +301,17 @@ extension ZPHHomeViewController: UICollectionViewDataSource, UICollectionViewDel
         
         if collectionView === self.weekCollectionView {
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellWeek", for: indexPath)
-            let lab = UILabel()
-            lab.text = self.dataArray[indexPath.row]
-            lab.textAlignment = NSTextAlignment.center
-            cell.contentView.addSubview(lab)
-            lab.snp.makeConstraints { (make) in
-                make.edges.equalTo(cell.contentView)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellWeek", for: indexPath) as! ZPHHomeTimeCollectionViewCell
+            cell.timeLabel.text = self.dateArray[indexPath.row]
+            if indexPath.item > self.selectDateIndex {
+                cell.timeLabel.textColor = UIColor.black
+            }else {
+                cell.timeLabel.textColor = UIColor.gray
             }
             return cell
         }
         
         let model = self.rightArray[indexPath.row]
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ZPHHomeCollectionCell
         cell.model = model
         return cell
@@ -312,7 +331,6 @@ extension ZPHHomeViewController: UICollectionViewDataSource, UICollectionViewDel
         let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
         detail.hidesBottomBarWhenPushed = true
-        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.pushViewController(detail, animated: true)
     }
 }

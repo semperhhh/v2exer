@@ -22,51 +22,32 @@ class ZPHNodeTableViewCell: UITableViewCell {
     
     var array = [ZPHNodeTypeModel]()
     
-    var collectionView:UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize.init(width: 80, height: 44)
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = UIColor.white
-        collectionView.bounces = false
-        return collectionView
-    }()
+    var collectionView:UICollectionView!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.backgroundColor = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.isScrollEnabled = false
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize.init(width: kScreenWidth / 4, height: kScreenWidth / 4)
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        self.collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        self.collectionView.bounces = false
+        self.collectionView.backgroundColor = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        self.collectionView.isScrollEnabled = false
         self.contentView.addSubview(collectionView)
         collectionView.snp.makeConstraints { (make) in
-            make.top.bottom.equalTo(self.contentView)
-            make.left.equalTo(self.contentView).offset(5)
-            make.right.equalTo(self.contentView).offset(-5)
+            make.edges.equalTo(self.contentView)
         }
-        collectionView.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cell1")
-
-        collectionView.layer.cornerRadius = 10
-        collectionView.layer.masksToBounds = true
+        let nib = UINib(nibName: "ZPHNodeCollectionCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: "cell1")
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
 
 extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelegate {
@@ -78,31 +59,14 @@ extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let model = array[indexPath.row]
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath)
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = NSTextAlignment.center
-        label.text = model.name
-        cell.contentView.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.centerX.centerY.equalTo(cell.contentView)
-            make.width.equalTo(cell.contentView.bounds.size.width)
-            make.height.equalTo(cell.contentView)
-        }
-//        label.backgroundColor = UIColor.init(red: 99.0/255.0, green: 166.0/255.0, blue: 48.0/255.0, alpha: 1.0)
-        label.layer.cornerRadius = 4
-        label.layer.masksToBounds = true
-        label.layer.borderColor = UIColor.init(red: 99.0/255.0, green: 166.0/255.0, blue: 48.0/255.0, alpha: 1.0).cgColor
-        label.layer.borderWidth = 1
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath) as! ZPHNodeCollectionCell
+        cell.model = model
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let model = self.array[indexPath.row]
-        
         collectionView.deselectItem(at: indexPath, animated: true)
         
         //回调
@@ -110,5 +74,4 @@ extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelega
             self.collectionCellBack!(model.name!,model.uri!)
         }
     }
-    
 }

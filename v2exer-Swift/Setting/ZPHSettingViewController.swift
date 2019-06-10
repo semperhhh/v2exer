@@ -115,7 +115,6 @@ class ZPHSettingViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.white
         navigationItem.title = "设置"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
         
         view.addSubview(settingTableView)
         settingTableView.dataSource = self
@@ -200,7 +199,6 @@ class ZPHSettingViewController: UIViewController {
         let userDetail = ZPHUserDetailViewController()
         userDetail.userHref = "/member/" + (USERNAME ?? "")
         userDetail.hidesBottomBarWhenPushed = true
-        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.pushViewController(userDetail, animated: true)
     }
     
@@ -231,7 +229,7 @@ class ZPHSettingViewController: UIViewController {
 extension ZPHSettingViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -240,10 +238,10 @@ extension ZPHSettingViewController:UITableViewDataSource,UITableViewDelegate {
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         switch indexPath.row {
         case 0:
-            cell.textLabel?.text = "时间记录"
+            cell.textLabel?.text = "意见与反馈"
             break
         default:
-            cell.textLabel?.text = "联系我"
+            cell.textLabel?.text = "时间记录"
             break
         }
         return cell
@@ -321,12 +319,18 @@ extension ZPHSettingViewController:UITableViewDataSource,UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        
         switch indexPath.row {
         case 0://时间记录
-            let time = ZPHSettingTimeViewController()
-            self.navigationController?.pushViewController(time, animated: true)
+            let feedback = ZPHSettingFeedbackViewController()
+            feedback.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(feedback, animated: true)
             break;
         case 1://联系我
+            let time = ZPHSettingTimeViewController()
+            time.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(time, animated: true)
             break;
         default:
             break;

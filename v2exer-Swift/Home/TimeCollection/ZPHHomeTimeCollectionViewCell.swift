@@ -10,8 +10,9 @@ import UIKit
 
 class ZPHHomeTimeCollectionViewCell: UICollectionViewCell {
     
-    private var timeLabel:UILabel = {
+    var timeLabel:UILabel = {
         let label = UILabel()
+        label.textAlignment = NSTextAlignment.center
         return label
     }()
     
