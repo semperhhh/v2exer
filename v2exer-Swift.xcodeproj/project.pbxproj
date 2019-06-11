@@ -14,6 +14,7 @@
 		DA0A7CC7222548EC00F2A10A /* ZPHNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A7CC6222548EC00F2A10A /* ZPHNetworkTool.swift */; };
 		DA0A7CCC222685FC00F2A10A /* ZPHEditPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0A7CCB222685FC00F2A10A /* ZPHEditPickerView.swift */; };
 		DA15A4D7225229DE00B363C0 /* ZPHSettingTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15A4D6225229DE00B363C0 /* ZPHSettingTimeViewController.swift */; };
+		DA28BB2222AFAF3D0077E4DE /* ZPHHomeHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28BB2122AFAF3D0077E4DE /* ZPHHomeHeadView.swift */; };
 		DA2A229722223C5000EFD838 /* ZPHEditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2A229622223C5000EFD838 /* ZPHEditCollectionViewCell.swift */; };
 		DA2D7A672202E234001C6AC8 /* ZPHHotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D7A662202E234001C6AC8 /* ZPHHotViewController.swift */; };
 		DA2D7A692203480B001C6AC8 /* ZPHContentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */; };
@@ -125,6 +126,7 @@
 		DA0A7CC6222548EC00F2A10A /* ZPHNetworkTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHNetworkTool.swift; sourceTree = "<group>"; };
 		DA0A7CCB222685FC00F2A10A /* ZPHEditPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHEditPickerView.swift; sourceTree = "<group>"; };
 		DA15A4D6225229DE00B363C0 /* ZPHSettingTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHSettingTimeViewController.swift; sourceTree = "<group>"; };
+		DA28BB2122AFAF3D0077E4DE /* ZPHHomeHeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHomeHeadView.swift; sourceTree = "<group>"; };
 		DA2A229622223C5000EFD838 /* ZPHEditCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHEditCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA2D7A662202E234001C6AC8 /* ZPHHotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHotViewController.swift; sourceTree = "<group>"; };
 		DA2D7A682203480B001C6AC8 /* ZPHContentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHContentDetailViewController.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				DAB7B77C21CBEE2400ACCDE3 /* ZPHHome.swift */,
 				DA3F28672250FD7500EA2762 /* ZPHHomeCollectionCell.swift */,
 				DA40C3192254DF8F008CA0A1 /* ZPHHomeWeekView.swift */,
+				DA28BB2122AFAF3D0077E4DE /* ZPHHomeHeadView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -882,6 +885,7 @@
 				DA0A7CC7222548EC00F2A10A /* ZPHNetworkTool.swift in Sources */,
 				DAF2012C2237A6130003015D /* ZPHHomeAddReplyView.swift in Sources */,
 				DA988428229AB21300354CBA /* ZPHBaseTablePlainController.swift in Sources */,
+				DA28BB2222AFAF3D0077E4DE /* ZPHHomeHeadView.swift in Sources */,
 				DA75DC292246749700A1FCF4 /* ZPHUserDetailPartController.swift in Sources */,
 				DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */,
 				DAA062502230FC5500E9B516 /* ZPHUserDetailViewController.swift in Sources */,

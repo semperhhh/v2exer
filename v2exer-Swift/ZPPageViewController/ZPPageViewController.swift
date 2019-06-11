@@ -58,7 +58,7 @@ class ZPPageViewController: UIViewController {
     /// 对应的每个控制器
     /// ** 子类必须实现
     /// - Returns: 当前子控制器
-    public func pageChildControllerOfCurrent() -> UIViewController {
+    public func pageChildControllerOfCurrent(index: NSInteger) -> UIViewController {
         
         assert(false,"cannot pageChildControllerOfCurrent")
     }
@@ -122,7 +122,7 @@ class ZPPageViewController: UIViewController {
         if self.cacheController[index] != nil {
             subController = self.cacheController[index]
         }else {
-            subController = self.pageChildControllerOfCurrent()
+            subController = self.pageChildControllerOfCurrent(index: index)
             //添加到缓存
             self.cacheController[index] = subController
         }

@@ -27,8 +27,9 @@ class ZPHLoginViewController: UIViewController {
     }()
     
     @objc func backButtonAction() {
-        self.dismiss(animated: true, completion: nil)
-
+        
+        let window = UIApplication.shared.keyWindow
+        window?.rootViewController = ZPHTabBarController()
     }
     
     //logo
@@ -85,6 +86,16 @@ class ZPHLoginViewController: UIViewController {
         return textField
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor.white
+        
+        getUI()
+        
+        requestSignin()
+    }
     
     @objc func loginButtonAction() {
         print("login")
@@ -123,7 +134,11 @@ class ZPHLoginViewController: UIViewController {
                             let username = username.replacingOccurrences(of: "/member/", with: "")
                             print("username = \(username)")
                             
-                            self.dismiss(animated: true, completion: nil)
+                            self.dissLoginView()
+                            
+                            USERNAME = username
+                            UserDefaults.standard.set(username, forKey: "username")
+                            UserDefaults.standard.synchronize()
                             
                             //username 传到setting界面 循环引用
                             if (self.usernameBack != nil) {
@@ -135,15 +150,11 @@ class ZPHLoginViewController: UIViewController {
             }
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.white
-        getUI()
+    
+    internal func dissLoginView() {
         
-        requestSignin()
+        let window = UIApplication.shared.keyWindow
+        window?.rootViewController = ZPHTabBarController()
     }
     
     //MARK:加载验证码
@@ -242,7 +253,8 @@ class ZPHLoginViewController: UIViewController {
         codeTextField.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
             mark.top.equalTo(codeImageView.snp_bottomMargin).offset(30)
-            mark.width.equalTo(loginTextField)
+            mark.left.equalTo(self.codeImageView).offset(40)
+            mark.right.equalTo(self.codeImageView).offset(-40)
             mark.height.equalTo(40)
         }
         
@@ -250,7 +262,7 @@ class ZPHLoginViewController: UIViewController {
         loginButton.snp.makeConstraints { (mark) in
             mark.centerX.equalTo(view)
             mark.top.equalTo(codeTextField.snp_bottomMargin).offset(50)
-            mark.width.equalTo(loginTextField)
+            mark.width.equalTo(self.codeTextField)
             mark.height.equalTo(50)
         }
     }
@@ -274,7 +286,7 @@ class ZPHLoginTextField: UITextField {
         super.init(frame: frame)
         
         let lineView = UIView()
-        lineView.backgroundColor = UIColor(red: 27.0/255.0, green: 146.0/255.0, blue: 52.0/255.0, alpha: 1.0)
+        lineView.backgroundColor = tabColorGreen
         self.addSubview(lineView)
         lineView.snp.makeConstraints { (make) in
             make.bottom.equalTo(self).offset(-1)

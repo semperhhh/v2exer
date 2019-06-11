@@ -13,7 +13,7 @@ import MJRefresh
 import DGElasticPullToRefresh
 import NVActivityIndicatorView
 
-class ZPHHomeViewController: ZPHBaseRefreshGroupController {
+class ZPHHomeViewController: ZPHBaseRefreshPlainController {
     
     var rightArray:[ZPHHome] = [ZPHHome]()//右边数据
     
@@ -43,7 +43,7 @@ class ZPHHomeViewController: ZPHBaseRefreshGroupController {
         collection.backgroundColor = UIColor.clear
         return collection
     }()
-    
+ 
     //日期数组
     private var dateArray:[String] = []
     
@@ -62,7 +62,14 @@ class ZPHHomeViewController: ZPHBaseRefreshGroupController {
     //当前轮播
     private var currentCollect = 0
     
+    private var headView: ZPHHomeHeadView = {
+       
+        let view = ZPHHomeHeadView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 150))
+        return view
+    }()
+    
     override func viewDidLoad() {
+
         super.viewDidLoad()
         
         self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
@@ -70,12 +77,14 @@ class ZPHHomeViewController: ZPHBaseRefreshGroupController {
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
         
-        //列表
-        self.tableView.snp.makeConstraints { (make) in
+        self.tableView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
+        
         self.tableView.register(ZPHHomeTableViewCell.self, forCellReuseIdentifier: "cellId")
         
+        self.tableView.tableHeaderView = headView
+    
         self.refreshLoad()
     }
     
@@ -124,12 +133,8 @@ class ZPHHomeViewController: ZPHBaseRefreshGroupController {
                 
                 if let dataArray = data as? [[String:Any]] {
                     
-                    self.rightArray.removeAll()
-                    
-                    for dict in dataArray {
-                        
-                        let model = ZPHHome(dic: dict)
-                        self.rightArray.append(model)
+                    if let dict = dataArray.first {
+                        self.headView.model = ZPHHome(dic: dict)
                     }
                 }
             }
@@ -140,7 +145,7 @@ class ZPHHomeViewController: ZPHBaseRefreshGroupController {
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.reloadData()
-            self.collectionView.reloadData()
+//            self.collectionView.reloadData()
         }
     }
 }
@@ -221,7 +226,9 @@ extension ZPHHomeViewController {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 130
+        let model:ZPHHome = dataArray[indexPath.row] as! ZPHHome
+        
+        return model.cellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -233,11 +240,6 @@ extension ZPHHomeViewController {
         detail.detailURL = model.url
         detail.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detail, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 0
     }
     
     /*

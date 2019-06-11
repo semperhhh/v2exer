@@ -34,7 +34,7 @@ class ZPPageContainerView: UIView {
         
         if self.modality.isHaveLineContainer {
             self.lineView = UIView()
-            self.lineView.backgroundColor = UIColor.green
+            self.lineView.backgroundColor = self.modality.selectColor
             self.addSubview(self.lineView)
         }
         

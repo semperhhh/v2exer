@@ -31,7 +31,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dsi-L0-eoq">
-                        <rect key="frame" x="0.0" y="83" width="120" height="32"/>
+                        <rect key="frame" x="0.0" y="68" width="120" height="47"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -39,12 +39,12 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="Dsi-L0-eoq" firstAttribute="top" secondItem="DsN-SQ-TVJ" secondAttribute="bottom" constant="15" id="Ib8-FG-kXf"/>
-                <constraint firstItem="Dsi-L0-eoq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jjJ-2w-9TG"/>
+                <constraint firstItem="Dsi-L0-eoq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="BZg-qH-Z4U"/>
+                <constraint firstAttribute="trailing" secondItem="Dsi-L0-eoq" secondAttribute="trailing" id="RhO-do-kXS"/>
                 <constraint firstItem="DsN-SQ-TVJ" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="nQy-JR-mA4"/>
-                <constraint firstAttribute="trailing" secondItem="Dsi-L0-eoq" secondAttribute="trailing" id="rTL-aa-55d"/>
+                <constraint firstItem="Dsi-L0-eoq" firstAttribute="top" secondItem="DsN-SQ-TVJ" secondAttribute="bottom" id="rVT-qg-QHh"/>
                 <constraint firstItem="DsN-SQ-TVJ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="uI7-hU-Xke"/>
-                <constraint firstAttribute="bottom" secondItem="Dsi-L0-eoq" secondAttribute="bottom" constant="5" id="v2Y-xY-fyj"/>
+                <constraint firstAttribute="bottom" secondItem="Dsi-L0-eoq" secondAttribute="bottom" constant="5" id="zfb-eU-23g"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="120" height="120"/>

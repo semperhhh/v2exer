@@ -11,19 +11,29 @@ import UIKit
 @objcMembers
 class ZPHHome: NSObject {
     
-    var content:String?////内容
-    var title:String?//标题
-    var last_modified:Int = 0//最后更新于
-    var last_reply_by:String?//最后回复于
+    ///内容
+    var content:String?
+    ///标题
+    var title:String?
+    ///最后更新于
+    var last_modified:Int = 0
+    ///最后回复于
+    var last_reply_by:String?
+    
     var member:ZPHHomeMember?
-    var node:ZPHHomeNode?//节点信息
-    var nodeTitle:String?//节点名称
+    ///节点信息
+    var node:ZPHHomeNode?
+    ///节点名称
+    var nodeTitle:String?
     var url : String?//网址
 //    @objc var Id : String = ""
     var last_touch:String?//最后回复时间
     var avatar:String?//头像
     
     var userHref:String?//创建用户地址
+    
+    /// 行高
+    var cellHeight: CGFloat = 0
     
     init(dic:[String:Any]) {
         

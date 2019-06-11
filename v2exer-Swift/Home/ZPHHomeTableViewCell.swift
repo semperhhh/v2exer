@@ -24,24 +24,16 @@ class ZPHHomeTableViewCell: UITableViewCell {
         let btn = UIButton()
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         btn.titleLabel?.textAlignment = NSTextAlignment.center
-        btn.setTitleColor(UIColor.black, for: .normal)
-        btn.backgroundColor = UIColor(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0, alpha: 1.0)
+        btn.setTitleColor(UIColor(red: 190.0/255.0, green: 190.0/255.0, blue: 190.0/255.0, alpha: 1.0), for: .normal)
         btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         btn.layer.cornerRadius = 2.5
         return btn
     }()
     
-    //分割线
-    private var lineView:UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 180.0/255.0, green: 180.0/255.0, blue: 180.0/255.0, alpha: 1.0)
-        return view
-    }()
-    
     //头像
     private var headImgButton:UIButton = {
         let btn = UIButton()
-        btn.layer.cornerRadius = 22
+        btn.layer.cornerRadius = 12
         btn.layer.masksToBounds = true
         return btn
     }()
@@ -49,8 +41,9 @@ class ZPHHomeTableViewCell: UITableViewCell {
     //标题
     private var titleLab:UILabel = {
         let lab = UILabel()
-        lab.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        lab.numberOfLines = 2
+        lab.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        lab.numberOfLines = 0
+        lab.textColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
         return lab
     }()
     
@@ -89,14 +82,18 @@ class ZPHHomeTableViewCell: UITableViewCell {
         
         didSet {
             
-            titleLab.text = homeModel?.title
+            self.titleLab.text = homeModel?.title
+            
+            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)]
+            let titleHeight = homeModel?.title?.boundingOfheight(attributes: attributes, fixedWidth: kScreenWidth - 40)
+            self.homeModel?.cellHeight = 100 + titleHeight!
             
             if homeModel?.avatar == nil {
                 
                 if let avatar = homeModel?.member?.avatar_normal {
                     
                     let url = URL(string: "http:" + avatar)
-                    headImgButton.kf.setBackgroundImage(with: url, for: .normal)
+                    headImgButton.kf.setBackgroundImage(with: url, for: .normal, placeholder: UIImage(named: "head_placeholder"))
                 }
             }else {
                 
@@ -136,7 +133,7 @@ class ZPHHomeTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        self.backgroundColor = UIColor.clear
         
         contentView.addSubview(backView)
         backView.snp.makeConstraints { (make) in
@@ -150,42 +147,28 @@ class ZPHHomeTableViewCell: UITableViewCell {
         backView.addSubview(nodeTitleBtn)
         nodeTitleBtn.snp.makeConstraints { (make) in
             make.top.equalTo(backView).offset(10)
-            make.left.equalTo(backView).offset(10)
-            make.size.equalTo(CGSize(width: 80, height: 26))
-        }
-        
-        backView.addSubview(lineView)
-        lineView.snp.makeConstraints { (make) in
-            make.top.equalTo(nodeTitleBtn.snp.bottom).offset(5)
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
-            make.height.equalTo(1)
+            make.right.equalTo(backView).offset(-10)
+            make.height.equalTo(26)
         }
         
         headImgButton.addTarget(self, action: #selector(headImgButtonAction), for: .touchUpInside)
         backView.addSubview(headImgButton)
         headImgButton.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 44, height: 44))
-            make.left.equalTo(self.nodeTitleBtn)
-            make.top.equalTo(self.lineView).offset(20)
+            make.size.equalTo(CGSize(width: 24, height: 24))
+            make.left.equalTo(self.backView).offset(10)
+            make.centerY.equalTo(self.nodeTitleBtn)
         }
         
         backView.addSubview(titleLab)
         titleLab.snp.makeConstraints { (make) in
-            make.top.equalTo(self.lineView.snp.bottom).offset(5)
+            make.top.equalTo(self.nodeTitleBtn.snp.bottom).offset(10)
             make.right.equalTo(backView).offset(-10)
-            make.left.equalTo(self.headImgButton.snp.right).offset(10)
+            make.left.equalTo(self.headImgButton)
         }
-
-//        backView.addSubview(lastReplyDay)
-//        lastReplyDay.snp.makeConstraints { (make) in
-//            make.centerX.equalTo(headImgButton)
-//            make.top.equalTo(headImgButton.snp.bottom).offset(16)
-//        }
 
         backView.addSubview(lastReplyLab)
         lastReplyLab.snp.makeConstraints { (make) in
-            make.bottom.equalTo(self.headImgButton.snp.bottom).offset(-5)
+            make.top.equalTo(self.titleLab.snp.bottom).offset(10)
             make.left.equalTo(titleLab)
         }
         

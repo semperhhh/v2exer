@@ -24,6 +24,15 @@ class ZPHNodeTableViewCell: UITableViewCell {
     
     var collectionView:UICollectionView!
     
+    /// 颜色数组
+    let colorArray = [UIColor(red: 120.0/255.0, green: 118.0/255.0, blue: 225.0/255.0, alpha: 1.0),
+                      UIColor(red: 236.0/255.0, green: 83.0/255.0, blue: 87.0/255.0, alpha: 1.0),
+                      UIColor(red: 245.0/255.0, green: 193.0/255.0, blue: 99.0/255.0, alpha: 1.0),
+                      UIColor(red: 194.0/255.0, green: 226.0/255.0, blue: 117.0/255.0, alpha: 1.0),
+                      UIColor(red: 101.0/255.0, green: 175.0/255.0, blue: 243.0/255.0, alpha: 1.0),
+                      UIColor(red: 246.0/255.0, green: 246.0/255.0, blue: 246.0/255.0, alpha: 1.0)
+                        ]
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -61,6 +70,9 @@ extension ZPHNodeTableViewCell:UICollectionViewDataSource,UICollectionViewDelega
         let model = array[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath) as! ZPHNodeCollectionCell
         cell.model = model
+        
+        cell.headLabel.backgroundColor = colorArray[self.model?.headColor ?? 0]
+        
         return cell
     }
     

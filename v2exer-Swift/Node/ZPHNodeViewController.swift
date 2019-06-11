@@ -10,10 +10,11 @@ import UIKit
 import Alamofire
 import Ji
 
-class ZPHNodeViewController: UIViewController {
+class ZPHNodeViewController: ZPHBaseViewController {
     
     var tableview:UITableView = {
-        var tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
+        let tableview = UITableView(frame: CGRect.zero, style: UITableView.Style.plain)
+        tableview.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
         tableview.showsVerticalScrollIndicator = false
         return tableview
     }()
@@ -25,7 +26,6 @@ class ZPHNodeViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "节点"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -146,10 +146,13 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let colori = indexPath.section % 6
+        
         let model = self.nodeArray[indexPath.section]
     
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ZPHNodeTableViewCell
         let cell = ZPHNodeTableViewCell(style: .default, reuseIdentifier: "cell")
+        model.headColor = colori
         cell.model = model
         cell.collectionCellBack = { (name, uri) in
             
@@ -169,6 +172,8 @@ extension ZPHNodeViewController:UITableViewDataSource,UITableViewDelegate {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.pushViewController(detail
             , animated: true)
+        
+        print("name = \(name) url = \(uri)")
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

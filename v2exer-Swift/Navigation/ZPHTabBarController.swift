@@ -16,7 +16,7 @@ class ZPHTabBarController: UITabBarController {
         // Do any additional setup after loading the view.
         
         let home = ZPHHomePageController()
-        self.addChildWith(controller: home, imgName: "IconHome", itemName: "最新")
+        self.addChildWith(controller: home, imgName: "IconHome", itemName: "首页")
 
         let node = ZPHNodeViewController()
         self.addChildWith(controller: node, imgName: "IconNode", itemName: "节点")

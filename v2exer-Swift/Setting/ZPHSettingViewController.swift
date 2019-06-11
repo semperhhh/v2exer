@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Kingfisher
 
 class ZPHSettingViewController: UIViewController {
     
@@ -162,7 +163,7 @@ class ZPHSettingViewController: UIViewController {
         userNameLabel.text = model?.username
         
         let url = URL(string: "http:\(model?.avatar_normal ?? "")")
-        headImgView.kf.setImage(with: url)
+        headImgView.kf.setImage(with: url, placeholder: UIImage(named: "head_placeholder"))
     }
     
     //MARK:头像背景
@@ -208,9 +209,6 @@ class ZPHSettingViewController: UIViewController {
         let login = ZPHLoginViewController()
         login.usernameBack = {(username) -> () in
             //请求用户信息
-            USERNAME = username
-            UserDefaults.standard.set(username, forKey: "username")
-            UserDefaults.standard.synchronize()
             self.getRequest()
         }
         navigationController?.present(login, animated: true, completion: nil)

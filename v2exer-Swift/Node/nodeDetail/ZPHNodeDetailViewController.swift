@@ -12,8 +12,9 @@ import Ji
 
 class ZPHNodeDetailViewController: ZPHBaseRefreshPlainController {
     
-    var name:String?
-    var uri:String? {
+    var name:String!
+    
+    var uri:String! {
         didSet {
             
             //不是以http开头的
@@ -31,14 +32,11 @@ class ZPHNodeDetailViewController: ZPHBaseRefreshPlainController {
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = name
-        
-        self.tableView.rowHeight = 140
-        self.tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(kTopBarHeight)
-            make.left.right.bottom.equalTo(self.view)
-        }
+
         self.tableView.register(ZPHHomeTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
-        
+        self.tableView.snp_makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
         self.tableView.mj_header.beginRefreshing()
     }
     
@@ -143,12 +141,15 @@ extension ZPHNodeDetailViewController {
         
         let model = self.dataArray[indexPath.row] as! ZPHHome
         
-//        let detail = ZPHHomeDetailViewController()
-//        detail.detailURL = model.url
-//        self.navigationController?.pushViewController(detail, animated: true)
-        
         let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
         self.navigationController?.pushViewController(detail, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let model = self.dataArray[indexPath.row] as! ZPHHome
+        
+        return model.cellHeight
     }
 }

@@ -28,9 +28,8 @@ class ZPHNodeCollectionCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.headLabel.layer.cornerRadius = 6
+        self.headLabel.layer.cornerRadius = 34
         self.headLabel.layer.masksToBounds = true
-        self.headLabel.backgroundColor = UIColor.randomColor
     }
 
 }

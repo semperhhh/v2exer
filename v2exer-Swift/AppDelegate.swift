@@ -21,8 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.frame = UIScreen.main.bounds
         self.window?.makeKeyAndVisible()
         
-        let tabbar = ZPHTabBarController()
-        self.window?.rootViewController = tabbar;
+        let userName = UserDefaults.standard.string(forKey: "username")
+        
+        if userName != nil {
+            let tabbar = ZPHTabBarController()
+            self.window?.rootViewController = tabbar
+        }else {
+            let login = ZPHLoginViewController()
+            self.window?.rootViewController = login
+        }
         
 //        let fpsLabel = V2FPSLabel()
 //        self.window?.addSubview(fpsLabel)

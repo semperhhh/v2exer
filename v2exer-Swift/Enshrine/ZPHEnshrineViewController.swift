@@ -17,7 +17,6 @@ class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
         self.view.backgroundColor = UIColor.randomColor
         self.navigationItem.title = "收藏"
 
-        tableView.rowHeight = 130
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(kTopBarHeight)
             make.left.right.equalTo(self.view)
@@ -167,5 +166,12 @@ extension ZPHEnshrineViewController {
         detail.detailURL = model.url
         detail.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detail, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let model:ZPHHome = self.dataArray[indexPath.row] as! ZPHHome
+        
+        return model.cellHeight
     }
 }

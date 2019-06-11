@@ -14,6 +14,8 @@ class ZPHNodeModel: NSObject,NSCoding {
     
     var nodeFade:String?//节点名字
     var types:[ZPHNodeTypeModel]?//节点内容
+    /// 图片颜色
+    var headColor:NSInteger = 0
     
     init(dic:[String:Any]) {
         

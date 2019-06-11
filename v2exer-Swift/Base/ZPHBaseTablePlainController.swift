@@ -24,6 +24,7 @@ class ZPHBaseTablePlainController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        self.tableView.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
         self.view.addSubview(self.tableView)
     }
 }

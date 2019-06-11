@@ -14,7 +14,7 @@ class ZPHContentTableViewCell: UITableViewCell {
     var model:ZPHContentDetailModel? {
         didSet {
             let url = URL(string: "http:" + (model?.img ?? ""))
-            self.imgButton.kf.setImage(with: url, for: UIControl.State.normal)
+            self.imgButton.kf.setImage(with: url, for: UIControl.State.normal, placeholder: UIImage(named: "head_placeholder"))
             
             let replyAttr = NSMutableAttributedString.init(string: (model?.reply ?? ""), attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16)])
             
