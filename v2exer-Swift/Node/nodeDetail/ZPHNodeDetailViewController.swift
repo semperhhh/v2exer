@@ -143,6 +143,7 @@ extension ZPHNodeDetailViewController {
         
         let detail = ZPHContentDetailViewController()
         detail.detailURL = model.url
+        detail.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detail, animated: true)
     }
     

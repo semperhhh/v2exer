@@ -60,6 +60,12 @@ extension UIColor {
 // MARK: - 计算文本高度
 extension String {
     
+    /// 计算文本高度
+    ///
+    /// - Parameters:
+    ///   - attributes: 富文本样式
+    ///   - fixedWidth: 文本宽度
+    /// - Returns: 文本高度
     func boundingOfheight(attributes: [NSAttributedString.Key:Any], fixedWidth: CGFloat) -> CGFloat {
         
         guard self.count > 0 && fixedWidth > 0 else {
@@ -70,10 +76,4 @@ extension String {
         let rect = self.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         return rect.size.height
     }
-}
-
-// MARK: - 渐变色图片
-extension UIImage {
-    
-    
 }

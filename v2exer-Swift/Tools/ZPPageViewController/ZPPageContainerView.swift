@@ -109,6 +109,7 @@ class ZPPageContainerView: UIView {
         for label:UILabel in self.labelArray {
             if label.tag - 1000 == index {
                 self.selectLabel = label
+                self.selectLabel.textColor = self.modality.selectColor
             }
         }
     }

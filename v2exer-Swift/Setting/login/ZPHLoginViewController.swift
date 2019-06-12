@@ -86,6 +86,8 @@ class ZPHLoginViewController: UIViewController {
         return textField
     }()
     
+    var activity = ZPBaseActivity()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,6 +100,9 @@ class ZPHLoginViewController: UIViewController {
     }
     
     @objc func loginButtonAction() {
+        
+        self.activity.start()
+        
         print("login")
         view.endEditing(true)
     
@@ -131,6 +136,9 @@ class ZPHLoginViewController: UIViewController {
                     
                     if let username = avatarImg.parent?["href"]{
                         if username.hasPrefix("/member/") {
+                            
+                            self.activity.stop()
+                            
                             let username = username.replacingOccurrences(of: "/member/", with: "")
                             print("username = \(username)")
                             

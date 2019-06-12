@@ -11,7 +11,6 @@ import SnapKit
 import Alamofire
 import MJRefresh
 import DGElasticPullToRefresh
-import NVActivityIndicatorView
 
 class ZPHHomeViewController: ZPHBaseRefreshPlainController {
     
@@ -68,6 +67,9 @@ class ZPHHomeViewController: ZPHBaseRefreshPlainController {
         return view
     }()
     
+    /// 加载
+    let activity = ZPBaseActivity()
+    
     override func viewDidLoad() {
 
         super.viewDidLoad()
@@ -83,7 +85,17 @@ class ZPHHomeViewController: ZPHBaseRefreshPlainController {
         
         self.tableView.register(ZPHHomeTableViewCell.self, forCellReuseIdentifier: "cellId")
         
-        self.tableView.tableHeaderView = headView
+        self.headView.headViewActionBlock = {[weak self] url in
+            
+            if url != nil {
+                let detail = ZPHContentDetailViewController()
+                detail.detailURL = url
+                detail.hidesBottomBarWhenPushed = true
+                self?.navigationController?.pushViewController(detail, animated: true)
+            }
+        }
+        
+        self.tableView.tableHeaderView = self.headView
     
         self.refreshLoad()
     }
@@ -101,6 +113,8 @@ class ZPHHomeViewController: ZPHBaseRefreshPlainController {
     
     //MARK:网络请求
     override func refreshLoad() {
+        
+        self.activity.start()
         
         let group = DispatchGroup.init()
         
@@ -145,6 +159,7 @@ class ZPHHomeViewController: ZPHBaseRefreshPlainController {
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.reloadData()
+            self.activity.stop()
 //            self.collectionView.reloadData()
         }
     }

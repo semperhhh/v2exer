@@ -27,6 +27,11 @@ class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
         self.tableView.mj_header.beginRefreshing()
     }
     
+    override func refreshMore() {
+        
+        self.tableView.mj_footer.endRefreshing()
+    }
+    
     override func refreshLoad() {
         
         let url = V2EXURL + "/my/topics"

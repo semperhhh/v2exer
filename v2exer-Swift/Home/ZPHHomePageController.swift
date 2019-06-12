@@ -80,6 +80,11 @@ class ZPHHomePageController: ZPPageViewController {
         }
     }
     
+    override func pageChildControllerScrollEnd(index: NSInteger) {
+        
+        self.containerView.modalitySelect(index: index)
+    }
+    
     override func pageChildControllerScrolling(scrollOffset: CGFloat) {
 
         self.containerView.modalityScroll(offset: scrollOffset)

@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import Ji
-import NVActivityIndicatorView
 
 class ZPHContentDetailViewController: UIViewController {
     
@@ -42,6 +41,8 @@ class ZPHContentDetailViewController: UIViewController {
         let reply = ZPHHomeAddReplyView()
         return reply
     }()
+    
+    var activity = ZPBaseActivity()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -177,6 +178,8 @@ class ZPHContentDetailViewController: UIViewController {
     
     private func getRequest() {
         
+        self.activity.start()
+        
         Alamofire.request(detailURL!).responseString { (response) in
             
             DispatchQueue.global().async {
@@ -295,6 +298,8 @@ class ZPHContentDetailViewController: UIViewController {
                         self.navigationItem.rightBarButtonItem = self.rightBtn
                 
                         self.tableview.reloadData()
+                        
+                        self.activity.stop()
                     }
                 }
             }
