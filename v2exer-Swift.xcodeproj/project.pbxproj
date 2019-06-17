@@ -64,14 +64,10 @@
 		DAB7B77D21CBEE2400ACCDE3 /* ZPHHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB7B77C21CBEE2400ACCDE3 /* ZPHHome.swift */; };
 		DAB7B87221CD441D00ACCDE3 /* ZPHTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB7B87121CD441D00ACCDE3 /* ZPHTabBar.swift */; };
 		DAB7B87621CE4F7900ACCDE3 /* shareFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB7B87521CE4F7900ACCDE3 /* shareFile.swift */; };
-		DAB8ECCE222779E900AEA79B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB8ECCD222779E900AEA79B /* NotificationCenter.framework */; };
-		DAB8ECD1222779E900AEA79B /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECD0222779E900AEA79B /* TodayViewController.swift */; };
-		DAB8ECD8222779E900AEA79B /* v2exWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAB8ECCC222779E900AEA79B /* v2exWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DAB8ECE12227CFF200AEA79B /* ZPHUpinstallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECE02227CFF200AEA79B /* ZPHUpinstallViewController.swift */; };
 		DAB8ECE32227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB8ECE22227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift */; };
 		DAD3642C2247B5420090E750 /* ZPHUserDetailPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3642B2247B5420090E750 /* ZPHUserDetailPart.swift */; };
 		DAF2012C2237A6130003015D /* ZPHHomeAddReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2012B2237A6130003015D /* ZPHHomeAddReplyView.swift */; };
-		FDC192D4EACB251675A9F816 /* Pods_v2exWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3081B26D73BB4277234AC3E7 /* Pods_v2exWidget.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,13 +85,6 @@
 			remoteGlobalIDString = DAB7B6F821CBB2AD00ACCDE3;
 			remoteInfo = "v2exer-Swift";
 		};
-		DAB8ECD6222779E900AEA79B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAB7B6F121CBB2AD00ACCDE3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DAB8ECCB222779E900AEA79B;
-			remoteInfo = v2exWidget;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,7 +94,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				DAB8ECD8222779E900AEA79B /* v2exWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,11 +171,7 @@
 		DAB7B77C21CBEE2400ACCDE3 /* ZPHHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHHome.swift; sourceTree = "<group>"; };
 		DAB7B87121CD441D00ACCDE3 /* ZPHTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHTabBar.swift; sourceTree = "<group>"; };
 		DAB7B87521CE4F7900ACCDE3 /* shareFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shareFile.swift; sourceTree = "<group>"; };
-		DAB8ECCC222779E900AEA79B /* v2exWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = v2exWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB8ECCD222779E900AEA79B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		DAB8ECD0222779E900AEA79B /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		DAB8ECD5222779E900AEA79B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DAB8ECDD2227C84B00AEA79B /* v2exWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = v2exWidget.entitlements; sourceTree = "<group>"; };
 		DAB8ECDE2227C85E00AEA79B /* v2exer-Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "v2exer-Swift.entitlements"; sourceTree = "<group>"; };
 		DAB8ECE02227CFF200AEA79B /* ZPHUpinstallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUpinstallViewController.swift; sourceTree = "<group>"; };
 		DAB8ECE22227E27B00AEA79B /* ZPHUpinstallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHUpinstallTableViewCell.swift; sourceTree = "<group>"; };
@@ -219,15 +203,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F3241FD16ACAA349874942C /* Pods_v2exer_SwiftUITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DAB8ECC9222779E900AEA79B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DAB8ECCE222779E900AEA79B /* NotificationCenter.framework in Frameworks */,
-				FDC192D4EACB251675A9F816 /* Pods_v2exWidget.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +395,6 @@
 				DAB7B6FB21CBB2AD00ACCDE3 /* v2exer-Swift */,
 				DAB7B71021CBB2AE00ACCDE3 /* v2exer-SwiftTests */,
 				DAB7B71B21CBB2AE00ACCDE3 /* v2exer-SwiftUITests */,
-				DAB8ECCF222779E900AEA79B /* v2exWidget */,
 				DAB7B6FA21CBB2AD00ACCDE3 /* Products */,
 				763E05F4B26DAE80361231B3 /* Pods */,
 				7AFC79BF26830AB341B8668B /* Frameworks */,
@@ -433,7 +407,6 @@
 				DAB7B6F921CBB2AD00ACCDE3 /* v2exer-Swift.app */,
 				DAB7B70D21CBB2AE00ACCDE3 /* v2exer-SwiftTests.xctest */,
 				DAB7B71821CBB2AE00ACCDE3 /* v2exer-SwiftUITests.xctest */,
-				DAB8ECCC222779E900AEA79B /* v2exWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -535,16 +508,6 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
-		DAB8ECCF222779E900AEA79B /* v2exWidget */ = {
-			isa = PBXGroup;
-			children = (
-				DAB8ECDD2227C84B00AEA79B /* v2exWidget.entitlements */,
-				DAB8ECD0222779E900AEA79B /* TodayViewController.swift */,
-				DAB8ECD5222779E900AEA79B /* Info.plist */,
-			);
-			path = v2exWidget;
-			sourceTree = "<group>";
-		};
 		DAB8ECDF2227CAEB00AEA79B /* upInstall */ = {
 			isa = PBXGroup;
 			children = (
@@ -579,7 +542,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DAB8ECD7222779E900AEA79B /* PBXTargetDependency */,
 			);
 			name = "v2exer-Swift";
 			productName = "v2exer-Swift";
@@ -624,24 +586,6 @@
 			productReference = DAB7B71821CBB2AE00ACCDE3 /* v2exer-SwiftUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		DAB8ECCB222779E900AEA79B /* v2exWidget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DAB8ECDB222779E900AEA79B /* Build configuration list for PBXNativeTarget "v2exWidget" */;
-			buildPhases = (
-				131FCE70EF6EE46E295C0857 /* [CP] Check Pods Manifest.lock */,
-				DAB8ECC8222779E900AEA79B /* Sources */,
-				DAB8ECC9222779E900AEA79B /* Frameworks */,
-				DAB8ECCA222779E900AEA79B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = v2exWidget;
-			productName = v2exWidget;
-			productReference = DAB8ECCC222779E900AEA79B /* v2exWidget.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -669,14 +613,6 @@
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = DAB7B6F821CBB2AD00ACCDE3;
 					};
-					DAB8ECCB222779E900AEA79B = {
-						CreatedOnToolsVersion = 10.1;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
-					};
 				};
 			};
 			buildConfigurationList = DAB7B6F421CBB2AD00ACCDE3 /* Build configuration list for PBXProject "v2exer-Swift" */;
@@ -695,7 +631,6 @@
 				DAB7B6F821CBB2AD00ACCDE3 /* v2exer-Swift */,
 				DAB7B70C21CBB2AE00ACCDE3 /* v2exer-SwiftTests */,
 				DAB7B71721CBB2AE00ACCDE3 /* v2exer-SwiftUITests */,
-				DAB8ECCB222779E900AEA79B /* v2exWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -725,38 +660,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAB8ECCA222779E900AEA79B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		131FCE70EF6EE46E295C0857 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-v2exWidget-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		368AAFA33FE692D93A95DD64 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -928,14 +834,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAB8ECC8222779E900AEA79B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DAB8ECD1222779E900AEA79B /* TodayViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -948,11 +846,6 @@
 			isa = PBXTargetDependency;
 			target = DAB7B6F821CBB2AD00ACCDE3 /* v2exer-Swift */;
 			targetProxy = DAB7B71921CBB2AE00ACCDE3 /* PBXContainerItemProxy */;
-		};
-		DAB8ECD7222779E900AEA79B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DAB8ECCB222779E900AEA79B /* v2exWidget */;
-			targetProxy = DAB8ECD6222779E900AEA79B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1214,50 +1107,6 @@
 			};
 			name = Release;
 		};
-		DAB8ECD9222779E900AEA79B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFD1628A139EA22934CC41C5 /* Pods-v2exWidget.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = v2exWidget/v2exWidget.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5UK7P892DU;
-				INFOPLIST_FILE = v2exWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = zph.v2exer.v2exWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		DAB8ECDA222779E900AEA79B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41CF3CBC3FACC24363A2F3D8 /* Pods-v2exWidget.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = v2exWidget/v2exWidget.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5UK7P892DU;
-				INFOPLIST_FILE = v2exWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = zph.v2exer.v2exWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1293,15 +1142,6 @@
 			buildConfigurations = (
 				DAB7B72821CBB2AE00ACCDE3 /* Debug */,
 				DAB7B72921CBB2AE00ACCDE3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DAB8ECDB222779E900AEA79B /* Build configuration list for PBXNativeTarget "v2exWidget" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DAB8ECD9222779E900AEA79B /* Debug */,
-				DAB8ECDA222779E900AEA79B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

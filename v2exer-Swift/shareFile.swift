@@ -77,3 +77,91 @@ extension String {
         return rect.size.height
     }
 }
+
+protocol UITableViewEmptyDelegate:NSObjectProtocol {
+    
+    /// 协议方法
+    func tableViewEmpty() -> NSInteger
+}
+
+// MARK: 列表数据为空提示
+extension UIScrollView {
+    
+    private struct AssociatedKeys {
+        
+        static var emptyLabel = "emptyLabel"
+        static var emptyImageView = "emptyImageView"
+        static var emptyDelegate = "emptyDelegate"
+    }
+    
+    /// 代理
+    weak var emptyDelegate: UITableViewEmptyDelegate? {
+        
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.emptyDelegate, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+        
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.emptyDelegate) as? UITableViewEmptyDelegate
+        }
+    }
+    
+    /// 文字
+    var emptyLabel: UILabel? {
+        
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.emptyLabel, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.emptyLabel) as? UILabel
+        }
+    }
+    
+    /// 图片
+    var emptyImageView: UIImageView? {
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.emptyImageView, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.emptyImageView) as? UIImageView
+        }
+    }
+    
+    /// 展示
+    ///
+    /// - Parameters:
+    ///   - image: 图片
+    ///   - title: 文字
+    func showEmpty(image: UIImage?, title: String?) {
+        
+        guard self.emptyLabel == nil else {
+            return
+        }
+        
+        self.emptyImageView = UIImageView()
+        self.emptyImageView?.frame = CGRect(x: self.bounds.width / 2 - 50, y: self.bounds.height / 2 - 80, width: 100, height: 100)
+        self.emptyImageView?.image = image ?? UIImage(named: "notAvailable")
+        self.addSubview(self.emptyImageView ?? UIImageView())
+        
+        self.emptyLabel = UILabel()
+        self.emptyLabel!.frame = CGRect(x: self.emptyImageView!.frame.minX, y: self.emptyImageView!.frame.maxY, width: 100, height: 30)
+        self.emptyLabel?.textColor = UIColor(red: 138.0/255.0, green: 138.0/255.0, blue: 138.0/255.0, alpha: 1.0)
+        self.emptyLabel!.text = title ?? "暂无数据"
+        self.emptyLabel!.textAlignment = NSTextAlignment.center
+        self.addSubview(self.emptyLabel ?? UILabel())
+    }
+    
+    /// 隐藏
+    func dismissEmpty() {
+        
+        guard self.emptyLabel != nil else {
+            return
+        }
+        
+        self.emptyLabel?.removeFromSuperview()
+        self.emptyLabel = nil
+        
+        self.emptyImageView?.removeFromSuperview()
+        self.emptyImageView = nil
+    }
+}

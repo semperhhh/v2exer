@@ -50,6 +50,7 @@ class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
                     print(messageDic.content ?? "messagedic is nil")
                     
                     //无数据展示
+                    self.tableView.showEmpty(image: nil, title: nil)
                     return
                 }
                 
@@ -102,6 +103,7 @@ class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
                     }
                     
                     self.tableView.reloadData()
+                    self.tableView.dismissEmpty()
                 }
             }
         }
@@ -117,11 +119,6 @@ class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    deinit {
-        
-        self.tableView.dg_removePullToRefresh()
-    }
 
 }
 
