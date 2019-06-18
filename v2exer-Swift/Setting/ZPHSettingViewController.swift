@@ -23,11 +23,13 @@ class ZPHSettingViewController: UIViewController {
         imgView.backgroundColor = UIColor.white
         imgView.layer.cornerRadius = 32
         imgView.layer.masksToBounds = true
+        imgView.kf.setImage(with: nil, placeholder: UIImage(named: "head_placeholder"))
         return imgView
     }()
     
     private var userNameLabel:UILabel = {//用户名
         var label = UILabel()
+        label.text = "游客,请登录"
         label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
         return label
     }()
@@ -86,7 +88,6 @@ class ZPHSettingViewController: UIViewController {
                     
                     self.loginButton.isHidden = false
                     self.logoutButton.isHidden = true
-                    self.userNameLabel.isHidden = true
                     USERNAME = nil
                     ONCE = nil
                     self.model = nil
@@ -102,7 +103,6 @@ class ZPHSettingViewController: UIViewController {
         }else {
             self.loginButton.isHidden = false
             self.logoutButton.isHidden = true
-            self.userNameLabel.isHidden = true
             USERNAME = nil
             self.model = nil
             self.updataHeadBackground()
@@ -135,12 +135,10 @@ class ZPHSettingViewController: UIViewController {
         if USERNAME == nil{
             loginButton.isHidden = false
             logoutButton.isHidden = true
-            userNameLabel.isHidden = true
             return
         }else {
             loginButton.isHidden = true
             logoutButton.isHidden = false
-            userNameLabel.isHidden = false
         }
         
         Alamofire.request(SETTINGURL, method: .get, parameters:["username":USERNAME!]).responseJSON { (response) in

@@ -50,6 +50,7 @@
 		DAAFCA5E21EB2341006BF864 /* ZPHSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */; };
 		DAAFCA6221EB348D006BF864 /* ZPHSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCA6121EB348D006BF864 /* ZPHSettingTableViewCell.swift */; };
 		DAAFCF0D21F2FE19006BF864 /* ZPHLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAFCF0B21F2FE19006BF864 /* ZPHLoginViewController.swift */; };
+		DAB58A6822B8BD9D004F8AAA /* ZPHCautionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB58A6722B8BD9D004F8AAA /* ZPHCautionViewController.swift */; };
 		DAB7B6FD21CBB2AD00ACCDE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB7B6FC21CBB2AD00ACCDE3 /* AppDelegate.swift */; };
 		DAB7B70421CBB2AE00ACCDE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB7B70321CBB2AE00ACCDE3 /* Assets.xcassets */; };
 		DAB7B70721CBB2AE00ACCDE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB7B70521CBB2AE00ACCDE3 /* LaunchScreen.storyboard */; };
@@ -151,6 +152,7 @@
 		DAAFCA5D21EB2341006BF864 /* ZPHSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHSetting.swift; sourceTree = "<group>"; };
 		DAAFCA6121EB348D006BF864 /* ZPHSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHSettingTableViewCell.swift; sourceTree = "<group>"; };
 		DAAFCF0B21F2FE19006BF864 /* ZPHLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHLoginViewController.swift; sourceTree = "<group>"; };
+		DAB58A6722B8BD9D004F8AAA /* ZPHCautionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZPHCautionViewController.swift; sourceTree = "<group>"; };
 		DAB7B6F921CBB2AD00ACCDE3 /* v2exer-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "v2exer-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB7B6FC21CBB2AD00ACCDE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAB7B70321CBB2AE00ACCDE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -389,6 +391,14 @@
 			path = login;
 			sourceTree = "<group>";
 		};
+		DAB58A6622B8BD29004F8AAA /* Caution */ = {
+			isa = PBXGroup;
+			children = (
+				DAB58A6722B8BD9D004F8AAA /* ZPHCautionViewController.swift */,
+			);
+			path = Caution;
+			sourceTree = "<group>";
+		};
 		DAB7B6F021CBB2AD00ACCDE3 = {
 			isa = PBXGroup;
 			children = (
@@ -466,6 +476,7 @@
 		DAB7B77121CBE0F700ACCDE3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				DAB58A6622B8BD29004F8AAA /* Caution */,
 				DA354192225264C200F0BB1F /* TimeCollection */,
 				DAF2012A2237A5C60003015D /* addReply */,
 				DAA0624C2230FBFD00E9B516 /* UserDetail */,
@@ -815,6 +826,7 @@
 				DA7030E522139AE00020C62B /* ZPHEnshrineViewController.swift in Sources */,
 				DA28BB2A22B0E4970077E4DE /* ZPBaseActivity.swift in Sources */,
 				DAA062502230FC5500E9B516 /* ZPHUserDetailViewController.swift in Sources */,
+				DAB58A6822B8BD9D004F8AAA /* ZPHCautionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,6 +20,9 @@ class ZPHHomePageController: ZPPageViewController {
         
         self.navigationItem.title = "首页"
         
+        let rightBtn = UIBarButtonItem(image: UIImage(named: "caution"), style: .plain, target: self, action: #selector(rightButtonAction))
+        self.navigationItem.rightBarButtonItem = rightBtn
+        
         let modality = ZPPageContainerModality()
         modality.isHaveLineContainer = true
         modality.selectColor = tabColorGreen
@@ -29,6 +32,13 @@ class ZPHHomePageController: ZPPageViewController {
             self.pageChildControllerCurrentWithIndex(index: index)
         }
         self.view.addSubview(self.containerView)
+    }
+    
+    // MARK: 消息
+    @objc func rightButtonAction() {
+        
+        let caution = ZPHCautionViewController()
+        self.navigationController?.pushViewController(caution, animated: true)
     }
     
     override func pageChildControllerOfRect() -> CGRect {

@@ -173,21 +173,22 @@ class ZPHEditViewController: UIViewController {
             make.height.equalTo(70)
         }
         
-        //暂时不做上传图片
-//        self.view.addSubview(pictureCollectionView)
-//        pictureCollectionView.dataSource = self
-//        pictureCollectionView.delegate = self
-//        pictureCollectionView.snp.makeConstraints { (make) in
-//            make.top.equalTo(contentTextView.snp.bottom).offset(20)
-//            make.left.right.equalTo(contentTextView)
-//            make.height.equalTo(pictureCollectionView.snp.width)
-//        }
-//
-//        pictureCollectionView.register(ZPHEditCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellId")
+        //上传图片
+        self.view.addSubview(pictureCollectionView)
+        pictureCollectionView.backgroundColor = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
+        pictureCollectionView.dataSource = self
+        pictureCollectionView.delegate = self
+        pictureCollectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(contentTextView.snp.bottom).offset(20)
+            make.left.right.equalTo(contentTextView)
+            make.height.equalTo(pictureCollectionView.snp.width)
+        }
+
+        pictureCollectionView.register(ZPHEditCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "cellId")
         
         self.view.addSubview(pickerButton)
         pickerButton.snp.makeConstraints { (make) in
-            make.top.equalTo(contentTextView.snp.bottom).offset(20)
+            make.top.equalTo(self.pictureCollectionView.snp.bottom).offset(20)
             make.left.right.equalTo(contentTextView)
             make.height.equalTo(40)
         }
@@ -248,6 +249,7 @@ class ZPHEditViewController: UIViewController {
 }
 
 extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return 1
@@ -258,5 +260,42 @@ extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ZPHEditCollectionViewCell
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        print("collectionView = \(indexPath.row)")
+        
+        self.selectPicker()
+    }
+    
+    /// 图片选择器
+    func selectPicker() {
+        
+        let picker = UIImagePickerController()
+        picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        self.present(picker, animated: true, completion: nil)
+    }
+}
+
+extension ZPHEditViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image:UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
+        print(image)
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        picker.dismiss(animated: true, completion: nil)
     }
 }

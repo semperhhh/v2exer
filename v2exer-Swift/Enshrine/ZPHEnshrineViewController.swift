@@ -50,6 +50,7 @@ class ZPHEnshrineViewController: ZPHBaseRefreshPlainController {
                     print(messageDic.content ?? "messagedic is nil")
                     
                     //无数据展示
+                    self.tableView.mj_footer.isHidden = true
                     self.tableView.showEmpty(image: nil, title: nil)
                     return
                 }
