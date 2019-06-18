@@ -50,15 +50,17 @@ class ZPHEditViewController: UIViewController {
     //图片
     var pictureCollectionView:UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        let pictWidth = (kScreenWidth - 20) / 3
+        let pictWidth = (kScreenWidth - 40) / 3
         flowLayout.itemSize = CGSize(width: pictWidth - 3, height: pictWidth - 3)
+        flowLayout.minimumInteritemSpacing = 3
+        flowLayout.minimumLineSpacing = 3
         let collectionview = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
         collectionview.backgroundColor = UIColor.white
         return collectionview
     }()
     
     //图片数组
-    var collectionArray = [Any]()
+    var collectionArray:[Any] = ["1"]
     
     //节点
     var pickerButton:UIButton = {
@@ -101,7 +103,6 @@ class ZPHEditViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         
         self.setNaviButton()
-        
         self.getNetworkRequest()
     }
     
@@ -252,12 +253,17 @@ extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1
+        return self.collectionArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ZPHEditCollectionViewCell
+        
+        if let img = self.collectionArray[indexPath.row] as? UIImage {
+            
+            cell.selectImage = img
+        }
         
         return cell
     }
@@ -268,7 +274,10 @@ extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDele
         
         print("collectionView = \(indexPath.row)")
         
-        self.selectPicker()
+        // 最后一个是加号
+        if indexPath.row == self.collectionArray.count - 1 {
+            self.selectPicker()
+        }
     }
     
     /// 图片选择器
@@ -290,7 +299,8 @@ extension ZPHEditViewController: UIImagePickerControllerDelegate, UINavigationCo
         let image:UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
         print(image)
-        
+        self.collectionArray.insert(image, at: 0)
+        self.pictureCollectionView.reloadData()
         picker.dismiss(animated: true, completion: nil)
     }
     

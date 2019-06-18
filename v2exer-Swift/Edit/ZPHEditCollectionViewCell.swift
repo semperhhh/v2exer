@@ -10,6 +10,13 @@ import UIKit
 
 class ZPHEditCollectionViewCell: UICollectionViewCell {
     
+    /// 图片
+    var selectImage:UIImage? {
+        didSet {
+            self.imgView.image = self.selectImage
+        }
+    }
+    
     var imgView:UIImageView = {
         var imgview = UIImageView()
         imgview.image = UIImage(named: "addPhoto")
