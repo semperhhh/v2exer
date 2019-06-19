@@ -272,6 +272,10 @@ extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDele
         
         collectionView.deselectItem(at: indexPath, animated: true)
         
+        if self.collectionArray.count >= 9 {
+            return
+        }
+        
         print("collectionView = \(indexPath.row)")
         
         // 最后一个是加号

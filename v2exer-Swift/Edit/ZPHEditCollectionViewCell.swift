@@ -23,6 +23,12 @@ class ZPHEditCollectionViewCell: UICollectionViewCell {
         return imgview
     }()
     
+    /// 删除按钮
+    var cancelButton:UIButton = {
+        var button = UIButton()
+        return button
+    }()
+    
     override init(frame: CGRect) {
         
         super.init(frame: frame)
