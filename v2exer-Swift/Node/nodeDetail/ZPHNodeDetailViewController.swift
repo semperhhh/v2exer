@@ -67,6 +67,11 @@ class ZPHNodeDetailViewController: ZPHBaseRefreshPlainController {
                 {
                     
 //                    print("cells = \(cells)")
+                    if cells.count == 0 {
+                        self.tableView.showEmpty(image: nil, title: nil)
+                        self.tableView.mj_footer.isHidden = true
+                        return
+                    }
                     
                     for cell in cells {
                         
@@ -107,6 +112,8 @@ class ZPHNodeDetailViewController: ZPHBaseRefreshPlainController {
                     }
                     
                     self.tableView.reloadData()
+                    self.tableView.dismissEmpty()
+                    self.tableView.mj_footer.isHidden = false
                 }
             }
         }

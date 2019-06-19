@@ -115,7 +115,7 @@ class ZPHEditPickerView: UIView {
         
         //回调
         if determineBlock != nil {
-            determineBlock!(self.nodeSelect!,self.valueSelect!)
+            determineBlock!(self.nodeSelect ?? "未知",self.valueSelect ?? "未知")
         }
     }
     
@@ -160,7 +160,7 @@ extension ZPHEditPickerView:UIPickerViewDataSource,UIPickerViewDelegate {
         
         let dic = self.nodesArray[row]
         
-        self.nodeSelect = dic["name"]
-        self.valueSelect = dic["value"]
+        self.nodeSelect = dic["name"] ?? "未知"
+        self.valueSelect = dic["value"] ?? "未知"
     }
 }

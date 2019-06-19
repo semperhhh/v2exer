@@ -263,9 +263,22 @@ extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDele
         if let img = self.collectionArray[indexPath.row] as? UIImage {
             
             cell.selectImage = img
+        }else {
+            cell.selectImage = nil
+        }
+        
+        cell.cancelButtonBlock = { [weak self] in
+            
+            self?.pickerCancelButtonAction(indexPath.row)
         }
         
         return cell
+    }
+    
+    func pickerCancelButtonAction(_ index: NSInteger) {
+        
+        self.collectionArray.remove(at: index)
+        self.pictureCollectionView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -286,6 +299,10 @@ extension ZPHEditViewController: UICollectionViewDataSource,UICollectionViewDele
     
     /// 图片选择器
     func selectPicker() {
+        
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            return
+        }
         
         let picker = UIImagePickerController()
         picker.sourceType = UIImagePickerController.SourceType.photoLibrary
