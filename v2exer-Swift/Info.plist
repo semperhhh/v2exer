@@ -20,6 +20,8 @@
 	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
 	<string>17</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-5026604876974728~9052437989</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>

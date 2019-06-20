@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Kingfisher
+import GoogleMobileAds
 
 class ZPHSettingViewController: UIViewController {
     
@@ -48,7 +49,6 @@ class ZPHSettingViewController: UIViewController {
     
     private var settingTableView:UITableView = {
         var tableView = UITableView(frame: CGRect.zero, style: UITableView.Style.grouped)
-//        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableView
     }()
     
@@ -74,6 +74,9 @@ class ZPHSettingViewController: UIViewController {
         btn.setTitleColor(UIColor.black, for: .normal)
         return btn
     }()
+    
+    /// 广告
+    var bannerView: GADBannerView!
 
     @objc func logoutButtonAction() {
         
@@ -126,6 +129,19 @@ class ZPHSettingViewController: UIViewController {
         }
         
         settingTableView.register(ZPHSettingTableViewCell.classForCoder(), forCellReuseIdentifier: "cell")
+        
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.delegate = self
+        bannerView.adUnitID = "ca-app-pub-5026604876974728~9052437989"
+        bannerView.rootViewController = self
+        let request = GADRequest()
+//        request.testDevices = [kGADSimulatorID]
+        bannerView.load(request)
+        view.addSubview(bannerView)
+        bannerView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(settingTableView.snp_bottom).offset(-8)
+            make.centerX.equalTo(view)
+        }
         
         getRequest()
     }
@@ -337,4 +353,9 @@ extension ZPHSettingViewController:UITableViewDataSource,UITableViewDelegate {
         
         return 88
     }
+}
+
+extension ZPHSettingViewController: GADBannerViewDelegate {
+    
+    
 }

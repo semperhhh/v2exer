@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,28 +32,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = login
         }
         
-//        let fpsLabel = V2FPSLabel()
-//        self.window?.addSubview(fpsLabel)
-//        fpsLabel.snp.makeConstraints { (make) in
-//            make.bottom.equalTo(-64 - kBottomSafeHeight)
-//            make.left.equalTo(20)
-//        }
+        let fpsLabel = V2FPSLabel()
+        self.window?.addSubview(fpsLabel)
+        fpsLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(-64 - kBottomSafeHeight)
+            make.left.equalTo(20)
+        }
         
         USERNAME = UserDefaults.standard.value(forKey: "username") as? String
         ONCE = UserDefaults.standard.value(forKey: "once") as? String
         
-        //第一次打开记录时间
-        let shared = UserDefaults.init(suiteName: "group.v2exer")
-        let onceTime = shared?.value(forKey: "onceTime") as? String
+        // MARK: 广告
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
-        if onceTime == nil {
-            
-            let now = Date()
-            let datefor = DateFormatter()
-            datefor.dateFormat = "yyyyMMdd"
-            let nowStr = datefor.string(from: now)
-            shared?.set(nowStr, forKey: "onceTime")
-        }
         
         return true
     }

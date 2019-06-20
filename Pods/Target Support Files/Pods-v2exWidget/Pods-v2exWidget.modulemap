@@ -1,6 +1,0 @@
-framework module Pods_v2exWidget {
-  umbrella header "Pods-v2exWidget-umbrella.h"
-
-  export *
-  module * { export * }
-}

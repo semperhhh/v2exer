@@ -17,6 +17,7 @@ target 'v2exer-Swift' do
     pod 'SkeletonView'
     pod 'FoldingCell'
     pod 'JXSegmentedView'
+    pod 'Google-Mobile-Ads-SDK'
     
   target 'v2exer-SwiftTests' do
     inherit! :search_paths
@@ -26,10 +27,6 @@ target 'v2exer-Swift' do
   target 'v2exer-SwiftUITests' do
     inherit! :search_paths
     # Pods for testing
-  end
-  
-  target 'v2exWidget' do
-      inherit! :search_paths
   end
   
 end
